@@ -7,8 +7,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(QT_VERSION 5)
-set(REQUIRED_LIBS Core)
-set(REQUIRED_LIBS_QUALIFIED Qt5::Core)
+set(REQUIRED_LIBS Core Widgets)
+set(REQUIRED_LIBS_QUALIFIED Qt5::Core Qt5::Widgets)
 
 add_executable(${PROJECT_NAME} main.cpp)
 
