@@ -27,5 +27,5 @@ void Modeler::exit() {
 
 /*void Modeler::about() {
 	QMessageBox::about(this, tr("About Fractals 3D"),
-					   tr("<b>Fractals 3D</b> is an app for building and studying three-dimensional fractals. It was written in modern C ++ by three authors: Stepan Konstantinov, Daria Ledneva, Sergey Zhuravlev."));
+					   tr("<b>Fractals 3D</b> is an app for building and exploring three-dimensional fractals. It was written in modern C ++ by three authors: Stepan Konstantinov, Daria Ledneva, Sergey Zhuravlev."));
 }*/
