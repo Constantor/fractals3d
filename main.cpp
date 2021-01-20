@@ -1,10 +1,11 @@
 #include <QApplication>
-#include <QDebug>
-#include <QtWidgets/QLabel>
+
+#include "modeler.h"
 
 int main(int argc, char *argv[]) {
-	QApplication app(argc, argv);
-	QLabel label("Hello, world!");
-	label.show();
-	return app.exec();
+	QApplication fractals3DApp(argc, argv);
+	Modeler modeler;
+	modeler.show();
+
+	return fractals3DApp.exec();
 }

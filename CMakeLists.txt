@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.19.3)
-project(fractals3d)
+project(fractals3d LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
@@ -7,10 +7,17 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(QT_VERSION 6)
-set(REQUIRED_LIBS Core Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Widgets)
+set(REQUIRED_LIBS Core Gui Widgets)
+set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt::Gui Qt6::Widgets)
 
-add_executable(${PROJECT_NAME} main.cpp)
+add_executable(${PROJECT_NAME}
+	main.cpp
+	modeler.cpp modeler.h modeler.ui
+)
+set_target_properties(${PROJECT_NAME} PROPERTIES
+	WIN32_EXECUTABLE TRUE
+	MACOSX_BUNDLE TRUE
+)
 
 #if (NOT CMAKE_PREFIX_PATH)
 #	message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
@@ -18,4 +25,4 @@ add_executable(${PROJECT_NAME} main.cpp)
 #endif ()
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
-target_link_libraries(${PROJECT_NAME} ${REQUIRED_LIBS_QUALIFIED})
+target_link_libraries(${PROJECT_NAME} PUBLIC ${REQUIRED_LIBS_QUALIFIED})
