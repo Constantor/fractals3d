@@ -2,13 +2,21 @@ cmake_minimum_required(VERSION 3.19.3)
 project(fractals3d LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
+set(DEBUG True)
 
 set(QT_VERSION 6)
 set(REQUIRED_LIBS Core Gui Widgets)
 set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt::Gui Qt6::Widgets)
+
+add_compile_options(-Wall -Wextra -Werror -O2)
+if (UNIX AND NOT DEFINED CMAKE_CXX_FLAGS AND NOT DEBUG)
+	add_compile_options(-fsanitize=address)
+	add_link_options(-fsanitize=address)
+endif (UNIX AND NOT DEFINED CMAKE_CXX_FLAGS AND NOT DEBUG)
 
 add_executable(${PROJECT_NAME}
 	main.cpp
