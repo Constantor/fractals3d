@@ -17,20 +17,18 @@
 			<widget class="QWidget" name="horizontalLayoutWidget">
 				<layout class="QHBoxLayout" name="horizontalLayout">
 					<item>
-						<widget class="QWidget" name="centralWidget">
-							<layout class="QVBoxLayout" name="verticalLayout">
-								<!--<item>
-									<widget class="QTextEdit" name="textEdit"/>
-								</item>-->
-							</layout>
-						</widget>
-						<widget class="QWidget" name="centralWidget">
-							<layout class="QVBoxLayout" name="verticalLayout">
-								<item>
-									<widget class="QTextEdit" name="textEdit"/>
-								</item>
-							</layout>
-						</widget>
+						<layout class="QVBoxLayout" name="canvasLayout">
+							<!--<item>
+								<widget class="QTextEdit" name="textEdit"/>
+							</item>-->
+						</layout>
+					</item>
+					<item>
+						<layout class="QVBoxLayout" name="controlsLayout">
+							<item>
+								<widget class="QTextEdit" name="textEdit"/>
+							</item>
+						</layout>
 					</item>
 				</layout>
 			</widget>
