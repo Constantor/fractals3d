@@ -15,9 +15,9 @@
 		</property>
 		<widget class="QWidget" name="centralWidget">
 			<layout class="QVBoxLayout" name="verticalLayout">
-				<item>
+				<!--<item>
 					<widget class="QTextEdit" name="textEdit"/>
-				</item>
+				</item>-->
 			</layout>
 		</widget>
 		<widget class="QStatusBar" name="statusBar"/>

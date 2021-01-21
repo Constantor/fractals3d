@@ -8,7 +8,7 @@ Modeler::Modeler(QWidget *parent) :
 		QMainWindow(parent),
 		ui(new Ui::Modeler) {
 	ui->setupUi(this);
-	this->setCentralWidget(ui->textEdit);
+	this->setCentralWidget(ui->centralWidget);
 
 	// connect(ui->actionExit, &QAction::triggered, this, &Modeler::exit);
 	// connect(ui->actionAbout, &QAction::triggered, this, &Modeler::about);
