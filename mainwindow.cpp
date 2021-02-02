@@ -16,6 +16,7 @@ MainWindow::~MainWindow() {
 void MainWindow::initial_draw() {
     pixmap = QPixmap(this->width(), this->height());
     QPainter painter(&pixmap);
+    //TODO: add class Fractal 2D, get points from it, and display as painter.drawPoint()
     painter.fillRect(0, 0, this->width(), this->height(), Qt::red);
     scene.addPixmap(pixmap);
     view = new QGraphicsView(&scene);
