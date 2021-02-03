@@ -16,13 +16,17 @@ public:
 
     ~MainWindow() override;
 
+
+
 private:
     Ui::MainWindow *ui;
 
-    QGraphicsView* view{};
+    QGraphicsView view{};
     QGraphicsScene scene;
     QPixmap pixmap;
 
     void initial_draw();
+
+    void resizeEvent(QResizeEvent*event) override;
 };
 

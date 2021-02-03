@@ -5,7 +5,8 @@
 MainWindow::MainWindow(QWidget *parent) :
         QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-
+    view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     initial_draw();
 }
 
@@ -14,12 +15,18 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::initial_draw() {
+
     pixmap = QPixmap(this->width(), this->height());
     QPainter painter(&pixmap);
     //TODO: add class Fractal 2D, get points from it, and display as painter.drawPoint()
-    painter.fillRect(0, 0, this->width(), this->height(), Qt::red);
+    painter.fillRect(this->width() / 3, this->height() / 3, this->width() / 3, this->height() / 3, Qt::red);
     scene.addPixmap(pixmap);
-    view = new QGraphicsView(&scene);
-    this->setCentralWidget(view);
-    view->show();
+    view.setScene(&scene);
+    this->setCentralWidget(&view);
+    view.show();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event) {
+    QMainWindow::resizeEvent(event);
+    initial_draw();
 }
