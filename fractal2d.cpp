@@ -4,8 +4,16 @@ Fractal2D::Fractal2D(QVector<int> const &new_size) {
 	this->size = new_size;
 }
 
-QVector<int> const &Fractal2D::get_size() {
+QVector<int> const &Fractal2D::get_size() const {
 	return this->size;
+}
+
+int Fractal2D::get_width() const {
+	return this->size[0];
+}
+
+int Fractal2D::get_height() const {
+	return this->size[1];
 }
 
 void Fractal2D::set_size(QVector<int> const &new_size) {

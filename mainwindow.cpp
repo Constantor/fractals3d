@@ -2,6 +2,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "fractal2d.h"
+
 MainWindow::MainWindow(QWidget *parent) :
 		QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
@@ -18,7 +20,11 @@ void MainWindow::initial_draw() {
 	pixmap = QPixmap(this->width(), this->height());
 	QPainter painter(&pixmap);
 	// TODO: add class Fractal 2D, get points from it, and display as painter.drawPoint()
-	painter.fillRect(this->width() / 3, this->height() / 3, this->width() / 3, this->height() / 3, Qt::red);
+
+	Fractal2D fractal = Fractal2D({this->width(), this->height()});
+	//for(fractal.)
+
+	//painter.fillRect(this->width() / 3, this->height() / 3, this->width() / 3, this->height() / 3, Qt::red);
 	scene.addPixmap(pixmap);
 	view.setScene(&scene);
 	this->setCentralWidget(&view);

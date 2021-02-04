@@ -12,21 +12,19 @@ class MainWindow : public QMainWindow {
 Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = nullptr);
+	explicit MainWindow(QWidget *parent = nullptr);
 
-    ~MainWindow() override;
-
-
+	~MainWindow() override;
 
 private:
-    Ui::MainWindow *ui;
+	Ui::MainWindow *ui;
 
-    QGraphicsView view{};
-    QGraphicsScene scene;
-    QPixmap pixmap;
+	QGraphicsView view{};
+	QGraphicsScene scene;
+	QPixmap pixmap;
 
-    void initial_draw();
+	void initial_draw();
 
-    void resizeEvent(QResizeEvent*event) override;
+	void resizeEvent(QResizeEvent *event) override;
 };
 

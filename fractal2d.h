@@ -11,7 +11,11 @@ private:
 public:
 	Fractal2D(QVector<int> const &new_size);
 
-	QVector<int> const &get_size();
+	QVector<int> const &get_size() const;
+
+	int get_width() const;
+
+	int get_height() const;
 
 	void set_size(QVector<int> const &new_size);
 
