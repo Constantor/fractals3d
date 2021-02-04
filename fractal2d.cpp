@@ -30,5 +30,7 @@ QVector<QVector<QColor>> Fractal2D::get_color_field() const {
 	// end temporary code
 
 	// TODO: generate 2D fractal
+	
+
 	return result;
 }
