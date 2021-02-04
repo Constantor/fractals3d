@@ -20,7 +20,6 @@ void MainWindow::initial_draw() {
 	pixmap = QPixmap(this->width(), this->height());
 	QPainter painter(&pixmap);
 
-	// TODO: add class Fractal 2D, get points from it, and display as painter.drawPoint()
 	Fractal2D fractal = Fractal2D({this->width(), this->height()});
 	QVector<QVector<QColor>> color_field = fractal.get_color_field();
 	for(int i = 0; i < color_field.size(); i++)
