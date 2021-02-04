@@ -14,4 +14,6 @@ void Fractal2D::set_size(QVector<int> const &new_size) {
 
 QVector<QVector<QColor>> Fractal2D::get_color_field() const {
 	QVector<QVector<QColor>> result;
+	// TODO: generate 2D fractal
+	return result;
 }
