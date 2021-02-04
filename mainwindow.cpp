@@ -22,7 +22,12 @@ void MainWindow::initial_draw() {
 	// TODO: add class Fractal 2D, get points from it, and display as painter.drawPoint()
 
 	Fractal2D fractal = Fractal2D({this->width(), this->height()});
-	//for(fractal.)
+	QVector<QVector<QColor>> color_field = fractal.get_color_field();
+	for(int i = 0; i < color_field.size(); i++)
+		for(int j = 0; j < color_field[i].size(); j++) {
+			painter.setPen(color_field[i][j]);
+			painter.drawPoint(j, i);
+		}
 
 	//painter.fillRect(this->width() / 3, this->height() / 3, this->width() / 3, this->height() / 3, Qt::red);
 	scene.addPixmap(pixmap);
