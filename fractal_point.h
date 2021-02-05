@@ -11,7 +11,7 @@ private:
 public:
 	FractalPoint(qreal newX, qreal newY, QColor newColor);
 
-	QColor getColor() const;
+	[[nodiscard]] QColor getColor() const;
 
 	void setColor(QColor newColor);
 
