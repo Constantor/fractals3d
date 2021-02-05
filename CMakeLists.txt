@@ -10,7 +10,7 @@ set(DEBUG True)
 
 set(QT_VERSION 6)
 set(REQUIRED_LIBS Core Gui Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt::Gui Qt6::Widgets)
+set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets)
 
 add_compile_options(-Wall -Wextra -Werror -O2)
 if (UNIX AND DEBUG)
