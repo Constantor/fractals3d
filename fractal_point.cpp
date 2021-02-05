@@ -22,10 +22,10 @@ qreal FractalPoint::getY() const {
 	return y;
 }
 
-void FractalPoint::setX(qreal newX) {
+void FractalPoint::setX(qreal newX) & {
 	x = newX;
 }
 
-void FractalPoint::setY(qreal newY) {
+void FractalPoint::setY(qreal newY) & {
 	y = newY;
 }

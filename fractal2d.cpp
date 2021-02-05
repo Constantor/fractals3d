@@ -23,19 +23,19 @@ qreal Fractal2D::getMaxY() const {
 	return maxY;
 }
 
-void Fractal2D::setMinX(qreal value) {
+void Fractal2D::setMinX(qreal value) & {
 	minX = value;
 }
 
-void Fractal2D::setMaxX(qreal value) {
+void Fractal2D::setMaxX(qreal value) & {
 	maxX = value;
 }
 
-void Fractal2D::setMinY(qreal value) {
+void Fractal2D::setMinY(qreal value) & {
 	minY = value;
 }
 
-void Fractal2D::setMaxY(qreal value) {
+void Fractal2D::setMaxY(qreal value) & {
 	maxY = value;
 }
 

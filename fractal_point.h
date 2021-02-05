@@ -15,11 +15,11 @@ public:
 
 	void setColor(QColor newColor);
 
-	qreal getX() const;
+	[[nodiscard]] qreal getX() const;
 
-	qreal getY() const;
+	[[nodiscard]] qreal getY() const;
 
-	void setX(qreal newX);
+	void setX(qreal newX) &;
 
-	void setY(qreal newY);
+	void setY(qreal newY) &;
 };

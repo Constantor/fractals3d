@@ -14,21 +14,21 @@ private:
 public:
 	Fractal2D(qreal newMinX, qreal newMaxX, qreal newMinY, qreal newMaxY);
 
-	qreal getMinX() const;
+	[[nodiscard]] qreal getMinX() const;
 
-	qreal getMaxX() const;
+	[[nodiscard]] qreal getMaxX() const;
 
-	qreal getMinY() const;
+	[[nodiscard]] qreal getMinY() const;
 
-	qreal getMaxY() const;
+	[[nodiscard]] qreal getMaxY() const;
 
-	void setMinX(qreal value);
+	void setMinX(qreal value) &;
 
-	void setMaxX(qreal value);
+	void setMaxX(qreal value) &;
 
-	void setMinY(qreal value);
+	void setMinY(qreal value) &;
 
-	void setMaxY(qreal value);
+	void setMaxY(qreal value) &;
 
 	[[nodiscard]] QVector<FractalPoint> getColorField() const;
 };
