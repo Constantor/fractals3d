@@ -1,17 +1,17 @@
 #include "fractal_point.h"
 
-FractalPoint::FractalPoint(qreal new_x, qreal new_y, QColor new_color) {
-	x = new_x;
-	y = new_y;
-	color = new_color;
+FractalPoint::FractalPoint(qreal newX, qreal newY, QColor newColor) {
+	x = newX;
+	y = newY;
+	color = newColor;
 }
 
 QColor FractalPoint::getColor() const {
 	return color;
 }
 
-void FractalPoint::setColor(QColor new_color) {
-	color = new_color;
+void FractalPoint::setColor(QColor newColor) {
+	color = newColor;
 }
 
 qreal FractalPoint::getX() const {
@@ -22,10 +22,10 @@ qreal FractalPoint::getY() const {
 	return y;
 }
 
-void FractalPoint::setX(qreal new_x) {
-	x = new_x;
+void FractalPoint::setX(qreal newX) {
+	x = newX;
 }
 
-void FractalPoint::setY(qreal new_y) {
-	y = new_y;
+void FractalPoint::setY(qreal newY) {
+	y = newY;
 }

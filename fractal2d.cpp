@@ -1,42 +1,42 @@
 #include "fractal2d.h"
 
 Fractal2D::Fractal2D(qreal newMinX, qreal newMaxX, qreal newMinY, qreal newMaxY) {
-	min_x = newMinX;
-	max_x = newMaxX;
-	min_y = newMinY;
-	max_y = newMaxY;
+	minX = newMinX;
+	maxX = newMaxX;
+	minY = newMinY;
+	maxY = newMaxY;
 }
 
 qreal Fractal2D::getMinX() const {
-	return min_x;
+	return minX;
 }
 
 qreal Fractal2D::getMaxX() const {
-	return max_x;
+	return maxX;
 }
 
 qreal Fractal2D::getMinY() const {
-	return min_y;
+	return minY;
 }
 
 qreal Fractal2D::getMaxY() const {
-	return max_y;
+	return maxY;
 }
 
 void Fractal2D::setMinX(qreal value) {
-	min_x = value;
+	minX = value;
 }
 
 void Fractal2D::setMaxX(qreal value) {
-	max_x = value;
+	maxX = value;
 }
 
 void Fractal2D::setMinY(qreal value) {
-	min_y = value;
+	minY = value;
 }
 
 void Fractal2D::setMaxY(qreal value) {
-	max_y = value;
+	maxY = value;
 }
 
 QVector<FractalPoint> Fractal2D::getColorField() const {

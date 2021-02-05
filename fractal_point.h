@@ -9,17 +9,17 @@ private:
 	QColor color;
 
 public:
-	FractalPoint(qreal new_x, qreal new_y, QColor new_color);
+	FractalPoint(qreal newX, qreal newY, QColor newColor);
 
 	QColor getColor() const;
 
-	void setColor(QColor new_color);
+	void setColor(QColor newColor);
 
 	qreal getX() const;
 
 	qreal getY() const;
 
-	void setX(qreal new_x);
+	void setX(qreal newX);
 
-	void setY(qreal new_y);
+	void setY(qreal newY);
 };

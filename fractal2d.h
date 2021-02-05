@@ -7,8 +7,8 @@
 
 class Fractal2D {
 private:
-	qreal min_x, max_x;
-	qreal min_y, max_y;
+	qreal minX, maxX;
+	qreal minY, maxY;
 	// Later: camera_position
 
 public:
