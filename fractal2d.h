@@ -22,6 +22,10 @@ public:
 
 	[[nodiscard]] qreal getMaxY() const;
 
+	[[nodiscard]] int transformX(qreal x, int width) const;
+
+	[[nodiscard]] int transformY(qreal y, int height) const;
+
 	void setMinX(qreal value) &;
 
 	void setMaxX(qreal value) &;

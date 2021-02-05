@@ -23,19 +23,27 @@ qreal Fractal2D::getMaxY() const {
 	return maxY;
 }
 
-void Fractal2D::setMinX(qreal value) & {
+int Fractal2D::transformX(qreal x, int width) const {
+	return width * (x - minX) / (maxX - minX);
+}
+
+int Fractal2D::transformY(qreal y, int height) const {
+	return height * (y - minY) / (maxY - minY);
+}
+
+void Fractal2D::setMinX(qreal value) &{
 	minX = value;
 }
 
-void Fractal2D::setMaxX(qreal value) & {
+void Fractal2D::setMaxX(qreal value) &{
 	maxX = value;
 }
 
-void Fractal2D::setMinY(qreal value) & {
+void Fractal2D::setMinY(qreal value) &{
 	minY = value;
 }
 
-void Fractal2D::setMaxY(qreal value) & {
+void Fractal2D::setMaxY(qreal value) &{
 	maxY = value;
 }
 
@@ -44,10 +52,12 @@ QVector<FractalPoint> Fractal2D::getColorField() const {
 
 	// temporary code
 	int n = 80'000;
-	while(n--)
-		result.push_back(FractalPoint((static_cast<qreal>(rand()) / RAND_MAX - 0.5) * 2,
-									  (static_cast<qreal>(rand()) / RAND_MAX - 0.5) * 2,
+	while(n--) {
+		double k1 = (static_cast<qreal>(rand()) / RAND_MAX - 0.5) * 2;
+		double k2 = (static_cast<qreal>(rand()) / RAND_MAX - 0.5) * 2;
+		result.push_back(FractalPoint(k1 * (maxX - minX) + minX, k2 * (maxY - minY) + minY,
 									  QColor(rand() % 256, rand() % 256, rand() % 256)));
+	}
 	// end temporary code
 
 	// TODO: generate 2D fractal
