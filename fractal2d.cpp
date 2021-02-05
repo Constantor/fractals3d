@@ -45,10 +45,13 @@ QVector<FractalPoint> Fractal2D::getColorField() const {
 	// temporary code
 	int n = 30000;
 	while(n--)
-		result.push_back(FractalPoint((static_cast<qreal>(rand()) / RAND_MAX - 0.5) * 2, (static_cast<qreal>(rand()) / RAND_MAX - 0.5) * 2, QColor(rand() % 256, rand() % 256, rand() % 256)));
+		result.push_back(FractalPoint((static_cast<qreal>(rand()) / RAND_MAX - 0.5) * 2,
+									  (static_cast<qreal>(rand()) / RAND_MAX - 0.5) * 2,
+									  QColor(rand() % 256, rand() % 256, rand() % 256)));
 	// end temporary code
 
 	// TODO: generate 2D fractal
+
 
 	return result;
 }
