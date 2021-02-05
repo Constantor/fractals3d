@@ -23,7 +23,7 @@ private:
 	QGraphicsScene scene;
 	QPixmap pixmap;
 
-	void initial_draw();
+	void initialDraw();
 
 	void resizeEvent(QResizeEvent *event) override;
 };

@@ -2,22 +2,33 @@
 
 #include <QColor>
 #include <QVector>
+#include <QPoint>
+#include "fractal_point.h"
 
 class Fractal2D {
 private:
-	QVector<int> size = {0, 0}; // width, height
-	// QVector<int> camera_position;
+	qreal min_x, max_x;
+	qreal min_y, max_y;
+	// Later: camera_position
 
 public:
-	Fractal2D(QVector<int> const &new_size);
+	Fractal2D(qreal newMinX, qreal newMaxX, qreal newMinY, qreal newMaxY);
 
-	QVector<int> const &get_size() const;
+	qreal getMinX() const;
 
-	int get_width() const;
+	qreal getMaxX() const;
 
-	int get_height() const;
+	qreal getMinY() const;
 
-	void set_size(QVector<int> const &new_size);
+	qreal getMaxY() const;
 
-	[[nodiscard]] QVector<QVector<QColor>> get_color_field() const;
+	void setMinX(qreal value);
+
+	void setMaxX(qreal value);
+
+	void setMinY(qreal value);
+
+	void setMaxY(qreal value);
+
+	[[nodiscard]] QVector<FractalPoint> getColorField() const;
 };

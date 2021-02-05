@@ -9,24 +9,23 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->setupUi(this);
 	view.setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 	view.setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-	initial_draw();
+	initialDraw();
 }
 
 MainWindow::~MainWindow() {
 	delete ui;
 }
 
-void MainWindow::initial_draw() {
+void MainWindow::initialDraw() {
 	pixmap = QPixmap(this->width(), this->height());
 	QPainter painter(&pixmap);
 
-	Fractal2D fractal = Fractal2D({this->width(), this->height()});
-	QVector<QVector<QColor>> color_field = fractal.get_color_field();
-	for(int i = 0; i < color_field.size(); i++)
-		for(int j = 0; j < color_field[i].size(); j++) {
-			painter.setPen(color_field[i][j]);
-			painter.drawPoint(j, i);
-		}
+	Fractal2D fractal = Fractal2D(-1.0, 1.0, -1.0, 1.0);
+	QVector<FractalPoint> colorField = fractal.getColorField();
+	for(int i = 0; i < colorField.size(); i++) {
+		painter.setPen(colorField[i].getColor());
+		painter.drawPoint(colorField[i].getX() * this->width(), colorField[i].getY() * this->height());
+	}
 
 	scene.addPixmap(pixmap);
 	view.setScene(&scene);
@@ -36,5 +35,5 @@ void MainWindow::initial_draw() {
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
 	QMainWindow::resizeEvent(event);
-	initial_draw();
+	initialDraw();
 }
