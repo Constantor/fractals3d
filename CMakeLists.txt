@@ -23,7 +23,7 @@ add_executable(${PROJECT_NAME}
         mainwindow.cpp mainwindow.h mainwindow.ui
         fractal_point.cpp
         fractal2d.cpp
-)
+        complex2d.cpp complex2d.h)
 set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE TRUE
         MACOSX_BUNDLE TRUE
