@@ -5,7 +5,6 @@
 #include <QColor>
 #include <QPoint>
 #include <QVector>
-#include <complex>
 
 class Fractal2D {
 private:

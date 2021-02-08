@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "fractal2d.h"
 #include "ui_mainwindow.h"
-#include <QDebug>
 #include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {

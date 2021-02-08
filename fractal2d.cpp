@@ -27,6 +27,6 @@ Fractal2D::Fractal2D(const Complex2D &c, int n, qreal minX, qreal maxX, qreal mi
 				++iter;
 			}
 			colorField.push_back(FractalPoint(x * (maxX - minX) , y * (maxY - minY) ,
-											  QColor(0 % 256, 0 % 256, iter % 256)));
+											  QColor(iter % 64, iter % 32, iter % 256))); //TODO leave only iter, to set brightness
 		}
 }
