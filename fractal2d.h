@@ -1,38 +1,27 @@
 #pragma once
 
-#include <QColor>
-#include <QVector>
-#include <QPoint>
+#include "complex2d.h"
 #include "fractal_point.h"
+#include <QColor>
+#include <QPoint>
+#include <QVector>
+#include <complex>
 
 class Fractal2D {
 private:
-	qreal minX, maxX;
-	qreal minY, maxY;
-	// Later: camera_position
+	Complex2D c;
+	int n{};
+	qreal minX{}, maxX{};
+	qreal minY{}, maxY{};
+	QVector<FractalPoint> colorField;
 
 public:
-	Fractal2D(qreal newMinX, qreal newMaxX, qreal newMinY, qreal newMaxY);
-
-	[[nodiscard]] qreal getMinX() const;
-
-	[[nodiscard]] qreal getMaxX() const;
-
-	[[nodiscard]] qreal getMinY() const;
-
-	[[nodiscard]] qreal getMaxY() const;
+	Fractal2D() = default;
+	Fractal2D(const Complex2D &c, int n, qreal minX, qreal maxX, qreal minY, qreal maxY);
 
 	[[nodiscard]] int transformX(qreal x, int width) const;
 
 	[[nodiscard]] int transformY(qreal y, int height) const;
-
-	void setMinX(qreal value) &;
-
-	void setMaxX(qreal value) &;
-
-	void setMinY(qreal value) &;
-
-	void setMaxY(qreal value) &;
 
 	[[nodiscard]] QVector<FractalPoint> getColorField() const;
 };
