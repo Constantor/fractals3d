@@ -1,16 +1,18 @@
 #pragma once
 
+#include <QPoint>
+
 class Complex2D {
 private:
-	double real = 0;
-	double im = 0;
+	qreal real = 0;
+	qreal im = 0;
 
 public:
 	Complex2D() = default;
 
-	Complex2D(double new_real, double new_im);
+	Complex2D(qreal new_real, qreal new_im);
 
-	[[nodiscard]] double abs() const;
+	[[nodiscard]] qreal abs() const;
 
 	Complex2D pow(int const &n);
 
