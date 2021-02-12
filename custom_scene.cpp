@@ -5,29 +5,29 @@
 void CustomScene::pressed(QPoint p) {
 	in_move = true;
 	// doing something with a point p
-	qDebug() << "Pressed: " << p.x() << ' ' << p.y(); // 0, 0 this is bad
+	qDebug() << "Pressed: " << p.rx() << ' ' << p.ry();
 }
 
 void CustomScene::moved(QPoint p) {
 	if(in_move) {
-		qDebug() << "Pressed and moving";
+		qDebug() << "Pressed and moving at " << p.rx() << ' ' << p.ry();
 	}
 }
 
 void CustomScene::released(QPoint p) {
 	in_move = false;
 	// doing something with a point p
-	qDebug() << "Released: " << p.x() << ' ' << p.y(); // 0, 0 this is bad
+	qDebug() << "Released: " << p.rx() << ' ' << p.ry();
 }
 
 void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-	emit pressed(event->pos().toPoint());
+	emit pressed(event->screenPos());
 }
 
 void CustomScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-	emit moved(event->pos().toPoint());
+	emit moved(event->screenPos());
 }
 
 void CustomScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-	emit released(event->pos().toPoint());
+	emit released(event->screenPos());
 }
