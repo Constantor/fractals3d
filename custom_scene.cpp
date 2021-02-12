@@ -10,6 +10,7 @@ void CustomScene::pressed(QPoint p) {
 
 void CustomScene::moved(QPoint p) {
 	if(in_move) {
+
 		qDebug() << "Pressed and moving at " << p.rx() << ' ' << p.ry();
 	}
 }
@@ -21,13 +22,13 @@ void CustomScene::released(QPoint p) {
 }
 
 void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-	emit pressed(event->screenPos());
+	pressed(event->screenPos());
 }
 
 void CustomScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-	emit moved(event->screenPos());
+	moved(event->screenPos());
 }
 
 void CustomScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-	emit released(event->screenPos());
+	released(event->screenPos());
 }
