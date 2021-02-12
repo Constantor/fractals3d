@@ -12,7 +12,7 @@ set(QT_VERSION 6)
 set(REQUIRED_LIBS Core Gui Widgets)
 set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets)
 
-add_compile_options(-Wall -Wextra -Werror -O2)
+add_compile_options(-Wall -Wextra -O2)
 if (UNIX AND DEBUG)
     add_compile_options(-fsanitize=address)
     add_link_options(-fsanitize=address)
@@ -24,6 +24,7 @@ add_executable(${PROJECT_NAME}
         fractal_point.cpp
         fractal2d.cpp
         complex2d.cpp
+        custom_scene.cpp
 )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE TRUE

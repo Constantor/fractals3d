@@ -1,9 +1,10 @@
 #pragma once
 
-#include "fractal2d.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMainWindow>
+#include "fractal2d.h"
+#include "custom_scene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,7 +24,9 @@ private:
 	Ui::MainWindow *ui;
 
 	QGraphicsView view{};
-	QGraphicsScene scene;
+	//QGraphicsScene scene;
+	CustomScene scene;
+
 	QPixmap pixmap;
 
 	Fractal2D fractal;

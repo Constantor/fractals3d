@@ -1,7 +1,8 @@
+#include <QPainter>
 #include "mainwindow.h"
+#include "custom_scene.h"
 #include "fractal2d.h"
 #include "ui_mainwindow.h"
-#include <QPainter>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
@@ -16,6 +17,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::initialDraw() {
 	pixmap = QPixmap(this->width(), this->height());
+
 	QPainter painter(&pixmap);
 
 	qreal minY = -1.0;
@@ -31,7 +33,6 @@ void MainWindow::initialDraw() {
 		painter.drawPoint(fractal.transformX(point.getX(), this->width()),
 						  fractal.transformY(point.getY(), this->height()));
 	}
-
 	scene.addPixmap(pixmap);
 	view.setScene(&scene);
 	this->setCentralWidget(&view);
