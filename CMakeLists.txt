@@ -12,7 +12,7 @@ set(QT_VERSION 6)
 set(REQUIRED_LIBS Core Gui Widgets)
 set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets)
 
-add_compile_options(-Wall -Wextra -O3 -ffast-math)
+add_compile_options(-Wall -Wextra) #-O3 -ffast-math)
 if (UNIX AND DEBUG)
     add_compile_options(-fsanitize=address)
     add_link_options(-fsanitize=address)

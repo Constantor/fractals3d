@@ -19,23 +19,11 @@ qreal MainWindow::calculate(int const &size) {
     return 1.0 / size;
 }
 
-void MainWindow::updateDraw() {
-	return;
-}
-
-void MainWindow::updateDrawObjects() {
-	fractal.minY = -1.0;
-	fractal.minY = -1.0;
-	fractal.maxY = 1.0;
-	fractal.maxX = static_cast<qreal>(width()) / height();
-	fractal.minX = -fractal.maxX;
-	fractal.updateColorField();
-
-	pixmap = QPixmap(width(), height());
-	scene.pixmap = &pixmap;
-
+void MainWindow::drawWithNewObjects() {
+	scene.pixmap = QPixmap(width(), height());
 	scene.drawField();
-	scene.addPixmap(pixmap);
+	scene.addPixmap(scene.pixmap);
+	// scene.drawFieldOnNew(); // does not work, chto konechno pizdets
 }
 
 void MainWindow::initialDraw() {
@@ -43,15 +31,11 @@ void MainWindow::initialDraw() {
 	qreal maxY = 1.0;
 	qreal maxX = static_cast<qreal>(width()) / height();
 	qreal minX = -maxX;
-	fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
-                     calculate(width()), calculate(height()), minX, maxX, minY, maxY);
 
-	pixmap = QPixmap(width(), height());
-	scene.fractal = &fractal;
-	scene.pixmap = &pixmap;
+	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
+							  calculate(width()), calculate(height()), minX, maxX, minY, maxY);
+	drawWithNewObjects();
 
-	scene.drawField();
-	scene.addPixmap(pixmap);
 	view.setScene(&scene);
 	setCentralWidget(&view);
 	view.show();
@@ -59,5 +43,12 @@ void MainWindow::initialDraw() {
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
 	QMainWindow::resizeEvent(event);
-	updateDrawObjects();
+
+	scene.fractal.minY = -1.0;
+	scene.fractal.minY = -1.0;
+	scene.fractal.maxY = 1.0;
+	scene.fractal.maxX = static_cast<qreal>(width()) / height();
+	scene.fractal.minX = -scene.fractal.maxX;
+	scene.fractal.updateColorField();
+	drawWithNewObjects();
 }

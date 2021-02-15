@@ -9,10 +9,12 @@
 class CustomScene : public QGraphicsScene {
 Q_OBJECT
 public:
-	Fractal2D *fractal{};
-	QPixmap *pixmap;
+	Fractal2D fractal;
+	QPixmap pixmap;
 
 	void drawField();
+
+	void drawFieldOnNew();
 
 protected:
 	bool inMove = false;
