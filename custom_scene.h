@@ -1,13 +1,25 @@
 #pragma once
 
 #include <QGraphicsScene>
-#include <QGraphicsSceneMouseEvent>
 #include <QPoint>
+#include <QGraphicsSceneMouseEvent>
+#include <QPixmap>
+#include "fractal2d.h"
 
 class CustomScene : public QGraphicsScene {
-	Q_OBJECT
+Q_OBJECT
+public:
+	Fractal2D fractal;
+	QPixmap pixmap;
+
+	void drawField();
+
+	void drawFieldOnNew();
+
 protected:
-	bool in_move = false;
+	bool inMove = false;
+
+	QPoint moveBegin{}, moveEnd{};
 
 	void pressed(QPoint p);
 
@@ -20,5 +32,6 @@ protected:
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
 signals:
 };

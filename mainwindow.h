@@ -24,12 +24,10 @@ private:
 	Ui::MainWindow *ui;
 
 	QGraphicsView view{};
-	//QGraphicsScene scene;
+
 	CustomScene scene;
 
-	QPixmap pixmap;
-
-	Fractal2D fractal;
+	void drawWithNewObjects();
 
 	void initialDraw();
 
