@@ -10,7 +10,7 @@ private:
 public:
 	Complex2D() = default;
 
-	Complex2D(qreal new_real, qreal new_im);
+	Complex2D(qreal newReal, qreal newIm);
 
 	[[nodiscard]] qreal abs() const;
 
