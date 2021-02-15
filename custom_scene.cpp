@@ -12,7 +12,7 @@ void CustomScene::drawField() {
 	}
 }
 
-void CustomScene::drawFieldOnNew() { // govnokod, tak kak dublirovanie drawWithNewObjects, no Qt inache ne ponimaet
+void CustomScene::drawFieldOnNew() { // govnokod, tak kak dublirovanie MainWindow::drawWithNewObjects, no Qt inache ne ponimaet
 	pixmap = QPixmap(width(), height());
 	drawField();
 	addPixmap(pixmap);
