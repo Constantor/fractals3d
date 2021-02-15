@@ -38,7 +38,20 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="firstCoordBox"/>
+        <widget class="QDoubleSpinBox" name="firstCoordBox">
+         <property name="decimals">
+          <number>6</number>
+         </property>
+         <property name="minimum">
+          <double>-2.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QScrollBar" name="firstCoordBar">
@@ -55,7 +68,20 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="thirdCoordBox"/>
+        <widget class="QDoubleSpinBox" name="secondCoordBox">
+         <property name="decimals">
+          <number>6</number>
+         </property>
+         <property name="minimum">
+          <double>-2.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QScrollBar" name="secondCoordBar">
@@ -72,7 +98,20 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="powerBox"/>
+        <widget class="QDoubleSpinBox" name="thirdCoordBox">
+         <property name="decimals">
+          <number>6</number>
+         </property>
+         <property name="minimum">
+          <double>-2.000000000000000</double>
+         </property>
+         <property name="maximum">
+          <double>2.000000000000000</double>
+         </property>
+         <property name="singleStep">
+          <double>0.000001000000000</double>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QScrollBar" name="thirdCoordBar">
@@ -89,7 +128,17 @@
         </widget>
        </item>
        <item>
-        <widget class="QDoubleSpinBox" name="secondCoordBox"/>
+        <widget class="QSpinBox" name="powerBox">
+         <property name="minimum">
+          <number>2</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+         <property name="singleStep">
+          <number>2</number>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QScrollBar" name="powerBar">
