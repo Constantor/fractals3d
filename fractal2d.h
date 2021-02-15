@@ -10,13 +10,17 @@ class Fractal2D {
 private:
 	Complex2D c;
 	int n{};
+    qreal r_conv{};
+    int max_iter{};
+    qreal stepx{}, stepy{};
 	qreal minX{}, maxX{};
 	qreal minY{}, maxY{};
 	QVector<FractalPoint> colorField;
 
 public:
 	Fractal2D() = default;
-	Fractal2D(const Complex2D &c, int n, qreal minX, qreal maxX, qreal minY, qreal maxY);
+	Fractal2D(const Complex2D &c, int n, qreal r_conv, int max_iter, qreal stepx,
+              qreal stepy, qreal minX, qreal maxX, qreal minY, qreal maxY);
 
 	[[nodiscard]] int transformX(qreal x, int width) const;
 

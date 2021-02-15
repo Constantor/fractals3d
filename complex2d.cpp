@@ -2,8 +2,8 @@
 #include "cmath"
 
 Complex2D::Complex2D(qreal new_real, qreal new_im) {
-    this->real = new_real;
-    this->im = new_im;
+    real = new_real;
+    im = new_im;
 }
 
 Complex2D operator+(Complex2D a, Complex2D b) {
@@ -17,20 +17,20 @@ Complex2D operator*(Complex2D a, Complex2D b) {
 }
 
 qreal Complex2D::abs() const {
-    return sqrt(this->real * this->real + this->im * this->im);
+    return sqrt(real * real + im * im);
 }
 
-Complex2D Complex2D::pow(int const &n) {
+void operator^(Complex2D &z, int const &n) {
     int help = 1;
-    Complex2D new_z(this->real, this->im);
+    const int m = n - n % 2;
+    Complex2D old_z = z;
 
-    while (help < n - n % 2) {
-        new_z = new_z * new_z;
+    while (help < m) {
+        z = z * z;
         help *= 2;
     }
 
     if (n % 2 == 1) {
-        new_z = new_z * (*this);
+        z = old_z * z;
     }
-    return new_z;
 }

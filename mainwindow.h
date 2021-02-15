@@ -33,5 +33,7 @@ private:
 
 	void initialDraw();
 
+	static qreal calculate(int const &size);
+
 	void resizeEvent(QResizeEvent *event) override;
 };
