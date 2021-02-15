@@ -21,9 +21,6 @@ qreal MainWindow::calculate(int const &size) {
 
 void MainWindow::initialDraw() {
 	pixmap = QPixmap(width(), height());
-
-	QPainter painter(&pixmap);
-
 	qreal minY = -1.0;
 	qreal maxY = 1.0;
 	qreal maxX = static_cast<qreal>(width()) / height();
@@ -32,13 +29,21 @@ void MainWindow::initialDraw() {
 	fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
                      calculate(width()), calculate(height()), minX, maxX, minY, maxY);
 
-	QVector<FractalPoint> colorField = fractal.getColorField();
-	for(auto &point : colorField) {
+	scene.fractal = &fractal;
+	scene.pixmap = &pixmap;
+	scene.addPixmap(pixmap);
+	//scene.draw();
+
+	QPainter painter = QPainter(&pixmap);
+	//painter.setPen(QColor(0, 0, 0));
+	//painter.drawRect(0, 0, this->width(), this->height());
+	QVector<FractalPoint> colorField = fractal.getColorFieldR();
+	for(auto const &point : colorField) {
 		painter.setPen(point.getColor());
 		painter.drawPoint(fractal.transformX(point.getX(), width()),
 						  fractal.transformY(point.getY(), height()));
 	}
-	scene.addPixmap(pixmap);
+
 	view.setScene(&scene);
 	setCentralWidget(&view);
 	view.show();
@@ -46,5 +51,6 @@ void MainWindow::initialDraw() {
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
 	QMainWindow::resizeEvent(event);
-	initialDraw();
+	fractal.updateColorField();
+	scene.draw();
 }
