@@ -30,13 +30,15 @@ void CustomScene::moved(QPoint p) {
 void CustomScene::released(QPoint p) {
 	inMove = false;
 	moveEnd = p;
-	/*double dx = -(fractal->maxX - fractal->minX) * (moveEnd.x() - moveBegin.x()) /
+	double dx = -(fractal->maxX - fractal->minX) * (moveEnd.x() - moveBegin.x()) /
 				width();
 	double dy = -(fractal->maxY - fractal->minY) * (moveEnd.y() - moveBegin.y()) / height();
 	fractal->minX += dx;
 	fractal->maxX += dx;
 	fractal->minY += dy;
-	fractal->maxY += dy;*/
+	fractal->maxY += dy;
+	fractal->updateColorField();
+	drawField();
 	// doing something with a point p
 	qDebug() << "Released: " << p.rx() << ' ' << p.ry();
 }

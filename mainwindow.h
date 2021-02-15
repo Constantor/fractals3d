@@ -33,6 +33,8 @@ private:
 
 	void updateDraw();
 
+	void updateDrawObjects();
+
 	void initialDraw();
 
 	static qreal calculate(int const &size);

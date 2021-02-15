@@ -23,6 +23,21 @@ void MainWindow::updateDraw() {
 	return;
 }
 
+void MainWindow::updateDrawObjects() {
+	fractal.minY = -1.0;
+	fractal.minY = -1.0;
+	fractal.maxY = 1.0;
+	fractal.maxX = static_cast<qreal>(width()) / height();
+	fractal.minX = -fractal.maxX;
+	fractal.updateColorField();
+
+	pixmap = QPixmap(width(), height());
+	scene.pixmap = &pixmap;
+
+	scene.drawField();
+	scene.addPixmap(pixmap);
+}
+
 void MainWindow::initialDraw() {
 	qreal minY = -1.0;
 	qreal maxY = 1.0;
@@ -35,13 +50,6 @@ void MainWindow::initialDraw() {
 	scene.fractal = &fractal;
 	scene.pixmap = &pixmap;
 
-	/*QPainter painter(&pixmap);
-	QVector<FractalPoint> const &colorField = fractal.getColorFieldR();
-	for(auto &point : colorField) {
-		painter.setPen(point.getColor());
-		painter.drawPoint(fractal.transformX(point.getX(), width()),
-						  fractal.transformY(point.getY(), height()));
-	}*/
 	scene.drawField();
 	scene.addPixmap(pixmap);
 	view.setScene(&scene);
@@ -51,5 +59,5 @@ void MainWindow::initialDraw() {
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
 	QMainWindow::resizeEvent(event);
-	initialDraw();
+	updateDrawObjects();
 }
