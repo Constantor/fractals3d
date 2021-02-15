@@ -31,6 +31,8 @@ private:
 
 	Fractal2D fractal;
 
+	void updateDraw();
+
 	void initialDraw();
 
 	static qreal calculate(int const &size);

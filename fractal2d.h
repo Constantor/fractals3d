@@ -27,4 +27,8 @@ public:
 	[[nodiscard]] int transformY(qreal y, int height) const;
 
 	[[nodiscard]] QVector<FractalPoint> getColorField() const;
+
+	[[nodiscard]] QVector<FractalPoint> const &getColorFieldR() const;
+
+	void updateColorField();
 };
