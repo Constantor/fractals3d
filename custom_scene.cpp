@@ -1,6 +1,6 @@
+#include "custom_scene.h"
 #include <QDebug>
 #include <QPainter>
-#include "custom_scene.h"
 
 void CustomScene::drawField() {
 	QPainter painter(&pixmap);
@@ -12,7 +12,7 @@ void CustomScene::drawField() {
 	}
 }
 
-void CustomScene::drawFieldOnNew() { // govnokod, tak kak dublirovanie drawWithNewObjects, no Qt inache ne ponimaet
+void CustomScene::drawFieldOnNew() {// govnokod, tak kak dublirovanie drawWithNewObjects, no Qt inache ne ponimaet
 	pixmap = QPixmap(width(), height());
 	drawField();
 	addPixmap(pixmap);

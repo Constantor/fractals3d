@@ -1,13 +1,13 @@
 #pragma once
 
+#include "fractal2d.h"
 #include <QGraphicsScene>
-#include <QPoint>
 #include <QGraphicsSceneMouseEvent>
 #include <QPixmap>
-#include "fractal2d.h"
+#include <QPoint>
 
 class CustomScene : public QGraphicsScene {
-Q_OBJECT
+	Q_OBJECT
 public:
 	Fractal2D fractal;
 	QPixmap pixmap;

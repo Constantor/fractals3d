@@ -13,9 +13,11 @@ private:
 	qreal r_conv{};
 	int max_iter{};
 	qreal stepx{}, stepy{};
+
 public:
 	qreal minX{}, maxX{};
 	qreal minY{}, maxY{};
+
 private:
 	QVector<FractalPoint> colorField;
 
