@@ -1,6 +1,6 @@
-#include <QMessageBox>
-#include <QDebug>
 #include "custom_scene.h"
+#include <QDebug>
+#include <QMessageBox>
 
 void CustomScene::pressed(QPoint p) {
 	in_move = true;

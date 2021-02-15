@@ -14,7 +14,7 @@ public:
 
 	[[nodiscard]] qreal abs() const;
 
-    friend void operator^(Complex2D &z, int const &n);
+	friend void operator^(Complex2D &z, int const &n);
 
 	friend Complex2D operator+(Complex2D a, Complex2D b);
 

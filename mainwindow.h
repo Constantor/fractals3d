@@ -1,10 +1,10 @@
 #pragma once
 
+#include "custom_scene.h"
+#include "fractal2d.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMainWindow>
-#include "fractal2d.h"
-#include "custom_scene.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {

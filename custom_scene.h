@@ -1,11 +1,11 @@
 #pragma once
 
 #include <QGraphicsScene>
-#include <QPoint>
 #include <QGraphicsSceneMouseEvent>
+#include <QPoint>
 
 class CustomScene : public QGraphicsScene {
-Q_OBJECT
+	Q_OBJECT
 protected:
 	bool in_move = false;
 

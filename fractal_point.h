@@ -1,7 +1,7 @@
 #pragma once
 
-#include <QPoint>
 #include <QColor>
+#include <QPoint>
 
 class FractalPoint {
 private:
