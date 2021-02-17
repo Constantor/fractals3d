@@ -16,7 +16,7 @@ MainWindow::~MainWindow() {
 }
 
 qreal MainWindow::calculate(int const &size) {
-    return 1.0 / size;
+	return 1.0 / size;
 }
 
 void MainWindow::drawWithNewObjects() {
@@ -26,7 +26,7 @@ void MainWindow::drawWithNewObjects() {
 	// scene.drawFieldOnNew(); // does not work, chto konechno pizdets
 }
 
-void MainWindow::initialDraw() {
+void MainWindow::drawWithNewAll() {
 	qreal minY = -1.0;
 	qreal maxY = 1.0;
 	qreal maxX = static_cast<qreal>(width()) / height();
@@ -35,6 +35,18 @@ void MainWindow::initialDraw() {
 	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
 							  calculate(width()), calculate(height()), minX, maxX, minY, maxY);
 	drawWithNewObjects();
+}
+
+void MainWindow::initialDraw() {
+	/*qreal minY = -1.0;
+	qreal maxY = 1.0;
+	qreal maxX = static_cast<qreal>(width()) / height();
+	qreal minX = -maxX;
+
+	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
+							  calculate(width()), calculate(height()), minX, maxX, minY, maxY);
+	drawWithNewObjects();*/
+	drawWithNewAll();
 
 	view.setScene(&scene);
 	setCentralWidget(&view);
@@ -43,12 +55,26 @@ void MainWindow::initialDraw() {
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
 	QMainWindow::resizeEvent(event);
+	qDebug() << "Resize drawing";
+	//resizeTimer.start();
+	//drawWithNewAll();
+	qDebug() << "Ended resize";
 
-	scene.fractal.minY = -1.0;
-	scene.fractal.minY = -1.0;
+	/*qreal minY = -1.0;
+	qreal maxY = 1.0;
+	qreal maxX = static_cast<qreal>(width()) / height();
+	qreal minX = -maxX;
+
+	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
+							  calculate(width()), calculate(height()), minX, maxX, minY, maxY);
+	scene.drawFieldOnNew();*/
+	drawWithNewAll();
+
+	/*scene.fractal.minY = -1.0;
 	scene.fractal.maxY = 1.0;
 	scene.fractal.maxX = static_cast<qreal>(width()) / height();
 	scene.fractal.minX = -scene.fractal.maxX;
 	scene.fractal.updateColorField();
-	drawWithNewObjects();
+	drawWithNewObjects();*/
+	//drawWithNewAll();
 }

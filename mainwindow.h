@@ -1,10 +1,11 @@
 #pragma once
 
-#include "custom_scene.h"
-#include "fractal2d.h"
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QMainWindow>
+#include <QTimer>
+#include "custom_scene.h"
+#include "fractal2d.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,7 +28,11 @@ private:
 
 	CustomScene scene;
 
+	QTimer resizeTimer{this};
+
 	void drawWithNewObjects();
+
+	void drawWithNewAll();
 
 	void initialDraw();
 
