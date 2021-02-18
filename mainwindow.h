@@ -1,6 +1,8 @@
 #pragma once
 
+#include <QDoubleSpinBox>
 #include <QMainWindow>
+#include <QScrollBar>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -18,4 +20,6 @@ public:
 
 private:
 	Ui::MainWindow *ui;
+	static int getValFromBox(QDoubleSpinBox *box, QScrollBar *bar);
+    static double getValFromBar(QDoubleSpinBox *box, QScrollBar *bar);
 };
