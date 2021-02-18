@@ -26,7 +26,10 @@ private:
 
 	QGraphicsView view{};
 
-	CustomScene scene;
+	CustomScene scene{};
+
+	int resolutionWidth = -1;
+	int resolutionHeight = -1;
 
 	void initialDraw();
 

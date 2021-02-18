@@ -1,6 +1,6 @@
 #include <QPainter>
+#include <QSize>
 #include "mainwindow.h"
-#include "custom_scene.h"
 #include "fractal2d.h"
 #include "ui_mainwindow.h"
 
@@ -20,22 +20,27 @@ qreal MainWindow::calculate(int const &size) {
 }
 
 void MainWindow::initialDraw() {
-	scene.pixmap = QPixmap(this->width(), this->height());
+	if(resolutionWidth == -1)
+		resolutionWidth = width();
+	if(resolutionHeight == -1)
+		resolutionHeight = height();
+
+	scene.pixmap = QPixmap(resolutionWidth, resolutionHeight);
 
 	QPainter painter(&scene.pixmap);
 
 	qreal minY = -1.0;
 	qreal maxY = 1.0;
-	qreal maxX = static_cast<qreal>(this->width()) / this->height();
+	qreal maxX = static_cast<qreal>(resolutionWidth) / resolutionHeight;
 	qreal minX = -maxX;
 
-	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100, calculate(width()), calculate(height()), minX, maxX, minY, maxY);
+	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100, calculate(resolutionWidth), calculate(resolutionHeight), minX, maxX, minY, maxY);
 
 	QVector<FractalPoint> colorField = scene.fractal.getColorField();
 	for(auto &point : colorField) {
 		painter.setPen(point.getColor());
-		painter.drawPoint(scene.fractal.transformX(point.getX(), this->width()),
-						  scene.fractal.transformY(point.getY(), this->height()));
+		painter.drawPoint(scene.fractal.transformX(point.getX(), resolutionWidth),
+						  scene.fractal.transformY(point.getY(), resolutionHeight));
 	}
 	scene.addPixmap(scene.pixmap);
 	view.setScene(&scene);
@@ -45,5 +50,7 @@ void MainWindow::initialDraw() {
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
 	QMainWindow::resizeEvent(event);
-	initialDraw();
+	//initialDraw();
+	scene.pixmap = scene.pixmap.scaled(QSize(width(), height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	//scene.pixmap.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 }
