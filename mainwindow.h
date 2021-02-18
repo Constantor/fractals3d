@@ -5,35 +5,35 @@
 #include <QMainWindow>
 #include <QTimer>
 #include "scene.h"
-#include "fractal2d.h"
+#include "fractal3d.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-	class MainWindow;
+    class MainWindow;
 }
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow {
-	Q_OBJECT
+Q_OBJECT
 
 public:
-	explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
 
-	~MainWindow() override;
+    ~MainWindow() override;
 
 private:
-	Ui::MainWindow *ui;
+    Ui::MainWindow *ui;
 
-	QGraphicsView view{};
+    QGraphicsView view{};
 
-	Scene scene{};
+    Scene scene{};
 
-	int resolutionWidth = -1;
-	int resolutionHeight = -1;
+    int resolutionWidth = -1;
+    int resolutionHeight = -1;
 
-	void initialDraw();
+    void initialDraw();
 
-	static qreal calculate(int const &size);
+    static qreal calculate(int const &size);
 
-	void resizeEvent(QResizeEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 };

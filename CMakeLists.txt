@@ -22,10 +22,8 @@ add_executable(${PROJECT_NAME}
         main.cpp
         mainwindow.cpp mainwindow.h mainwindow.ui
         fractal_point.cpp
-        fractal2d.cpp
-        complex2d.cpp
         scene.cpp
-        )
+        complex3d.cpp complex3d.h fractal3d.cpp fractal3d.h)
 set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE TRUE
         MACOSX_BUNDLE TRUE
