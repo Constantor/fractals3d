@@ -28,12 +28,6 @@ private:
 
 	CustomScene scene;
 
-	QTimer resizeTimer{this};
-
-	void drawWithNewObjects();
-
-	void drawWithNewAll();
-
 	void initialDraw();
 
 	static qreal calculate(int const &size);

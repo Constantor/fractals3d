@@ -19,62 +19,31 @@ qreal MainWindow::calculate(int const &size) {
 	return 1.0 / size;
 }
 
-void MainWindow::drawWithNewObjects() {
-	scene.pixmap = QPixmap(width(), height());
-	scene.drawField();
-	scene.addPixmap(scene.pixmap);
-	// scene.drawFieldOnNew(); // does not work, chto konechno pizdets
-}
+void MainWindow::initialDraw() {
+	scene.pixmap = QPixmap(this->width(), this->height());
 
-void MainWindow::drawWithNewAll() {
+	QPainter painter(&scene.pixmap);
+
 	qreal minY = -1.0;
 	qreal maxY = 1.0;
-	qreal maxX = static_cast<qreal>(width()) / height();
+	qreal maxX = static_cast<qreal>(this->width()) / this->height();
 	qreal minX = -maxX;
 
-	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
-							  calculate(width()), calculate(height()), minX, maxX, minY, maxY);
-	drawWithNewObjects();
-}
+	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100, calculate(width()), calculate(height()), minX, maxX, minY, maxY);
 
-void MainWindow::initialDraw() {
-	/*qreal minY = -1.0;
-	qreal maxY = 1.0;
-	qreal maxX = static_cast<qreal>(width()) / height();
-	qreal minX = -maxX;
-
-	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
-							  calculate(width()), calculate(height()), minX, maxX, minY, maxY);
-	drawWithNewObjects();*/
-	drawWithNewAll();
-
+	QVector<FractalPoint> colorField = scene.fractal.getColorField();
+	for(auto &point : colorField) {
+		painter.setPen(point.getColor());
+		painter.drawPoint(scene.fractal.transformX(point.getX(), this->width()),
+						  scene.fractal.transformY(point.getY(), this->height()));
+	}
+	scene.addPixmap(scene.pixmap);
 	view.setScene(&scene);
-	setCentralWidget(&view);
+	this->setCentralWidget(&view);
 	view.show();
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event) {
 	QMainWindow::resizeEvent(event);
-	qDebug() << "Resize drawing";
-	//resizeTimer.start();
-	//drawWithNewAll();
-	qDebug() << "Ended resize";
-
-	/*qreal minY = -1.0;
-	qreal maxY = 1.0;
-	qreal maxX = static_cast<qreal>(width()) / height();
-	qreal minX = -maxX;
-
-	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100,
-							  calculate(width()), calculate(height()), minX, maxX, minY, maxY);
-	scene.drawFieldOnNew();*/
-	drawWithNewAll();
-
-	/*scene.fractal.minY = -1.0;
-	scene.fractal.maxY = 1.0;
-	scene.fractal.maxX = static_cast<qreal>(width()) / height();
-	scene.fractal.minX = -scene.fractal.maxX;
-	scene.fractal.updateColorField();
-	drawWithNewObjects();*/
-	//drawWithNewAll();
+	initialDraw();
 }
