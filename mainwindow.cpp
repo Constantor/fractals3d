@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connect(ui->thirdCoordBar, &QScrollBar::valueChanged, ui->thirdCoordBox, [&]() { ui->thirdCoordBox->setValue(getValFromBar(ui->thirdCoordBox, ui->thirdCoordBar)); });
 	connect(ui->powerBox, &QSpinBox::valueChanged, ui->powerBar, [&]() { ui->powerBar->setValue(ui->powerBox->value() / 2); });
 	connect(ui->powerBar, &QScrollBar::valueChanged, ui->powerBox, [&]() { ui->powerBox->setValue(2 * ui->powerBar->value()); });
+	connect(ui->drawButton, &QPushButton::clicked, [&]() { qDebug() << ui->firstCoordBox->value() << " " << ui->secondCoordBox->value() << " " << ui->thirdCoordBox->value() << "\n"; });
 }
 
 MainWindow::~MainWindow() {
@@ -21,7 +22,7 @@ MainWindow::~MainWindow() {
 }
 
 int MainWindow::getValFromBox(QDoubleSpinBox *box, QScrollBar *bar) {
-    return (bar->maximum() - bar->minimum()) * (box->value() - box->minimum()) / (box->maximum() - box->minimum());
+	return (bar->maximum() - bar->minimum()) * (box->value() - box->minimum()) / (box->maximum() - box->minimum());
 }
 double MainWindow::getValFromBar(QDoubleSpinBox *box, QScrollBar *bar) {
 	return box->minimum() + (box->maximum() - box->minimum()) * (bar->value() - bar->minimum()) / (bar->maximum() - bar->minimum());
