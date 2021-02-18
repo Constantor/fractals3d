@@ -34,7 +34,8 @@ void MainWindow::initialDraw() {
 	qreal maxX = static_cast<qreal>(resolutionWidth) / resolutionHeight;
 	qreal minX = -maxX;
 
-	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100, calculate(resolutionWidth), calculate(resolutionHeight), minX, maxX, minY, maxY);
+	scene.fractal = Fractal2D(Complex2D(0.36, 0.36), 2, 2, 100, calculate(resolutionWidth), calculate(resolutionHeight),
+							  minX, maxX, minY, maxY);
 
 	QVector<FractalPoint> colorField = scene.fractal.getColorField();
 	for(auto &point : colorField) {
@@ -42,6 +43,7 @@ void MainWindow::initialDraw() {
 		painter.drawPoint(scene.fractal.transformX(point.getX(), resolutionWidth),
 						  scene.fractal.transformY(point.getY(), resolutionHeight));
 	}
+	painter.end();
 	scene.addPixmap(scene.pixmap);
 	view.setScene(&scene);
 	this->setCentralWidget(&view);
@@ -51,6 +53,11 @@ void MainWindow::initialDraw() {
 void MainWindow::resizeEvent(QResizeEvent *event) {
 	QMainWindow::resizeEvent(event);
 	//initialDraw();
-	scene.pixmap = scene.pixmap.scaled(QSize(width(), height()), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-	//scene.pixmap.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	QPixmap scaled = scene.pixmap.scaled(width(), height(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+	//scene.pixmap = scaled;
+	QPainter painter(&scaled);
+	painter.drawPixmap(0, 0, scaled);
+	painter.end();
+	scene.addPixmap(scaled);
+	// scene.pixmap = scaled;
 }
