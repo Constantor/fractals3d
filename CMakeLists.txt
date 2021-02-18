@@ -24,7 +24,7 @@ add_executable(${PROJECT_NAME}
         fractal_point.cpp
         fractal2d.cpp
         complex2d.cpp
-        custom_scene.cpp
+        scene.cpp
         )
 set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE TRUE

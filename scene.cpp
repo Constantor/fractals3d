@@ -1,8 +1,8 @@
-#include "custom_scene.h"
+#include "scene.h"
 #include <QDebug>
 #include <QPainter>
 
-void CustomScene::drawField() {
+void Scene::drawField() {
 	QPainter painter(&pixmap);
 	QVector<FractalPoint> const &colorField = fractal.getColorFieldR();
 	for(auto const &point : colorField) {
@@ -12,13 +12,13 @@ void CustomScene::drawField() {
 	}
 }
 
-void CustomScene::drawFieldOnNew() {
+void Scene::drawFieldOnNew() {
 	pixmap = QPixmap(width(), height());
 	drawField();
 	addPixmap(pixmap);
 }
 
-void CustomScene::pressed(QPoint p) {
+void Scene::pressed(QPoint p) {
 	inMove = true;
 	moveBegin = p;
 	moveEnd = {};
@@ -26,13 +26,13 @@ void CustomScene::pressed(QPoint p) {
 	qDebug() << "Pressed: " << p.rx() << ' ' << p.ry();
 }
 
-void CustomScene::moved(QPoint) {
+void Scene::moved(QPoint) {
 	if(inMove) {
 		// qDebug() << "Pressed and moving at " << p.rx() << ' ' << p.ry();
 	}
 }
 
-void CustomScene::released(QPoint p) {
+void Scene::released(QPoint p) {
 	inMove = false;
 	moveEnd = p;
 	double dx = -(fractal.maxX - fractal.minX) * (moveEnd.x() - moveBegin.x()) /
@@ -48,14 +48,14 @@ void CustomScene::released(QPoint p) {
 	qDebug() << "Released: " << p.rx() << ' ' << p.ry();
 }
 
-void CustomScene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
+void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event) {
 	pressed(event->screenPos());
 }
 
-void CustomScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
+void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 	moved(event->screenPos());
 }
 
-void CustomScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
+void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 	released(event->screenPos());
 }

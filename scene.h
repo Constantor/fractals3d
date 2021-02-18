@@ -6,7 +6,7 @@
 #include <QPixmap>
 #include <QPoint>
 
-class CustomScene : public QGraphicsScene {
+class Scene : public QGraphicsScene {
 	Q_OBJECT
 public:
 	Fractal2D fractal;

@@ -4,7 +4,7 @@
 #include <QGraphicsView>
 #include <QMainWindow>
 #include <QTimer>
-#include "custom_scene.h"
+#include "scene.h"
 #include "fractal2d.h"
 
 QT_BEGIN_NAMESPACE
@@ -26,7 +26,7 @@ private:
 
 	QGraphicsView view{};
 
-	CustomScene scene{};
+	Scene scene{};
 
 	int resolutionWidth = -1;
 	int resolutionHeight = -1;
