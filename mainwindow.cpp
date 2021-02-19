@@ -6,6 +6,8 @@
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
 
+	//TODO: something to do with style, move to slots
+
 	connect(ui->firstCoordBox, &QDoubleSpinBox::valueChanged, ui->firstCoordBar, [&]() { ui->firstCoordBar->setValue(getValFromBox(ui->firstCoordBox, ui->firstCoordBar)); });
 	connect(ui->firstCoordBar, &QScrollBar::valueChanged, ui->firstCoordBox, [&]() { ui->firstCoordBox->setValue(getValFromBar(ui->firstCoordBox, ui->firstCoordBar)); });
 	connect(ui->secondCoordBox, &QDoubleSpinBox::valueChanged, ui->secondCoordBar, [&]() { ui->secondCoordBar->setValue(getValFromBox(ui->secondCoordBox, ui->secondCoordBar)); });
@@ -15,6 +17,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connect(ui->powerBox, &QSpinBox::valueChanged, ui->powerBar, [&]() { ui->powerBar->setValue(ui->powerBox->value() / 2); });
 	connect(ui->powerBar, &QScrollBar::valueChanged, ui->powerBox, [&]() { ui->powerBox->setValue(2 * ui->powerBar->value()); });
 	connect(ui->drawButton, &QPushButton::clicked, [&]() { qDebug() << ui->firstCoordBox->value() << " " << ui->secondCoordBox->value() << " " << ui->thirdCoordBox->value() << "\n"; });
+	auto fileMenu = menuBar()->addMenu("File");
+
+	fileMenu->addAction("Open", [&]() {});
+	fileMenu->addAction("Save", [&]() {});
+	fileMenu->addAction("Save as PNG", [&]() {});
+	fileMenu->addAction("Save as MPEG", [&]() {});
+
+	menuBar()->addAction("Exit", [&]() { QApplication::quit(); });
+	menuBar()->addMenu("About");
 }
 
 MainWindow::~MainWindow() {
