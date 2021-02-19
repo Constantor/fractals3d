@@ -12,7 +12,7 @@ Q_OBJECT
 public:
 	Fractal2D fractal;
 	QPixmap pixmap;
-	qreal zoomSensitivity = 1.1;
+	qreal zoomSensitivity = 2.;
 
 	void drawField();
 
