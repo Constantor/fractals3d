@@ -61,7 +61,20 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void Scene::wheelEvent(QGraphicsSceneWheelEvent *event) {
-	// TODO: math here
+	// assuming that center of zoom is min/max x/y center - not best, we do not use event->scenePos() and it is bad
+	// TODO: use event->scenePos()
+	qreal k = -zoomSensitivity * event->delta() / 45.;
+	qreal bound = 0.98;
+	if(bound < k)
+		k = bound;
+	/*if(k < -bound)
+		k = -bound;*/
+	qreal dx = fractal.maxX - fractal.minX;
+	qreal dy = fractal.maxY - fractal.minY;
+	fractal.minX += dx * k / 2;
+	fractal.maxX += dx * k / 2;
+	fractal.minY += dy * k / 2;
+	fractal.maxY += dy * k / 2;
 
 	fractal.updateColorField();
 	drawFieldOnNew();
