@@ -68,11 +68,11 @@ void Scene::wheelEvent(QGraphicsSceneWheelEvent *event) {
 
 	qDebug() << "Zooming " << event->delta();
 	qreal k = -zoomSensitivity * event->delta() / 45.;
-	/*qreal bound = 0.98;
+	qreal bound = 0.98;
 	if(k < -bound)
+		k = -bound;
+	if(bound < k)
 		k = bound;
-	if(k < -bound)
-		k = -bound;*/
 
 	QPointF pos = event->scenePos();
 	qreal left = pos.rx() / width();
