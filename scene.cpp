@@ -67,8 +67,6 @@ void Scene::wheelEvent(QGraphicsSceneWheelEvent *event) {
 	}
 
 	qDebug() << "Zooming " << event->delta();
-	// assuming that center of zoom is min/max x/y center - not best, we do not use event->scenePos() and it is bad
-	// TODO: use event->scenePos()
 	qreal k = -zoomSensitivity * event->delta() / 45.;
 	/*qreal bound = 0.98;
 	if(k < -bound)
