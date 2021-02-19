@@ -61,9 +61,9 @@ void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 }
 
 void Scene::wheelEvent(QGraphicsSceneWheelEvent *event) {
-	qDebug() << "ya tut";
-	QPointF pos = event->scenePos();
-	int delta = event->delta();
-	qDebug() << pos << ' ' << delta;
+	// TODO: math here
+
+	fractal.updateColorField();
+	drawFieldOnNew();
 	event->accept();
 }
