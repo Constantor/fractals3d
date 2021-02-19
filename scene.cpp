@@ -59,3 +59,11 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 	released(event->screenPos());
 }
+
+void Scene::wheelEvent(QGraphicsSceneWheelEvent *event) {
+	qDebug() << "ya tut";
+	QPointF pos = event->scenePos();
+	int delta = event->delta();
+	qDebug() << pos << ' ' << delta;
+	event->accept();
+}

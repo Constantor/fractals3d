@@ -1,13 +1,14 @@
 #pragma once
 
-#include "fractal2d.h"
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QPixmap>
 #include <QPoint>
+#include <QWheelEvent>
+#include "fractal2d.h"
 
 class Scene : public QGraphicsScene {
-	Q_OBJECT
+Q_OBJECT
 public:
 	Fractal2D fractal;
 	QPixmap pixmap;
@@ -32,6 +33,8 @@ protected:
 	void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
 	void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
+	void wheelEvent(QGraphicsSceneWheelEvent *event);
 
 signals:
 };
