@@ -59,3 +59,37 @@ void Scene::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
 void Scene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
 	released(event->screenPos());
 }
+
+void Scene::wheelEvent(QGraphicsSceneWheelEvent *event) {
+	if(event->orientation() != Qt::Vertical || 45 < event->delta()) {
+		event->accept();
+		return;
+	}
+
+	qDebug() << "Zooming " << event->delta();
+	qreal k = -zoomSensitivity * event->delta() / 45.;
+	qreal bound = 0.98;
+	if(k < -bound)
+		k = -bound;
+	if(bound < k)
+		k = bound;
+
+	QPointF pos = event->scenePos();
+	qreal left = pos.rx() / width();
+	qreal right = 1. - left;
+	qreal top = pos.ry() / height();
+	qreal bottom = 1. - top;
+
+	qreal dx = fractal.maxX - fractal.minX;
+	qreal dy = fractal.maxY - fractal.minY;
+	fractal.minX += dx * k * left;
+	fractal.maxX += dx * k * right;
+	fractal.minY += dy * k * top;
+	fractal.maxY += dy * k * bottom;
+
+	fractal.updateColorField();
+	drawFieldOnNew();
+	event->accept();
+
+	qDebug() << "End zooming";
+}

@@ -5,12 +5,14 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPixmap>
 #include <QPoint>
+#include <QWheelEvent>
 
 class Scene : public QGraphicsScene {
 Q_OBJECT
 public:
     Fractal3D fractal;
     QPixmap pixmap;
+    qreal zoomSensitivity = 2.1;
 
     void drawField();
 
@@ -32,6 +34,8 @@ protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
 
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
+    void wheelEvent(QGraphicsSceneWheelEvent *event);
 
 signals:
 };
