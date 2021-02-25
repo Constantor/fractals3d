@@ -4,8 +4,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QWidget>
 #include <QtWidgets/QHBoxLayout>
-#include <QtWidgets/QCheckBox>
-#include <QtWidgets/QCommandLinkButton>
 #include <QtGui/QScreen>
 
 #include <Qt3DRender/qtechnique.h>
@@ -15,7 +13,6 @@
 #include <Qt3DRender/qpointlight.h>
 
 #include <Qt3DCore/qtransform.h>
-#include <Qt3DCore/qentity.h>
 #include <Qt3DCore/qaspectengine.h>
 
 #include <Qt3DRender/qrenderaspect.h>
@@ -81,9 +78,9 @@ int main(int argc, char *argv[]) {
 	cuboidTransform->setTranslation(QVector3D(5.0f, -4.0f, 0.0f));
 
 	Qt3DExtras::QPhongMaterial *cuboidMaterial = new Qt3DExtras::QPhongMaterial();
-	cuboidMaterial->setDiffuse(QColor(QRgb(0x665423)));
+	cuboidMaterial->setDiffuse(QColor(QRgb(0x123456)));
 
-	//Cuboid
+	// Cuboid
 	Qt3DCore::QEntity *cuboidEntity = new Qt3DCore::QEntity(rootEntity);
 	cuboidEntity->addComponent(cuboid);
 	cuboidEntity->addComponent(cuboidMaterial);

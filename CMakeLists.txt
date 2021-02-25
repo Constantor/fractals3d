@@ -23,6 +23,8 @@ include_directories(headers)
 
 add_executable(${PROJECT_NAME}
         main.cpp
+        mainwindow.ui
+        mainwindow.cpp
         src/FractalPoint.cpp
         src/Complex3D.cpp
         src/Fractal3D.cpp
