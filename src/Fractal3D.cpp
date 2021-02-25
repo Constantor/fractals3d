@@ -1,5 +1,5 @@
-#include "fractal3d.h"
-#include "complex3d.h"
+#include "Fractal3D.hpp"
+#include "Complex3D.hpp"
 
 int Fractal3D::transformX(qreal x, int width) const {
     return width * (x - minX) / (maxX - minX);

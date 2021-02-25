@@ -1,4 +1,4 @@
-#include "complex3d.h"
+#include "Complex3D.hpp"
 #include "cmath"
 
 Complex3D::Complex3D(qreal newx, qreal newy, qreal newz) {

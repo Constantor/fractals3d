@@ -1,4 +1,4 @@
-#include "fractal_point.h"
+#include "FractalPoint.hpp"
 
 FractalPoint::FractalPoint(qreal newX, qreal newY, QColor newColor) {
 	x = newX;

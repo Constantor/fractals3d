@@ -6,11 +6,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
-set(DEBUG True)
+#set(DEBUG True)
+set(DEBUG False)
 
 set(QT_VERSION 6)
-set(REQUIRED_LIBS Core Gui Widgets)
-set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets)
+set(REQUIRED_LIBS Core Gui Widgets 3DCore 3DRender Concurrent 3DInput 3DExtras)
+set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets Qt6::3DCore Qt6::3DRender Qt6::Concurrent Qt6::3DInput Qt6::3DExtras)
 
 add_compile_options(-Wall -Wextra -O3 -ffast-math)
 if (UNIX AND DEBUG)
@@ -18,12 +19,14 @@ if (UNIX AND DEBUG)
     add_link_options(-fsanitize=address)
 endif (UNIX AND DEBUG)
 
+include_directories(headers)
+
 add_executable(${PROJECT_NAME}
         main.cpp
-        mainwindow.cpp mainwindow.h mainwindow.ui
-        fractal_point.cpp
-        scene.cpp
-        complex3d.cpp complex3d.h fractal3d.cpp fractal3d.h)
+        src/FractalPoint.cpp
+        src/Complex3D.cpp
+        src/Fractal3D.cpp
+)
 set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE TRUE
         MACOSX_BUNDLE TRUE

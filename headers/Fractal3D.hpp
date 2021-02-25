@@ -1,7 +1,7 @@
 #pragma once
 
-#include "complex3d.h"
-#include "fractal_point.h"
+#include "Complex3D.hpp"
+#include "FractalPoint.hpp"
 #include <QColor>
 #include <QPoint>
 #include <QVector>
