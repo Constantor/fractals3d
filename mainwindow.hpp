@@ -8,6 +8,8 @@ namespace Ui {
 }
 QT_END_NAMESPACE
 
+QT_FORWARD_DECLARE_CLASS(QOpenGLWidget)
+
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 

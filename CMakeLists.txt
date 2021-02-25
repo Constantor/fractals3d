@@ -28,8 +28,8 @@ include_directories(headers)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        mainwindow.cpp mainwidget.h mainwindow.ui
-        mainwidget.cpp mainwidget.h
+        mainwindow.cpp fractalwidget.hpp mainwindow.ui
+        fractalwidget.cpp fractalwidget.hpp
         src/GeometryEngine.cpp headers/GeometryEngine.hpp
         src/FractalPoint.cpp headers/FractalPoint.hpp
         src/Complex3D.cpp headers/Complex3D.hpp

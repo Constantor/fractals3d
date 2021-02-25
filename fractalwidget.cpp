@@ -1,10 +1,10 @@
-#include "mainwidget.h"
+#include "fractalwidget.hpp"
 
 #include <QMouseEvent>
 
 #include <cmath>
 
-MainWidget::~MainWidget() {
+FractalWidget::~FractalWidget() {
 	// Make sure the context is current when deleting the texture
 	// and the buffers.
 	makeCurrent();
@@ -13,14 +13,14 @@ MainWidget::~MainWidget() {
 	doneCurrent();
 }
 
-void MainWidget::mousePressEvent(QMouseEvent *e) {
+void FractalWidget::mousePressEvent(QMouseEvent *e) {
 	// Save mouse press position
-	mousePressPosition = QVector2D(e->localPos());
+	mousePressPosition = QVector2D(e->position());
 }
 
-void MainWidget::mouseReleaseEvent(QMouseEvent *e) {
+void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 	// Mouse release position - mouse press position
-	QVector2D diff = QVector2D(e->localPos()) - mousePressPosition;
+	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
 
 	// Rotation axis is perpendicular to the mouse position difference
 	// vector
@@ -36,7 +36,7 @@ void MainWidget::mouseReleaseEvent(QMouseEvent *e) {
 	angularSpeed += acc;
 }
 
-void MainWidget::timerEvent(QTimerEvent *) {
+void FractalWidget::timerEvent(QTimerEvent *) {
 	// Decrease angular speed (friction)
 	angularSpeed *= 0.99;
 
@@ -52,7 +52,7 @@ void MainWidget::timerEvent(QTimerEvent *) {
 	}
 }
 
-void MainWidget::initializeGL() {
+void FractalWidget::initializeGL() {
 	initializeOpenGLFunctions();
 
 	glClearColor(0, 0, 0, 1);
@@ -72,7 +72,7 @@ void MainWidget::initializeGL() {
 	timer.start(12, this);
 }
 
-void MainWidget::initShaders() {
+void FractalWidget::initShaders() {
 	// Compile vertex shader
 	if(!program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vshader.glsl"))
 		close();
@@ -90,7 +90,7 @@ void MainWidget::initShaders() {
 		close();
 }
 
-void MainWidget::initTextures() {
+void FractalWidget::initTextures() {
 	// Load cube.png image
 	texture = new QOpenGLTexture(QImage(":/cube.png").mirrored());
 
@@ -105,7 +105,7 @@ void MainWidget::initTextures() {
 	texture->setWrapMode(QOpenGLTexture::Repeat);
 }
 
-void MainWidget::resizeGL(int w, int h) {
+void FractalWidget::resizeGL(int w, int h) {
 	// Calculate aspect ratio
 	qreal aspect = qreal(w) / qreal(h ? h : 1);
 
@@ -119,7 +119,7 @@ void MainWidget::resizeGL(int w, int h) {
 	projection.perspective(fov, aspect, zNear, zFar);
 }
 
-void MainWidget::paintGL() {
+void FractalWidget::paintGL() {
 	// Clear color and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

@@ -13,13 +13,13 @@
 
 class GeometryEngine;
 
-class MainWidget : public QOpenGLWidget, protected QOpenGLFunctions {
+class FractalWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 Q_OBJECT
 
 public:
 	using QOpenGLWidget::QOpenGLWidget;
 
-	~MainWidget();
+	~FractalWidget();
 
 protected:
 	void mousePressEvent(QMouseEvent *e) override;
