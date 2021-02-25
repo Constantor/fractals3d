@@ -3,7 +3,7 @@
 #include <QtGui/QScreen>
 #include <Qt3DRender/qsceneloader.h>
 #include <Qt3DExtras/qt3dwindow.h>
-#include "fractalwidget.hpp"
+#include "mainwindow.hpp"
 
 int main(int argc, char *argv[]) {
 	QApplication fractals3DApp(argc, argv);
@@ -16,12 +16,16 @@ int main(int argc, char *argv[]) {
 	fractals3DApp.setApplicationVersion("0.1");
 	fractals3DApp.setOrganizationName("HSE University");
 	fractals3DApp.setOrganizationDomain("hse.ru");
+
 #ifndef QT_NO_OPENGL
-	FractalWidget widget;
-	widget.show();
+	//FractalWidget widget;
+	//widget.show();
+	MainWindow mainWindow{};
+	mainWindow.show();
 #else
 	QLabel note("OpenGL Support required");
     note.show();
 #endif
+
 	return fractals3DApp.exec();
 }

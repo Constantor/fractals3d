@@ -1,5 +1,7 @@
 #pragma once
 
+#include "fractalwidget.hpp"
+
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -20,4 +22,6 @@ public:
 
 private:
 	Ui::MainWindow *ui;
+
+	FractalWidget *fractalWidget;
 };

@@ -1,8 +1,13 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
+#include "fractalwidget.hpp"
 
-MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
+#include <QHBoxLayout>
+
+MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), fractalWidget(new FractalWidget(this)) {
 	ui->setupUi(this);
+	
+	fractalWidget->resize(width(), height());
 }
 
 MainWindow::~MainWindow() {
