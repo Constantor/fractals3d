@@ -9,9 +9,12 @@ set(CMAKE_AUTOUIC ON)
 #set(DEBUG True)
 set(DEBUG False)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON) # ?
+
 set(QT_VERSION 6)
-set(REQUIRED_LIBS Core Gui Widgets 3DCore 3DRender Concurrent 3DInput 3DExtras)
-set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets Qt6::3DCore Qt6::3DRender Qt6::Concurrent Qt6::3DInput Qt6::3DExtras)
+
+set(REQUIRED_LIBS Core Gui Widgets 3DCore 3DRender Concurrent 3DInput 3DExtras OpenGL OpenGLWidgets)
+set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets Qt6::3DCore Qt6::3DRender Qt6::Concurrent Qt6::3DInput Qt6::3DExtras Qt6::OpenGL Qt6::OpenGLWidgets)
 
 add_compile_options(-Wall -Wextra -O3 -ffast-math)
 if (UNIX AND DEBUG)
@@ -23,20 +26,34 @@ include_directories(headers)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        mainwindow.ui
-        mainwindow.cpp
-        src/FractalPoint.cpp
-        src/Complex3D.cpp
-        src/Fractal3D.cpp
+        mainwindow.cpp mainwidget.h mainwindow.ui
+        mainwidget.cpp mainwidget.h
+        src/GeometryEngine.cpp headers/GeometryEngine.hpp
+        src/FractalPoint.cpp headers/FractalPoint.hpp
+        src/Complex3D.cpp headers/Complex3D.hpp
+        src/Fractal3D.cpp headers/Fractal3D.hpp
 )
+
+find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
+target_link_libraries(${PROJECT_NAME} PUBLIC ${REQUIRED_LIBS_QUALIFIED})
+
 set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE TRUE
         MACOSX_BUNDLE TRUE
         )
-if (NOT CMAKE_PREFIX_PATH)
-    message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
-            "(-DCMAKE_PREFIX_PATH=\"path/to/Qt/lib/cmake\" or -DCMAKE_PREFIX_PATH=/usr/include/{host}/qt{version}/ on Ubuntu)")
-endif (NOT CMAKE_PREFIX_PATH)
+#if (NOT CMAKE_PREFIX_PATH)
+#    message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
+#            "(-DCMAKE_PREFIX_PATH=\"path/to/Qt/lib/cmake\" or -DCMAKE_PREFIX_PATH=/usr/include/{host}/qt{version}/ on Ubuntu)")
+#endif (NOT CMAKE_PREFIX_PATH)
 
-find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
-target_link_libraries(${PROJECT_NAME} PUBLIC ${REQUIRED_LIBS_QUALIFIED})
+# Resources
+set(shaders_resource_files
+        "fshader.glsl"
+        "vshader.glsl"
+)
+
+qt6_add_resources(cube "shaders" FILES ${shaders_resource_files})
+set(textures_resource_files "cube.png")
+
+qt6_add_resources(cube "textures" FILES ${textures_resource_files})
+# End resources
