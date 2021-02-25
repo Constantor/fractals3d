@@ -11,6 +11,8 @@ set(DEBUG False)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON) # ?
 
+set(INSTALL_DIR "./")
+
 set(QT_VERSION 6)
 
 set(REQUIRED_LIBS Core Gui Widgets 3DCore 3DRender Concurrent 3DInput 3DExtras OpenGL OpenGLWidgets)
@@ -52,8 +54,14 @@ set(shaders_resource_files
         "vshader.glsl"
 )
 
-qt6_add_resources(cube "shaders" FILES ${shaders_resource_files})
+qt6_add_resources(fractals3d "shaders" PREFIX "/" FILES ${shaders_resource_files})
 set(textures_resource_files "cube.png")
 
-qt6_add_resources(cube "textures" FILES ${textures_resource_files})
+qt6_add_resources(fractals3d "textures" PREFIX "/" FILES ${textures_resource_files})
 # End resources
+
+install(TARGETS fractals3d
+        RUNTIME DESTINATION "${INSTALL_DIR}"
+        BUNDLE DESTINATION "${INSTALL_DIR}"
+        LIBRARY DESTINATION "${INSTALL_DIR}"
+)
