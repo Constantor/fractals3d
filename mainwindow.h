@@ -20,6 +20,7 @@ public:
 
 private:
 	Ui::MainWindow *ui;
-	static int getValFromBox(QDoubleSpinBox *box, QScrollBar *bar);
-    static double getValFromBar(QDoubleSpinBox *box, QScrollBar *bar);
+
+	void connectBoxBar();
+	void makeMenu();
 };
