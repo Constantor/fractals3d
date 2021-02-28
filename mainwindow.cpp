@@ -16,6 +16,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->setupUi(this);
 
 	connectBoxBar();
+	connect(ui->drawButton, &QPushButton::clicked, [&]() { readAndDraw(); });
 	makeMenu();
 }
 
@@ -43,5 +44,8 @@ void MainWindow::connectBoxBar() {
 	connect(ui->thirdCoordBar, &QSlider::valueChanged, ui->thirdCoordBox, [&]() { ui->thirdCoordBox->setValue(getValFromBar(ui->thirdCoordBox, ui->thirdCoordBar)); });
 	connect(ui->powerBox, &QSpinBox::valueChanged, ui->powerBar, [&]() { ui->powerBar->setValue(ui->powerBox->value() / 2); });
 	connect(ui->powerBar, &QSlider::valueChanged, ui->powerBox, [&]() { ui->powerBox->setValue(2 * ui->powerBar->value()); });
-	connect(ui->drawButton, &QPushButton::clicked, [&]() { qDebug() << ui->firstCoordBox->value() << " " << ui->secondCoordBox->value() << " " << ui->thirdCoordBox->value() << "\n"; });
+}
+
+void MainWindow::readAndDraw() {
+	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value());
 }

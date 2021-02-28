@@ -1,8 +1,10 @@
 #pragma once
 
+#include "fractaldata.h"
 #include <QDoubleSpinBox>
 #include <QMainWindow>
 #include <QScrollBar>
+#include <ui_mainwindow.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -20,7 +22,11 @@ public:
 
 private:
 	Ui::MainWindow *ui;
+	FractalData data;
 
 	void connectBoxBar();
 	void makeMenu();
+
+private slots:
+	void readAndDraw();
 };
