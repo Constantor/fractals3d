@@ -44,7 +44,7 @@ private:
 	// const constexpr static qreal EPS = 1e-6;
 
 	bool mousePressed = false;
-	QBasicTimer timer;
+	// QBasicTimer timer;
 	QOpenGLShaderProgram program;
 	GeometryEngine *geometries = nullptr;
 
