@@ -81,20 +81,19 @@ void MainWindow::saveToFile() {
 									 file.errorString());
 			return;
 		}
-		QDataStream out(&file);
 
 		QJsonObject output;
 		output.insert("Fractal", data.serialize());
 
-		//Try that camera data is also saved
-		QJsonObject cameraData;
-		cameraData.insert("x", 1);
-		cameraData.insert("y", 2);
-		cameraData.insert("z", 3);
-		output.insert("Camera", cameraData);
+		//		//Try that camera data is also saved
+		//		QJsonObject cameraData;
+		//		cameraData.insert("x", 1);
+		//		cameraData.insert("y", 2);
+		//		cameraData.insert("z", 3);
+		//		output.insert("Camera", cameraData);
 
 		QJsonDocument doc(output);
-		out << doc.toJson();
+		file.write(doc.toJson());
 		file.close();
 	}
 }
