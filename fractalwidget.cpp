@@ -21,37 +21,6 @@ void FractalWidget::mousePressEvent(QMouseEvent *e) {
 
 void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 	mousePressed = false;
-	// Mouse release position - mouse press position
-	/*QVector2D diff = QVector2D(e->position()) - mousePressPosition;
-
-	// Rotation axis is perpendicular to the mouse position difference
-	// vector
-	QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
-
-	rotationDelta = diff.length();
-
-	// Calculate new rotation axis as weighted sum
-	rotationAxis = (n * rotationDelta).normalized();*/
-
-	//rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
-	//update();
-	/*
-	// Mouse release position - mouse press position
-	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
-
-	// Rotation axis is perpendicular to the mouse position difference
-	// vector
-	QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
-
-	// Accelerate angular speed relative to the length of the mouse sweep
-	qreal acc = diff.length() / 100.0;
-
-	// Calculate new rotation axis as weighted sum
-	rotationAxis = (rotationAxis * angularSpeed + n * acc).normalized();
-
-	// Increase angular speed
-	angularSpeed += acc;
-	 */
 }
 
 void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
@@ -64,40 +33,21 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
 	// vector
 	QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
 
-	rotationDelta = diff.length() / 100;
+	rotationDelta = diff.length() / 4;
 
 	// Calculate new rotation axis as weighted sum
 	rotationAxis = (n * rotationDelta).normalized();
 
-	if(EPS < rotationDelta) {
+	if(rotationDelta != 0) {
 		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
 		update();
+		mousePressPosition = QVector2D(e->position());
 		rotationDelta = 0;
 	}
 }
 
 void FractalWidget::timerEvent(QTimerEvent *) {
-	//rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
-	/*if(EPS < rotationDelta) {
-		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
-		update();
-		rotationDelta = 0;
-	}*/
-	/*
-	// Decrease angular speed (friction)
-	angularSpeed *= 0.99;
-
-	// Stop rotation when speed goes below threshold
-	if(angularSpeed < 0.01) {
-		angularSpeed = 0.0;
-	} else {
-		// Update rotation
-		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
-
-		// Request an update
-		update();
-	}
-	*/
+	// timer
 }
 
 void FractalWidget::initializeGL() {

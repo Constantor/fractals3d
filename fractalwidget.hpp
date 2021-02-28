@@ -41,7 +41,7 @@ protected:
 	void initTextures();
 
 private:
-	const constexpr static qreal EPS = 1e-6;
+	// const constexpr static qreal EPS = 1e-6;
 
 	bool mousePressed = false;
 	QBasicTimer timer;
@@ -54,7 +54,6 @@ private:
 
 	QVector2D mousePressPosition;
 	QVector3D rotationAxis;
-	qreal angularSpeed = 0;
 	qreal rotationDelta = 0;
 	QQuaternion rotation;
 };
