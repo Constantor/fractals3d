@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QDataStream>
+#include <QJsonObject>
 
 struct FractalData {
 	qreal a{}, b{}, c{};
@@ -9,6 +10,6 @@ struct FractalData {
 	FractalData() = default;
 	FractalData(qreal a, qreal b, qreal c, quint8 n);
 
-    QDataStream& printTo(QDataStream &out) const;
+    [[nodiscard]] QJsonObject serialize() const;
     QDataStream&  readFrom(QDataStream &in);
 };

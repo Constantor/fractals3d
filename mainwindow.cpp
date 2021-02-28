@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include <QDoubleSpinBox>
 #include <QFileDialog>
+#include <QJsonDocument>
 #include <QMessageBox>
 #include <QSlider>
 
@@ -81,8 +82,11 @@ void MainWindow::saveToFile() {
 			return;
 		}
 		QDataStream out(&file);
-		//TODO through overloaded << and than through json.
-		data.printTo(out);
+
+		QJsonObject output;
+		output.insert("Fractal", data.serialize());
+		QJsonDocument doc(output);
+		out << doc.toJson();
 		file.close();
 	}
 }
