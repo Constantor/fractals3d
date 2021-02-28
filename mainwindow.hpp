@@ -1,6 +1,6 @@
 #pragma once
 
-#include "fractaldata.h"
+#include "fractaldata.hpp"
 #include <QDoubleSpinBox>
 #include <QMainWindow>
 #include <QScrollBar>

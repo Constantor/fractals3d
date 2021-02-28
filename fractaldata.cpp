@@ -1,4 +1,4 @@
-#include "fractaldata.h"
+#include "fractaldata.hpp"
 
 FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n) : a(a), b(b), c(c), n(n) {}
 
