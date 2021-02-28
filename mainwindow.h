@@ -28,5 +28,7 @@ private:
 	void makeMenu();
 
 	void readAndDraw();
-	void saveToJSON();
+	void saveToFile();
+	void loadFromFile();
+	void setValues();
 };

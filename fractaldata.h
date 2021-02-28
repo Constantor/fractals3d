@@ -9,5 +9,6 @@ struct FractalData {
 	FractalData() = default;
 	FractalData(qreal a, qreal b, qreal c, quint8 n);
 
-	QDataStream &operator<<(QDataStream &out) const;
+    QDataStream& printTo(QDataStream &out) const;
+    QDataStream&  readFrom(QDataStream &in);
 };

@@ -28,8 +28,8 @@ MainWindow::~MainWindow() {
 void MainWindow::makeMenu() {
 	auto fileMenu = menuBar()->addMenu("File");
 
-	fileMenu->addAction("Load", [&]() {});
-	fileMenu->addAction("Save", [&]() { saveToJSON(); });
+	fileMenu->addAction("Load", [&]() { loadFromFile(); });
+	fileMenu->addAction("Save", [&]() { saveToFile(); });
 	fileMenu->addAction("Save as PNG", [&]() {});
 	fileMenu->addAction("Save as MPEG", [&]() {});
 
@@ -52,10 +52,27 @@ void MainWindow::readAndDraw() {
 	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value());
 }
 
-void MainWindow::saveToJSON() {
-	QString fileName = QFileDialog::getSaveFileName(this,
-													tr("Save Fractal Input"), "",
-													tr("Text Data (*.txt);;All Files (*)"));
+void MainWindow::loadFromFile() {
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Fractal "), "", tr("3D Fractal Data (*.f3d);;All Files (*)"));
+	if(fileName.isEmpty())
+		return;
+	else {
+		QFile file(fileName);
+		if(!file.open(QIODevice::ReadOnly)) {
+			QMessageBox::information(this, tr("Unable to open file"),
+									 file.errorString());
+			return;
+		}
+		QDataStream in(&file);
+		data.readFrom(in);
+		file.close();
+
+		setValues();
+	}
+}
+
+void MainWindow::saveToFile() {
+	QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Input"), "", tr("3D Fractal Data (*.f3d);;All Files (*)"));
 	if(!fileName.isEmpty()) {
 		QFile file(fileName);
 		if(!file.open(QIODevice::WriteOnly)) {
@@ -65,7 +82,14 @@ void MainWindow::saveToJSON() {
 		}
 		QDataStream out(&file);
 		//TODO through overloaded << and than through json.
-		out << data.a << " " << data.b << " " << data.c << " " << data.n;
+		data.printTo(out);
 		file.close();
 	}
+}
+
+void MainWindow::setValues() {
+	ui->firstCoordBox->setValue(data.a);
+	ui->secondCoordBox->setValue(data.b);
+	ui->thirdCoordBox->setValue(data.c);
+	ui->powerBox->setValue(data.n);
 }
