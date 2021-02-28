@@ -26,6 +26,21 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 	// vector
 	QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
 
+	rotationDelta = diff.length();
+
+	// Calculate new rotation axis as weighted sum
+	rotationAxis = (n * rotationDelta).normalized();
+
+	//rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
+	//update();
+	/*
+	// Mouse release position - mouse press position
+	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
+
+	// Rotation axis is perpendicular to the mouse position difference
+	// vector
+	QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
+
 	// Accelerate angular speed relative to the length of the mouse sweep
 	qreal acc = diff.length() / 100.0;
 
@@ -34,9 +49,17 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 
 	// Increase angular speed
 	angularSpeed += acc;
+	 */
 }
 
 void FractalWidget::timerEvent(QTimerEvent *) {
+	//rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
+	if(EPS < rotationDelta) {
+		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
+		update();
+		rotationDelta = 0;
+	}
+	/*
 	// Decrease angular speed (friction)
 	angularSpeed *= 0.99;
 
@@ -50,6 +73,7 @@ void FractalWidget::timerEvent(QTimerEvent *) {
 		// Request an update
 		update();
 	}
+	*/
 }
 
 void FractalWidget::initializeGL() {
