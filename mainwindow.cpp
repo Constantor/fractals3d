@@ -29,14 +29,14 @@ void MainWindow::initialDraw() {
 
     QPainter painter(&scene.pixmap);
 
-    qreal minZ = -1.0;
-    qreal maxZ = 1.0;
+    qreal minZ = 0.5;
+    qreal maxZ = 0.75;
     qreal minY = -0.5;
     qreal maxY = 0.5;
-    qreal maxX = (static_cast<qreal>(resolutionWidth) / resolutionHeight) / 2;
-    qreal minX = -maxX;
+    qreal maxX = 0.5;
+    qreal minX = -0.5;
 
-    scene.fractal = Fractal3D(Complex3D(0.01, 0.03, 0.33), 2, 2, 100, calculate(resolutionWidth), calculate(resolutionHeight),
+    scene.fractal = Fractal3D(Complex3D(0.6, 0.1, 0.6), 7, 2, 100, calculate(resolutionWidth), calculate(resolutionHeight),
                               minX, maxX, minY, maxY, minZ, maxZ);
 
     QVector<FractalPoint> colorField = scene.fractal.getColorField();

@@ -26,9 +26,9 @@ void Fractal3D::updateColorField() {
     for (int Z = 0; Z < num_layer; ++Z) {
         for(int X = 0; X < num_pointx; ++X) {
             for(int Y = 0; Y < num_pointy; ++Y) {
-                qreal z = Z * ((maxZ - minZ) / (num_layer * 1.0)) + minY;
-                qreal y = Y * (maxY - minY) / (num_pointy * 1.0) + minY;
-                qreal x = X * (maxX - minX) / (num_pointx * 1.0) + minX;
+                qreal z = (Z * 1.0) * (maxZ - minZ) / (num_layer * 1.0) + minZ;
+                qreal y = (Y * 1.0) * (maxY - minY) / (num_pointy * 1.0) + minY;
+                qreal x = (X * 1.0) * (maxX - minX) / (num_pointx * 1.0) + minX;
                 Complex3D z_(x, y, z);
 
                 while(iterations[X][Y][Z] < max_iter && z_.Complex3D::abs() < r_conv) {
@@ -44,7 +44,8 @@ void Fractal3D::updateColorField() {
             int iter = iterations[X][Y][0];
             for (int Z = 1; Z < num_layer; ++Z) {
                 if (iterations[X][Y][Z] < iter) {
-                    iter /= int((Z + 1) * (1.0 / num_layer) + 1);
+                    //iter /= int((Z + 1) * (1.0 / num_layer) + 1);
+					iter = Z;
                     break;
                 }
                 iter = iterations[X][Y][Z];
@@ -52,8 +53,8 @@ void Fractal3D::updateColorField() {
             qreal y = Y * (maxY - minY) / (num_pointy * 1.0) + minY;
             qreal x = X * (maxX - minX) / (num_pointx * 1.0) + minX;
 
-            colorField.push_back(FractalPoint((maxX - minX) * x, (maxY - minY) * y,
-                                              QColor((iter * iter) % 256, (iter * iter * iter) % 256, iter % 256))); //TODO leave only iter, to set brightness
+            colorField.push_back(FractalPoint(x, y,
+                                              QColor((iter * 5) % 256, (iter * 5) % 256, (iter * 5) % 256))); //TODO leave only iter, to set brightness
         }
     }
 }
