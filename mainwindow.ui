@@ -201,7 +201,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="drawWidget" native="true">
+     <widget class="FractalWidget" name="fractalWidget" native="true">
       <property name="minimumSize">
        <size>
         <width>200</width>
@@ -224,6 +224,14 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>FractalWidget</class>
+   <extends>QWidget</extends>
+   <header>fractalwidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>
