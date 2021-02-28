@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 
 #include <cmath>
+#include <openvpn-plugin.h>
 
 FractalWidget::~FractalWidget() {
 	// Make sure the context is current when deleting the texture
@@ -16,11 +17,13 @@ FractalWidget::~FractalWidget() {
 void FractalWidget::mousePressEvent(QMouseEvent *e) {
 	// Save mouse press position
 	mousePressPosition = QVector2D(e->position());
+	mousePressed = true;
 }
 
 void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
+	mousePressed = false;
 	// Mouse release position - mouse press position
-	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
+	/*QVector2D diff = QVector2D(e->position()) - mousePressPosition;
 
 	// Rotation axis is perpendicular to the mouse position difference
 	// vector
@@ -29,7 +32,7 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 	rotationDelta = diff.length();
 
 	// Calculate new rotation axis as weighted sum
-	rotationAxis = (n * rotationDelta).normalized();
+	rotationAxis = (n * rotationDelta).normalized();*/
 
 	//rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
 	//update();
@@ -52,13 +55,35 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 	 */
 }
 
-void FractalWidget::timerEvent(QTimerEvent *) {
-	//rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
+void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
+	if(!mousePressed) {
+		return;
+	}
+	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
+
+	// Rotation axis is perpendicular to the mouse position difference
+	// vector
+	QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
+
+	rotationDelta = diff.length() / 100;
+
+	// Calculate new rotation axis as weighted sum
+	rotationAxis = (n * rotationDelta).normalized();
+
 	if(EPS < rotationDelta) {
 		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
 		update();
 		rotationDelta = 0;
 	}
+}
+
+void FractalWidget::timerEvent(QTimerEvent *) {
+	//rotation = QQuaternion::fromAxisAndAngle(rotationAxis, angularSpeed) * rotation;
+	/*if(EPS < rotationDelta) {
+		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
+		update();
+		rotationDelta = 0;
+	}*/
 	/*
 	// Decrease angular speed (friction)
 	angularSpeed *= 0.99;
@@ -77,6 +102,8 @@ void FractalWidget::timerEvent(QTimerEvent *) {
 }
 
 void FractalWidget::initializeGL() {
+	this->setMouseTracking(true);
+
 	initializeOpenGLFunctions();
 
 	glClearColor(0, 0, 0, 1);
