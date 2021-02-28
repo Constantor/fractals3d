@@ -14,9 +14,10 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON) # ?
 set(INSTALL_DIR "./")
 
 set(QT_VERSION 6)
+set(QT_LIB_PREF Qt${QT_VERSION}::)
 
 set(REQUIRED_LIBS Core Gui Widgets 3DCore 3DRender Concurrent 3DInput 3DExtras OpenGL OpenGLWidgets)
-set(REQUIRED_LIBS_QUALIFIED Qt6::Core Qt6::Gui Qt6::Widgets Qt6::3DCore Qt6::3DRender Qt6::Concurrent Qt6::3DInput Qt6::3DExtras Qt6::OpenGL Qt6::OpenGLWidgets)
+set(REQUIRED_LIBS_QUALIFIED ${QT_LIB_PREF}Core ${QT_LIB_PREF}Gui ${QT_LIB_PREF}Widgets ${QT_LIB_PREF}3DCore ${QT_LIB_PREF}3DRender ${QT_LIB_PREF}Concurrent ${QT_LIB_PREF}3DInput ${QT_LIB_PREF}3DExtras ${QT_LIB_PREF}OpenGL ${QT_LIB_PREF}OpenGLWidgets)
 
 add_compile_options(-Wall -Wextra -O3 -ffast-math)
 if (UNIX AND DEBUG)
