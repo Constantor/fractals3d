@@ -59,13 +59,15 @@ void MainWindow::loadFromFile() {
 		return;
 	else {
 		QFile file(fileName);
+
 		if(!file.open(QIODevice::ReadOnly)) {
 			QMessageBox::information(this, tr("Unable to open file"),
 									 file.errorString());
 			return;
 		}
-		QDataStream in(&file);
-		data.readFrom(in);
+
+		QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
+		data.readFrom(doc);
 		file.close();
 
 		setValues();
@@ -76,6 +78,7 @@ void MainWindow::saveToFile() {
 	QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Input"), "", tr("3D Fractal Data (*.f3d);;All Files (*)"));
 	if(!fileName.isEmpty()) {
 		QFile file(fileName);
+
 		if(!file.open(QIODevice::WriteOnly)) {
 			QMessageBox::information(this, tr("Unable to open file"),
 									 file.errorString());
