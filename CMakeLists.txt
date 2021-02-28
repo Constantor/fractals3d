@@ -28,9 +28,8 @@ endif (UNIX AND DEBUG)
 include_directories(headers)
 
 add_executable(${PROJECT_NAME}
-        main.cpp
-        mainwindow.cpp fractalwidget.hpp mainwindow.ui
-        fractalwidget.cpp fractalwidget.hpp
+        main.cpp mainwindow.cpp mainwindow.hpp mainwindow.ui fractalwidget.hpp
+        fractalwidget.cpp fractaldata.hpp fractaldata.cpp
         src/GeometryEngine.cpp headers/GeometryEngine.hpp
         src/FractalPoint.cpp headers/FractalPoint.hpp
         src/Complex3D.cpp headers/Complex3D.hpp

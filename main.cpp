@@ -1,9 +1,9 @@
+#include "mainwindow.hpp"
+#include <Qt3DExtras/qt3dwindow.h>
+#include <Qt3DRender/qsceneloader.h>
+#include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QHBoxLayout>
-#include <QtGui/QScreen>
-#include <Qt3DRender/qsceneloader.h>
-#include <Qt3DExtras/qt3dwindow.h>
-#include "mainwindow.hpp"
 
 int main(int argc, char *argv[]) {
 	QApplication fractals3DApp(argc, argv);
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
 	mainWindow.show();
 #else
 	QLabel note("OpenGL Support required");
-    note.show();
+	note.show();
 #endif
 
 	return fractals3DApp.exec();

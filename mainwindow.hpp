@@ -1,8 +1,11 @@
 #pragma once
 
 #include "fractalwidget.hpp"
-
+#include "fractaldata.hpp"
+#include <QDoubleSpinBox>
 #include <QMainWindow>
+#include <QScrollBar>
+#include <ui_mainwindow.h>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -22,6 +25,13 @@ public:
 
 private:
 	Ui::MainWindow *ui;
+	FractalData data;
 
-	FractalWidget *fractalWidget;
+	void connectBoxBar();
+	void makeMenu();
+
+	void readAndDraw();
+	void saveToFile();
+	void loadFromFile();
+	void setValues();
 };
