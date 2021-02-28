@@ -1,6 +1,6 @@
 #include "fractaldata.h"
 
-FractalData::FractalData(double a, double b, double c, unsigned int n) : a(a), b(b), c(c), n(n) {}
+FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n) : a(a), b(b), c(c), n(n) {}
 
 QDataStream &FractalData::operator<<(QDataStream &out) const {
 	out << a << " " << b << " "

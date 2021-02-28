@@ -3,12 +3,11 @@
 #include <QDataStream>
 
 struct FractalData {
-	//TODO USE Qt builtin types
-	double a{}, b{}, c{};
-	unsigned int n{};
+	qreal a{}, b{}, c{};
+	quint8 n{};
 
 	FractalData() = default;
-	FractalData(double a, double b, double c, unsigned int n);
+	FractalData(qreal a, qreal b, qreal c, quint8 n);
 
-    QDataStream &operator<<(QDataStream &out) const;
+	QDataStream &operator<<(QDataStream &out) const;
 };
