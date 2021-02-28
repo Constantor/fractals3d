@@ -57,7 +57,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QScrollBar" name="firstCoordBar">
+        <widget class="QSlider" name="firstCoordBar">
          <property name="maximum">
           <number>4000</number>
          </property>
@@ -96,7 +96,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QScrollBar" name="secondCoordBar">
+        <widget class="QSlider" name="secondCoordBar">
          <property name="maximum">
           <number>4000</number>
          </property>
@@ -132,7 +132,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QScrollBar" name="thirdCoordBar">
+        <widget class="QSlider" name="thirdCoordBar">
          <property name="maximum">
           <number>4000</number>
          </property>
@@ -165,7 +165,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QScrollBar" name="powerBar">
+        <widget class="QSlider" name="powerBar">
          <property name="minimum">
           <number>1</number>
          </property>
