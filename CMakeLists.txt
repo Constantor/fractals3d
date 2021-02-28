@@ -20,7 +20,7 @@ endif (UNIX AND DEBUG)
 
 add_executable(${PROJECT_NAME}
         main.cpp
-        mainwindow.cpp mainwindow.h mainwindow.ui fractaldata.h)
+        mainwindow.cpp mainwindow.h mainwindow.ui fractaldata.h fractaldata.cpp)
 set_target_properties(${PROJECT_NAME} PROPERTIES
         WIN32_EXECUTABLE TRUE
         MACOSX_BUNDLE TRUE

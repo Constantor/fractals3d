@@ -27,6 +27,6 @@ private:
 	void connectBoxBar();
 	void makeMenu();
 
-private slots:
 	void readAndDraw();
+	void saveToJSON();
 };

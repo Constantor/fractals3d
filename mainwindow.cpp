@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QDoubleSpinBox>
+#include <QFileDialog>
+#include <QMessageBox>
 #include <QSlider>
 
 namespace {
@@ -26,8 +28,8 @@ MainWindow::~MainWindow() {
 void MainWindow::makeMenu() {
 	auto fileMenu = menuBar()->addMenu("File");
 
-	fileMenu->addAction("Open", [&]() {});
-	fileMenu->addAction("Save", [&]() {});
+	fileMenu->addAction("Load", [&]() {});
+	fileMenu->addAction("Save", [&]() { saveToJSON(); });
 	fileMenu->addAction("Save as PNG", [&]() {});
 	fileMenu->addAction("Save as MPEG", [&]() {});
 
@@ -48,4 +50,22 @@ void MainWindow::connectBoxBar() {
 
 void MainWindow::readAndDraw() {
 	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value());
+}
+
+void MainWindow::saveToJSON() {
+	QString fileName = QFileDialog::getSaveFileName(this,
+													tr("Save Fractal Input"), "",
+													tr("Text Data (*.txt);;All Files (*)"));
+	if(!fileName.isEmpty()) {
+		QFile file(fileName);
+		if(!file.open(QIODevice::WriteOnly)) {
+			QMessageBox::information(this, tr("Unable to open file"),
+									 file.errorString());
+			return;
+		}
+		QDataStream out(&file);
+		//TODO through overloaded << and than through json.
+		out << data.a << " " << data.b << " " << data.c << " " << data.n;
+		file.close();
+	}
 }
