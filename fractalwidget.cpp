@@ -3,7 +3,6 @@
 #include <QMouseEvent>
 
 #include <cmath>
-#include <openvpn-plugin.h>
 
 FractalWidget::~FractalWidget() {
 	// Make sure the context is current when deleting the texture
