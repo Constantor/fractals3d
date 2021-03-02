@@ -1,9 +1,6 @@
 #include "mainwindow.hpp"
-#include <Qt3DExtras/qt3dwindow.h>
-#include <Qt3DRender/qsceneloader.h>
 #include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QHBoxLayout>
 
 int main(int argc, char *argv[]) {
 	QApplication fractals3DApp(argc, argv);
