@@ -1,5 +1,4 @@
 #include "mainwindow.hpp"
-#include "fractalwidget.hpp"
 #include "ui_mainwindow.h"
 
 #include <QDoubleSpinBox>
