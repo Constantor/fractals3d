@@ -1,7 +1,7 @@
-cmake_minimum_required(VERSION 3.19.3)
+cmake_minimum_required(VERSION 3.17)
 project(fractals3d LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -16,8 +16,10 @@ set(INSTALL_DIR "./")
 set(QT_VERSION 6)
 set(QT_LIB_PREF Qt${QT_VERSION}::)
 
-set(REQUIRED_LIBS Core Gui Widgets 3DCore 3DRender Concurrent 3DInput 3DExtras OpenGL OpenGLWidgets)
-set(REQUIRED_LIBS_QUALIFIED ${QT_LIB_PREF}Core ${QT_LIB_PREF}Gui ${QT_LIB_PREF}Widgets ${QT_LIB_PREF}3DCore ${QT_LIB_PREF}3DRender ${QT_LIB_PREF}Concurrent ${QT_LIB_PREF}3DInput ${QT_LIB_PREF}3DExtras ${QT_LIB_PREF}OpenGL ${QT_LIB_PREF}OpenGLWidgets)
+set(REQUIRED_LIBS Core Gui Widgets OpenGL OpenGLWidgets)
+foreach(lib ${REQUIRED_LIBS})
+	set(REQUIRED_LIBS_QUALIFIED "${REQUIRED_LIBS_QUALIFIED};${QT_LIB_PREF}${lib}")
+endforeach()
 
 add_compile_options(-Wall -Wextra -O3 -ffast-math)
 if (UNIX AND DEBUG)
@@ -47,6 +49,28 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 #    message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
 #            "(-DCMAKE_PREFIX_PATH=\"path/to/Qt/lib/cmake\" or -DCMAKE_PREFIX_PATH=/usr/include/{host}/qt{version}/ on Ubuntu)")
 #endif (NOT CMAKE_PREFIX_PATH)
+
+if(WIN32)
+	foreach(lib ${REQUIRED_LIBS_QUALIFIED})
+		message(STATUS "Added ${lib}")
+		add_custom_command(
+			TARGET ${PROJECT_NAME} POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different
+			    $<TARGET_FILE:${lib}>
+				$<TARGET_FILE_DIR:${PROJECT_NAME}>
+		)
+    endforeach()
+
+	set(CMAKE_USR_DIR "${Qt${QT_VERSION}_DIR}/../../..")
+	message(STATUS ${CMAKE_USR_DIR}/plugins/platforms/qwindows.dll)
+
+	add_custom_command(
+		TARGET ${PROJECT_NAME} POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_if_different
+		    ${CMAKE_USR_DIR}/plugins/platforms/qwindows.dll
+			$<TARGET_FILE_DIR:${PROJECT_NAME}>/platforms/qwindows.dll
+	)
+endif()
 
 # Resources
 set(shaders_resource_files
