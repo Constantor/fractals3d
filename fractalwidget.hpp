@@ -17,43 +17,43 @@ class FractalWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 Q_OBJECT
 
 public:
-	using QOpenGLWidget::QOpenGLWidget;
+    using QOpenGLWidget::QOpenGLWidget;
 
-	~FractalWidget();
+    ~FractalWidget();
 
 protected:
-	void mousePressEvent(QMouseEvent *e) override;
+    void mousePressEvent(QMouseEvent *e) override;
 
-	void mouseMoveEvent(QMouseEvent *e) override;
+    void mouseMoveEvent(QMouseEvent *e) override;
 
-	void mouseReleaseEvent(QMouseEvent *e) override;
+    void mouseReleaseEvent(QMouseEvent *e) override;
 
-	void timerEvent(QTimerEvent *e) override;
+    void timerEvent(QTimerEvent *e) override;
 
-	void initializeGL() override;
+    void initializeGL() override;
 
-	void resizeGL(int w, int h) override;
+    void resizeGL(int w, int h) override;
 
-	void paintGL() override;
+    void paintGL() override;
 
-	void initShaders();
+    void initShaders();
 
-	void initTextures();
+    void initTextures();
 
 private:
-	// const constexpr static qreal EPS = 1e-6;
+    // const constexpr static qreal EPS = 1e-6;
 
-	bool mousePressed = false;
-	// QBasicTimer timer;
-	QOpenGLShaderProgram program;
-	GeometryEngine *geometries = nullptr;
+    bool mousePressed = false;
+    // QBasicTimer timer;
+    QOpenGLShaderProgram program;
+    GeometryEngine *geometries = nullptr;
 
-	QOpenGLTexture *texture = nullptr;
+    QOpenGLTexture *texture = nullptr;
 
-	QMatrix4x4 projection;
+    QMatrix4x4 projection;
 
-	QVector2D mousePressPosition;
-	QVector3D rotationAxis;
-	qreal rotationDelta = 0;
-	QQuaternion rotation;
+    QVector2D mousePressPosition;
+    QVector3D rotationAxis;
+    qreal rotationDelta = 0;
+    QQuaternion rotation;
 };

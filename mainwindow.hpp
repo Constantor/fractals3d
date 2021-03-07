@@ -9,29 +9,29 @@
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
-	class MainWindow;
+    class MainWindow;
 }
 QT_END_NAMESPACE
 
 QT_FORWARD_DECLARE_CLASS(QOpenGLWidget)
 
 class MainWindow : public QMainWindow {
-	Q_OBJECT
+Q_OBJECT
 
 public:
-	explicit MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
 
-	~MainWindow() override;
+    ~MainWindow() override;
 
 private:
-	Ui::MainWindow *ui;
-	FractalData data;
+    Ui::MainWindow *ui;
+    FractalData data;
 
-	void connectBoxBar();
-	void makeMenu();
+    void connectBoxBar();
+    void makeMenu();
 
-	void readAndDraw();
-	void saveToFile();
-	void loadFromFile();
-	void setValues();
+    void readAndDraw();
+    void saveToFile();
+    void loadFromFile();
+    void setValues();
 };

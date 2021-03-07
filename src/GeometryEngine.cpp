@@ -66,13 +66,6 @@ void GeometryEngine::initCubeGeometry() {
 			{QVector3D(1.0f, 1.0f, -1.0f),   QVector2D(0.66f, 1.0f)}  // v23
 	};
 
-	// Indices for drawing cube faces using triangle strips.
-	// Triangle strips can be connected by duplicating indices
-	// between the strips. If connecting strips have opposite
-	// vertex order then last index of the first strip and first
-	// index of the second strip needs to be duplicated. If
-	// connecting strips have same vertex order then only last
-	// index of the first strip needs to be duplicated.
 	GLushort indices[] = {
 			0, 1, 2, 3, 3,     // Face 0 - triangle strip ( v0,  v1,  v2,  v3)
 			4, 4, 5, 6, 7, 7, // Face 1 - triangle strip ( v4,  v5,  v6,  v7)
