@@ -95,22 +95,22 @@ void MainWindow::saveToFile() {
 	}
 }
 
+void MainWindow::saveToImage() {
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Image"), "", tr("Portable Network Graphics (*.png);;All Files (*)"));
+    if(!fileName.isEmpty()) {
+        QFileInfo fileInfo(fileName);
+        if(fileInfo.exists() && !fileInfo.isWritable()) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                                     "Can't save to " + fileInfo.fileName());
+            return;
+        }
+        ui->fractalWidget->grabFramebuffer().save(fileName);
+    }
+}
 
 void MainWindow::setValues() {
 	ui->firstCoordBox->setValue(data.a);
 	ui->secondCoordBox->setValue(data.b);
 	ui->thirdCoordBox->setValue(data.c);
 	ui->powerBox->setValue(data.n);
-}
-void MainWindow::saveToImage() {
-	QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Image"), "", tr("Portable Network Graphics (*.png);;All Files (*)"));
-	if(!fileName.isEmpty()) {
-		QFileInfo fileInfo(fileName);
-		if(!fileInfo.isWritable()) {
-			QMessageBox::information(this, tr("Unable to open file"),
-									 "Can't save to " + fileInfo.fileName());
-			return;
-		}
-		ui->fractalWidget->grab().save(fileName);
-	}
 }
