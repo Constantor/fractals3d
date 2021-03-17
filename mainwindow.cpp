@@ -32,7 +32,7 @@ void MainWindow::makeMenu() {
 
 	fileMenu->addAction("Load", [&]() { loadFromFile(); });
 	fileMenu->addAction("Save", [&]() { saveToFile(); });
-	fileMenu->addAction("Save as PNG", [&]() { saveToImage(); });
+	fileMenu->addAction("Save as Image", [&]() { saveToImage(); });
 	fileMenu->addAction("Save as MPEG", [&]() {});
 
 	menuBar()->addAction("Exit", [&]() { QApplication::quit(); });
@@ -96,7 +96,7 @@ void MainWindow::saveToFile() {
 }
 
 void MainWindow::saveToImage() {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Image"), "", tr("Portable Network Graphics (*.png);;All Files (*)"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Image"), "", tr("Image Files(*.png *.jpg *.jpeg *.bmp);;All Files (*)"));
     if(!fileName.isEmpty()) {
         QFileInfo fileInfo(fileName);
         if(fileInfo.exists() && !fileInfo.isWritable()) {
