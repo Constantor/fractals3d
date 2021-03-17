@@ -81,7 +81,7 @@ void MainWindow::saveToFile() {
 		QFile file(fileName);
 
 		if(!file.open(QIODevice::WriteOnly)) {
-			QMessageBox::information(this, tr("Unable to open file"),
+			QMessageBox::information(this, tr("Unable to save the file"),
 									 file.errorString());
 			return;
 		}
@@ -105,6 +105,12 @@ void MainWindow::setValues() {
 void MainWindow::saveToImage() {
 	QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Image"), "", tr("Portable Network Graphics (*.png);;All Files (*)"));
 	if(!fileName.isEmpty()) {
+		QFileInfo fileInfo(fileName);
+		if(!fileInfo.isWritable()) {
+			QMessageBox::information(this, tr("Unable to open file"),
+									 "Can't save to " + fileInfo.fileName());
+			return;
+		}
 		ui->fractalWidget->grab().save(fileName);
 	}
 }
