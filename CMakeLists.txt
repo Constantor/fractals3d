@@ -29,12 +29,12 @@ include_directories(headers)
 
 add_executable(${PROJECT_NAME}
         main.cpp mainwindow.cpp mainwindow.hpp mainwindow.ui fractalwidget.hpp
-        fractalwidget.cpp fractaldata.hpp fractaldata.cpp
+        fractalwidget.cpp headers/fractaldata.hpp src/fractaldata.cpp
         src/GeometryEngine.cpp headers/GeometryEngine.hpp
         src/FractalPoint.cpp headers/FractalPoint.hpp
         src/Complex3D.cpp headers/Complex3D.hpp
         src/Fractal3D.cpp headers/Fractal3D.hpp
-)
+        )
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${REQUIRED_LIBS_QUALIFIED})
@@ -52,7 +52,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 set(shaders_resource_files
         "fshader.glsl"
         "vshader.glsl"
-)
+        )
 
 qt6_add_resources(fractals3d "shaders" PREFIX "/" FILES ${shaders_resource_files})
 set(textures_resource_files "cube.png")
@@ -64,4 +64,4 @@ install(TARGETS fractals3d
         RUNTIME DESTINATION "${INSTALL_DIR}"
         BUNDLE DESTINATION "${INSTALL_DIR}"
         LIBRARY DESTINATION "${INSTALL_DIR}"
-)
+        )
