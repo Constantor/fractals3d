@@ -96,16 +96,16 @@ void MainWindow::saveToFile() {
 }
 
 void MainWindow::saveToImage() {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Image"), "", tr("Image Files(*.png *.jpg *.jpeg *.bmp);;All Files (*)"));
-    if(!fileName.isEmpty()) {
-        QFileInfo fileInfo(fileName);
-        if(fileInfo.exists() && !fileInfo.isWritable()) {
-            QMessageBox::information(this, tr("Unable to open file"),
-                                     "Can't save to " + fileInfo.fileName());
-            return;
-        }
-        ui->fractalWidget->grabFramebuffer().save(fileName);
-    }
+	QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Image"), "", tr("Image Files(*.png *.jpg *.jpeg *.bmp);;All Files (*)"));
+	if(!fileName.isEmpty()) {
+		QFileInfo fileInfo(fileName);
+		if(fileInfo.exists() && !fileInfo.isWritable()) {
+			QMessageBox::information(this, tr("Unable to open file"),
+									 "Can't save to " + fileInfo.fileName());
+			return;
+		}
+		ui->fractalWidget->grabFramebuffer().save(fileName);
+	}
 }
 
 void MainWindow::setValues() {
