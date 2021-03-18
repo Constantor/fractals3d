@@ -40,11 +40,11 @@ protected:
 
 private:
     // const constexpr static qreal EPS = 1e-6;
-    const constexpr static int frequency = 20; // in msec (50 FPS now)
+    const constexpr static int frequency = 800; // in msec (50 FPS now)
 
     bool mousePressed = false;
     QBasicTimer timer{};
-    // bool actedInPeriod = false;
+    bool actedInPeriod = false;
     QOpenGLShaderProgram program;
     GeometryEngine *geometries = nullptr;
 
