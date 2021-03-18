@@ -91,6 +91,7 @@ void FractalWidget::initShaders() {
 }
 
 void FractalWidget::initTextures() {
+	/*
     // Load cube.png image
     texture = new QOpenGLTexture(QImage(":/cube.png").mirrored());
 
@@ -103,6 +104,7 @@ void FractalWidget::initTextures() {
     // Wrap texture coordinates by repeating
     // f.ex. texture coordinate (1.1, 1.2) is same as (0.1, 0.2)
     texture->setWrapMode(QOpenGLTexture::Repeat);
+    */
 }
 
 void FractalWidget::resizeGL(int w, int h) {
@@ -123,18 +125,18 @@ void FractalWidget::paintGL() {
     // Clear color and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    texture->bind();
+    // texture->bind();
 
     // Calculate model view transformation
     QMatrix4x4 matrix;
-    matrix.translate(0.0, 0.0, -5.0);
+    matrix.translate(0.0, 0.0, 0.0);
     matrix.rotate(rotation);
 
     // Set modelview-projection matrix
     program.setUniformValue("mvp_matrix", projection * matrix);
 
     // Use texture unit 0 which contains cube.png
-    program.setUniformValue("texture", 0);
+    // program.setUniformValue("texture", 0);
 
     // Draw cube geometry
     geometries->drawCubeGeometry(&program);
