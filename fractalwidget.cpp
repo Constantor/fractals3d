@@ -46,7 +46,7 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
 }
 
 void FractalWidget::timerEvent(QTimerEvent *) {
-	actedInPeriod = false;
+	// actedInPeriod = false;
 }
 
 void FractalWidget::initializeGL() {
@@ -67,7 +67,7 @@ void FractalWidget::initializeGL() {
 	geometries = new GeometryEngine;
 
 	// Use QBasicTimer because its faster than QTimer
-	timer.start(FPSinverse, this);
+	timer.start(frequency, this);
 }
 
 void FractalWidget::initShaders() {

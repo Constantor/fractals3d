@@ -40,7 +40,7 @@ protected:
 
 private:
     // const constexpr static qreal EPS = 1e-6;
-    // const constexpr static int FPSinverse = 20; // in msec (50 FPS now)
+    const constexpr static int frequency = 20; // in msec (50 FPS now)
 
     bool mousePressed = false;
     QBasicTimer timer{};
