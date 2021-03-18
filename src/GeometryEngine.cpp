@@ -16,7 +16,7 @@ GeometryEngine::GeometryEngine()
 	indexBuf.create();
 
 	// Initializes cube geometry and transfers it to VBOs
-	initCubeGeometry();
+	initGeometry();
 }
 
 GeometryEngine::~GeometryEngine() {
@@ -24,7 +24,7 @@ GeometryEngine::~GeometryEngine() {
 	indexBuf.destroy();
 }
 
-void GeometryEngine::initCubeGeometry() {
+void GeometryEngine::initGeometry() {
 	// For cube we would need only 8 vertices but we have to
 	// duplicate vertex for each face because texture coordinate
 	// is different.
@@ -84,7 +84,7 @@ void GeometryEngine::initCubeGeometry() {
 	indexBuf.allocate(indices, 34 * sizeof(GLushort));
 }
 
-void GeometryEngine::drawCubeGeometry(QOpenGLShaderProgram *program) {
+void GeometryEngine::drawGeometry(QOpenGLShaderProgram *program) {
 	// Tell OpenGL which VBOs to use
 	arrayBuf.bind();
 	indexBuf.bind();
