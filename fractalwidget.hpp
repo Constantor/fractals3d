@@ -38,8 +38,6 @@ protected:
 
     void initShaders();
 
-    void initTextures();
-
 private:
     // const constexpr static qreal EPS = 1e-6;
 
@@ -47,8 +45,6 @@ private:
     // QBasicTimer timer;
     QOpenGLShaderProgram program;
     GeometryEngine *geometries = nullptr;
-
-    QOpenGLTexture *texture = nullptr;
 
     QMatrix4x4 projection;
 

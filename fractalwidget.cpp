@@ -8,7 +8,6 @@ FractalWidget::~FractalWidget() {
     // Make sure the context is current when deleting the texture
     // and the buffers.
     makeCurrent();
-    delete texture;
     delete geometries;
     doneCurrent();
 }
@@ -58,7 +57,6 @@ void FractalWidget::initializeGL() {
     glClearColor(0, 0, 0, 1);
 
     initShaders();
-    initTextures();
 
     // Enable depth buffer
     glEnable(GL_DEPTH_TEST);
@@ -90,23 +88,6 @@ void FractalWidget::initShaders() {
         close();
 }
 
-void FractalWidget::initTextures() {
-	/*
-    // Load cube.png image
-    texture = new QOpenGLTexture(QImage(":/cube.png").mirrored());
-
-    // Set nearest filtering mode for texture minification
-    texture->setMinificationFilter(QOpenGLTexture::Nearest);
-
-    // Set bilinear filtering mode for texture magnification
-    texture->setMagnificationFilter(QOpenGLTexture::Linear);
-
-    // Wrap texture coordinates by repeating
-    // f.ex. texture coordinate (1.1, 1.2) is same as (0.1, 0.2)
-    texture->setWrapMode(QOpenGLTexture::Repeat);
-    */
-}
-
 void FractalWidget::resizeGL(int w, int h) {
     // Calculate aspect ratio
     qreal aspect = qreal(w) / qreal(h ? h : 1);
@@ -125,8 +106,6 @@ void FractalWidget::paintGL() {
     // Clear color and depth buffer
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    // texture->bind();
-
     // Calculate model view transformation
     QMatrix4x4 matrix;
     matrix.translate(0.0, 0.0, 0.0);
@@ -134,9 +113,6 @@ void FractalWidget::paintGL() {
 
     // Set modelview-projection matrix
     program.setUniformValue("mvp_matrix", projection * matrix);
-
-    // Use texture unit 0 which contains cube.png
-    // program.setUniformValue("texture", 0);
 
     // Draw cube geometry
     geometries->drawCubeGeometry(&program);
