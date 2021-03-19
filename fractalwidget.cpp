@@ -96,7 +96,7 @@ void FractalWidget::resizeGL(int w, int h) {
 	qreal aspect = qreal(w) / qreal(h ? h : 1);
 
 	// Set near plane to 3.0, far plane to 7.0, field of view 45 degrees
-	const qreal zNear = 4.0, zFar = 8.0, fov = 45.0;
+	const qreal zNear = 4.0, zFar = 8.0, fov = 10.0;
 
 	// Reset projection
 	projection.setToIdentity();
@@ -111,7 +111,7 @@ void FractalWidget::paintGL() {
 
 	// Calculate model view transformation
 	QMatrix4x4 matrix;
-	// matrix.translate(0.0, 0.0, -5.0);
+	matrix.translate(0.0, 0.0, -5.0);
 	matrix.rotate(rotation);
 
 	// Set modelview-projection matrix

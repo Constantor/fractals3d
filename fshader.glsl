@@ -279,8 +279,8 @@ void main()
 
     for (int i = 0; i < marchingIterations; ++i)
     {
-        float sdf = sdfJulia(vec4(rayPosition, 0.0), juliaType);
-        // float sdf = sdfMandelbrot(vec4(rayPosition, 0.0), criticalPoint);
+        // float sdf = sdfJulia(vec4(rayPosition, 0.0), juliaType);
+        float sdf = sdfMandelbrot(vec4(rayPosition, 0.0), criticalPoint);
         rayPosition += sdf * rayDirection;
         if (abs(sdf) < convergenceCriteria)
         {
