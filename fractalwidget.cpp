@@ -36,13 +36,14 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
 
 	// Calculate new rotation axis as weighted sum
 	rotationAxis = (n * rotationDelta).normalized();
+	// rotationAxis = {rotationDelta, 0, 0}; // play here
 
 	if(rotationDelta != 0) {
 		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
-		if(!actedInPeriod) {
-			update();
-			actedInPeriod = true;
-		}
+		//if(!actedInPeriod) {
+		update();
+		//	actedInPeriod = true;
+		//}
 		mousePressPosition = QVector2D(e->position());
 		rotationDelta = 0;
 	}

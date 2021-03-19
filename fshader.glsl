@@ -271,7 +271,7 @@ void main()
     // why this does not work?
     // vec3 rayDirection = normalize((inverse(uViewMatrix) * inverse(uProjectionMatrix) * vec4(vec3(fragCoord, 1.0), 0.0)).xyz);
 
-    vec3 rayDirection = normalize((inverse(mat3(uViewMatrix)) * inverse(mat3(mvp_matrix)) * vec3(fragCoord, 1.0)).xyz);
+    vec3 rayDirection = normalize((inverse(mvp_matrix) * vec4(fragCoord, 1.0, 1.0)).xyz);
     vec3 rayPosition = uCameraPosition;
 
     vec4 juliaType = 0.45 * cos(vec4(0.5, 3.9, 1.4, 1.1) + uElapsedSeconds * 0.15 * vec4(1.2, 1.7, 1.3, 2.5)) - vec4(0.3, 0.0, 0.0, 0.0);
