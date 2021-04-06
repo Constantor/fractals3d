@@ -26,7 +26,7 @@ public:
 
 private:
 	Ui::MainWindow *ui;
-	RecordDialog* rd;
+	RecordDialog* rd{};
 	FractalData data;
 
 	void connectBoxBar();

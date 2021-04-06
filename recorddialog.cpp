@@ -41,4 +41,19 @@ void RecordDialog::shot() {
 void RecordDialog::stopRecord() {
 	timer->stop();
 	ui->stopButton->setEnabled(false);
+	saveVideo();
+	this->close();
+}
+
+void RecordDialog::saveVideo() {
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Video"), "", tr("Video Files(*.mp4 *.avi);;All Files (*)"));
+    if(!fileName.isEmpty()) {
+        QFileInfo fileInfo(fileName);
+        if(fileInfo.exists() && !fileInfo.isWritable()) {
+            QMessageBox::information(this, tr("Unable to open file"),
+                                     "Can't save to " + fileInfo.fileName());
+            return;
+        }
+       //TODO: start ffmpeg passing filename to exec(), it will perform writing
+    }
 }

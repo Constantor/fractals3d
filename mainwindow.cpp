@@ -33,7 +33,7 @@ void MainWindow::makeMenu() {
 	fileMenu->addAction("Load", [&]() { loadFromFile(); });
 	fileMenu->addAction("Save", [&]() { saveToFile(); });
 	fileMenu->addAction("Save as Image", [&]() { saveToImage(); });
-	fileMenu->addAction("Save as MPEG", [&]() { recordVideo(); });
+	fileMenu->addAction("Save as Video", [&]() { recordVideo(); });
 
 	menuBar()->addAction("Exit", [&]() { QApplication::quit(); });
 	menuBar()->addMenu("About");

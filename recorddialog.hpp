@@ -5,6 +5,8 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QElapsedTimer>
+#include <QFileDialog>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -31,4 +33,5 @@ private:
 	void startRecord();
 	void shot();
 	void stopRecord();
+	void saveVideo();
 };
