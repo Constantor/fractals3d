@@ -17,12 +17,15 @@ RecordDialog::RecordDialog(QWidget *parent) : QDialog(parent), ui(new Ui::Record
 
 RecordDialog::~RecordDialog() {
 	delete ui;
+	delete timer;
+	delete elapsedTimer;
+	delete temporaryDir;
 }
 
 void RecordDialog::startRecord() {
 	ui->stopButton->setEnabled(true);
 	ui->startButton->setEnabled(false);
-	//TODO: create temporary directory with unexisting name
+	temporaryDir = new QTemporaryDir;
 	timer = new QTimer(this);
 	connect(timer, &QTimer::timeout, [&]() { shot(); });
 	elapsedTimer->start();
@@ -30,8 +33,8 @@ void RecordDialog::startRecord() {
 }
 
 void RecordDialog::shot() {
-	//TODO: take a screenshot and write it to created dir
 	qint64 time = elapsedTimer->elapsed();
+    //TODO: take a screenshot and write it to QFile(temporaryDir->filePath(QString::number(time)+".png"));
 	ui->recordLabel->setText("Recording: " + timeFormat(time));
 	if(time >= LIMIT) {
 		stopRecord();
@@ -54,6 +57,6 @@ void RecordDialog::saveVideo() {
                                      "Can't save to " + fileInfo.fileName());
             return;
         }
-       //TODO: start ffmpeg passing filename to exec(), it will perform writing
+       //TODO: start ffmpeg passing fileName and temporaryDir->path() to exec(), it will perform writing
     }
 }

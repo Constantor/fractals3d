@@ -6,6 +6,7 @@
 #include <QTimer>
 #include <QElapsedTimer>
 #include <QFileDialog>
+#include <QTemporaryDir>
 #include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
@@ -28,7 +29,8 @@ public:
 private:
     Ui::RecordDialog *ui;
 	QElapsedTimer* elapsedTimer;
-	QTimer* timer;
+	QTimer* timer{};
+	QTemporaryDir* temporaryDir{};
 
 	void startRecord();
 	void shot();
