@@ -2,6 +2,7 @@
 
 #include "fractaldata.hpp"
 #include "fractalwidget.hpp"
+#include "recorddialog.hpp"
 #include <QDoubleSpinBox>
 #include <QMainWindow>
 #include <QScrollBar>
@@ -25,6 +26,7 @@ public:
 
 private:
 	Ui::MainWindow *ui;
+	RecordDialog* rd;
 	FractalData data;
 
 	void connectBoxBar();
@@ -35,4 +37,5 @@ private:
 	void saveToImage();
 	void loadFromFile();
 	void setValues();
+	void recordVideo();
 };

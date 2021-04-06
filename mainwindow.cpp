@@ -33,7 +33,7 @@ void MainWindow::makeMenu() {
 	fileMenu->addAction("Load", [&]() { loadFromFile(); });
 	fileMenu->addAction("Save", [&]() { saveToFile(); });
 	fileMenu->addAction("Save as Image", [&]() { saveToImage(); });
-	fileMenu->addAction("Save as MPEG", [&]() {});
+	fileMenu->addAction("Save as MPEG", [&]() { recordVideo(); });
 
 	menuBar()->addAction("Exit", [&]() { QApplication::quit(); });
 	menuBar()->addMenu("About");
@@ -113,4 +113,8 @@ void MainWindow::setValues() {
 	ui->secondCoordBox->setValue(data.b);
 	ui->thirdCoordBox->setValue(data.c);
 	ui->powerBox->setValue(data.n);
+}
+void MainWindow::recordVideo() {
+	rd = new RecordDialog(this);
+	rd->show();
 }
