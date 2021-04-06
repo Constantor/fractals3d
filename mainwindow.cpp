@@ -114,6 +114,7 @@ void MainWindow::setValues() {
 	ui->thirdCoordBox->setValue(data.c);
 	ui->powerBox->setValue(data.n);
 }
+
 void MainWindow::recordVideo() {
 	rd = new RecordDialog(this);
 	rd->show();
