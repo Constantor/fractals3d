@@ -134,6 +134,7 @@ void FractalWidget::paintGL() {
     program.setUniformValue("mvp_matrix", projection * matrix);
 
     program.setUniformValue("POWER", (GLint) fd->n);
+	program.setUniformValue("Resolution", QVector2D(this->height(), this->width()));
     program.setUniformValue("CriticalPointX", (GLfloat) fd->a);
     program.setUniformValue("CriticalPointY", (GLfloat) fd->b);
     program.setUniformValue("CriticalPointZ", (GLfloat) fd->c);
