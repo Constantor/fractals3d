@@ -37,8 +37,8 @@ void MainWindow::makeMenu() {
 	fileMenu->addAction("Save", [&]() { saveToFile(); });
 	fileMenu->addAction("Save as Image", [&]() { saveToImage(); });
 	fileMenu->addAction("Save as Video", [&]() { recordVideo(); });
+	fileMenu->addAction("Exit", [&]() { QApplication::quit(); });
 
-	menuBar()->addAction("Exit", [&]() { QApplication::quit(); });
 	menuBar()->addMenu("About");
 }
 
