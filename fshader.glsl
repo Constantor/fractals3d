@@ -8,7 +8,7 @@ precision mediump float;
 
 uniform mat4 mvp_matrix;
 uniform vec2 Resolution = vec2(600, 600); //размеры окна
-uniform float RADIUS = 2.0; //радиус сходимости, если хочешь
+uniform float RADIUS = 2.5; //радиус сходимости, если хочешь
 uniform int POWER = 2; //степень
 uniform float CriticalPointX; //координаты точки
 uniform float CriticalPointY;
@@ -73,13 +73,13 @@ QDual qdPow(QDual qd, int n)
     return p;
 }
 
-float mandelbulb(vec4 point) {
+float flowerFractal(vec4 point, vec4 CriticalPoint) {
     vec4 z = point;
     float dr = 1.0;
     float r = 0.0;
     for (int i = 0; i < MANDEL_ITER; ++i) {
         r = length(z);
-        if (r > 2.0) break;
+        if (r > RADIUS) break;
 
         float theta = acos(z.z / r);
         float phi = atan(z.y, z.x);
@@ -94,7 +94,7 @@ float mandelbulb(vec4 point) {
         sin(phi) * sin(theta),
         cos(theta),
         1.0);
-        z += point;
+        z += CriticalPoint;
     }
     return 0.5 * log(r) * r / dr;
 }
@@ -113,8 +113,8 @@ float mandelbrot(vec4 c, vec4 z)
 }
 
 float GetDist(vec3 point, vec3 CriticalPoint) {
-   float mandelDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
-    //float mandelDist = mandelbulb(vec4(point, 0.0));
+    //float mandelDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+    float mandelDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
     return mandelDist;
 }
 
@@ -142,7 +142,7 @@ out vec4 FragColor;
 void main() {
     vec2 FragCoord = linmap(gl_FragCoord.xy, vec2(0, 0), Resolution, vec2(-1, -1), vec2(1, 1));
     vec3 Color = vec3(0);
-    vec3 CameraPosition = vec3(0, 0, 2);
+    vec3 CameraPosition = vec3(0, 0, 3);
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);
     vec3 RayDirection = normalize((inverse(mvp_matrix) * vec4(FragCoord, 1.0, 1.0)).xyz);
 
