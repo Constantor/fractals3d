@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 MainWindow::~MainWindow() {
 	delete ui;
 }
+
 void MainWindow::makeMenu() {
 	auto fileMenu = menuBar()->addMenu("File");
 
@@ -121,5 +122,4 @@ void MainWindow::setValues() {
 void MainWindow::recordVideo() {
 	rd = new RecordDialog(this);
 	rd->show();
-}
 }

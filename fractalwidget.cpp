@@ -142,7 +142,7 @@ void FractalWidget::paintGL() {
     program.setUniformValue("texture", 0);
 
     // Draw cube geometry
-    geometries->drawCubeGeometry(&program);
+    geometries->drawGeometry(&program);
 }
 
 void FractalWidget::setFractalData(FractalData *fractalData) {
