@@ -1,25 +1,28 @@
 #pragma once
 
 #include "GeometryEngine.hpp"
+#include "fractaldata.hpp"
 
-#include <QOpenGLWidget>
-#include <QOpenGLFunctions>
-#include <QMatrix4x4>
-#include <QQuaternion>
-#include <QVector2D>
 #include <QBasicTimer>
+#include <QMatrix4x4>
+#include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
+#include <QOpenGLWidget>
+#include <QQuaternion>
+#include <QVector2D>
 
 class GeometryEngine;
 
 class FractalWidget : public QOpenGLWidget, protected QOpenGLFunctions {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     using QOpenGLWidget::QOpenGLWidget;
 
     ~FractalWidget();
+
+    void setFractalData(FractalData *fractalData);
 
 protected:
     void mousePressEvent(QMouseEvent *e) override;
@@ -38,15 +41,18 @@ protected:
 
     void initShaders();
 
+    void initTextures();
+
 private:
     // const constexpr static qreal EPS = 1e-6;
-    const constexpr static int frequency = 900; // inverse FPS in msec
 
     bool mousePressed = false;
-    QBasicTimer timer{};
-    bool actedInPeriod = false;
+    // QBasicTimer timer;
     QOpenGLShaderProgram program;
+    FractalData *fd;
     GeometryEngine *geometries = nullptr;
+
+    QOpenGLTexture *texture = nullptr;
 
     QMatrix4x4 projection;
 

@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	connectBoxBar();
 	connect(ui->drawButton, &QPushButton::clicked, [&]() { readAndDraw(); });
+	ui->fractalWidget->setFractalData(&data);
+	readAndDraw();
 	makeMenu();
 }
 
@@ -52,6 +54,7 @@ void MainWindow::connectBoxBar() {
 
 void MainWindow::readAndDraw() {
 	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value());
+	ui->fractalWidget->repaint();
 }
 
 void MainWindow::loadFromFile() {
@@ -118,4 +121,5 @@ void MainWindow::setValues() {
 void MainWindow::recordVideo() {
 	rd = new RecordDialog(this);
 	rd->show();
+}
 }
