@@ -7,12 +7,12 @@ precision mediump float;
 #endif
 
 uniform mat4 mvp_matrix;
-uniform int POWER = 2; //степень
 uniform vec2 Resolution = vec2(600, 600); //размеры окна
 uniform float RADIUS = 2.0; //радиус сходимости, если хочешь
-uniform float CriticalPointX = 0.0; //координаты точки
-uniform float CriticalPointY = 0.0;
-uniform float CriticalPointZ = 0.0;
+uniform int POWER = 2; //степень
+uniform float CriticalPointX; //координаты точки
+uniform float CriticalPointY;
+uniform float CriticalPointZ;
 
 #define MAX_STEPS 255
 #define MAX_DIST 1000.0
@@ -113,7 +113,7 @@ float mandelbrot(vec4 c, vec4 z)
 }
 
 float GetDist(vec3 point, vec3 CriticalPoint) {
-    float mandelDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+   float mandelDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
     //float mandelDist = mandelbulb(vec4(point, 0.0));
     return mandelDist;
 }
