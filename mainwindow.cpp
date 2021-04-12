@@ -17,7 +17,7 @@ namespace {
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
-
+    ui->recordWidget->close();
 	connectBoxBar();
 	connect(ui->drawButton, &QPushButton::clicked, [&]() { readAndDraw(); });
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { clickAction(); });
@@ -123,6 +123,8 @@ void MainWindow::setValues() {
 }
 
 void MainWindow::recordVideo() {
+    ui->recordLabel->setText("Recording is not started.");
+    ui->recordProgressBar->setValue(0);
 	ui->recordWidget->show();
 }
 
