@@ -1,18 +1,17 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
-#include <QDoubleSpinBox>
-#include <QFileDialog>
-#include <QJsonDocument>
-#include <QMessageBox>
-#include <QSlider>
-
 namespace {
 	int getValFromBox(QDoubleSpinBox *box, QSlider *bar) {
 		return (bar->maximum() - bar->minimum()) * (box->value() - box->minimum()) / (box->maximum() - box->minimum());
 	}
+
 	double getValFromBar(QDoubleSpinBox *box, QSlider *bar) {
 		return box->minimum() + (box->maximum() - box->minimum()) * (bar->value() - bar->minimum()) / (bar->maximum() - bar->minimum());
+	}
+
+	QString timeFormat(qint64 time) {
+		return QString::number(time / 1000) + " s " + QString::number(time % 1000) + " ms";
 	}
 }// namespace
 
@@ -21,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 	connectBoxBar();
 	connect(ui->drawButton, &QPushButton::clicked, [&]() { readAndDraw(); });
+	connect(ui->recordButton, &QPushButton::clicked, [&]() { clickAction(); });
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
@@ -28,6 +28,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 MainWindow::~MainWindow() {
 	delete ui;
+	delete timer;
+	delete elapsedTimer;
+	delete temporaryDir;
 }
 
 void MainWindow::makeMenu() {
@@ -120,6 +123,53 @@ void MainWindow::setValues() {
 }
 
 void MainWindow::recordVideo() {
-	rd = new RecordDialog(this);
-	rd->show();
+	ui->recordWidget->show();
+}
+
+void MainWindow::startRecord() {
+	isOnRecord = true;
+	temporaryDir = new QTemporaryDir;
+	timer = new QTimer(this);
+	elapsedTimer = new QElapsedTimer;
+	connect(timer, &QTimer::timeout, [&]() { shot(); });
+	elapsedTimer->start();
+	timer->start(INTERVAL);
+}
+
+void MainWindow::shot() {
+	qint64 time = elapsedTimer->elapsed();
+	//TODO: take a screenshot and write it to QFile(temporaryDir->filePath(QString::number(time)+".png"));
+	ui->recordLabel->setText("Recording: " + timeFormat(time));
+	ui->recordProgressBar->setValue(100 * time / LIMIT);
+	if(time >= LIMIT) {
+		stopRecord();
+	}
+}
+
+void MainWindow::stopRecord() {
+	timer->stop();
+	isOnRecord = false;
+	saveVideo();
+	ui->recordWidget->close();
+}
+
+void MainWindow::saveVideo() {
+	QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Video"), "", tr("Video Files(*.mp4 *.avi);;All Files (*)"));
+	if(!fileName.isEmpty()) {
+		QFileInfo fileInfo(fileName);
+		if(fileInfo.exists() && !fileInfo.isWritable()) {
+			QMessageBox::information(this, tr("Unable to open file"),
+									 "Can't save to " + fileInfo.fileName());
+			return;
+		}
+		//TODO: start ffmpeg passing fileName and temporaryDir->path() to exec(), it will perform writing
+	}
+}
+
+void MainWindow::clickAction() {
+	if(isOnRecord) {
+		stopRecord();
+	} else {
+		startRecord();
+	}
 }

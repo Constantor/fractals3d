@@ -33,8 +33,7 @@ add_executable(${PROJECT_NAME}
         src/GeometryEngine.cpp headers/GeometryEngine.hpp
         src/FractalPoint.cpp headers/FractalPoint.hpp
         src/Complex3D.cpp headers/Complex3D.hpp
-        src/Fractal3D.cpp headers/Fractal3D.hpp
-        recorddialog.cpp recorddialog.hpp)
+        src/Fractal3D.cpp headers/Fractal3D.hpp)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${REQUIRED_LIBS_QUALIFIED})
