@@ -140,14 +140,22 @@ vec2 linmap(vec2 point, vec2 leftCorner, vec2 rightCorner, vec2 newLeftCorner, v
 out vec4 FragColor;
 
 void main() {
-    vec2 FragCoord = linmap(gl_FragCoord.xy, vec2(0, 0), Resolution, vec2(-1, -1), vec2(1, 1));
+    vec3 Ambience = vec3(0.7, 0.5, 0.7);
+    float MinY = -1.0;
+    float MaxY = 1.0;
+    float MinX = -Resolution.x/Resolution.y;
+    float MaxX = Resolution.x/Resolution.y;
+    vec2 FragCoord = linmap(gl_FragCoord.xy, vec2(0, 0), Resolution, vec2(MinX, MinY), vec2(MaxX, MaxY));
     vec3 Color = vec3(0);
-    vec3 CameraPosition = vec3(0, 0, 3);
+    vec3 CameraPosition = vec3(0, 0, 1.5);
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);
     vec3 RayDirection = normalize((inverse(mvp_matrix) * vec4(FragCoord, 1.0, 1.0)).xyz);
 
     float distance = RayMarch(CameraPosition, RayDirection, CriticalPoint);
     Color = vec3(distance);
-    vec3 result = vec3(Color / 6.0);
+    vec3 result = vec3(Color / 3.0);
+    if (Color.x > 0.97 && Color.y > 0.97 && Color.z > 0.97) {
+        result = Ambience;
+    }
     FragColor = vec4(result, 1.0);
 }
