@@ -13,6 +13,12 @@ FractalWidget::~FractalWidget() {
     doneCurrent();
 }
 
+void FractalWidget::wheelEvent(QWheelEvent *e) {
+	QPoint numPixels = e->pixelDelta();
+	QPoint numDegrees = e->angleDelta();
+	e->accept();
+}
+
 void FractalWidget::mousePressEvent(QMouseEvent *e) {
     // Save mouse press position
     mousePressPosition = QVector2D(e->position());
