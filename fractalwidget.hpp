@@ -25,6 +25,8 @@ public:
     void setFractalData(FractalData *fractalData);
 
 protected:
+	void wheelEvent(QWheelEvent *e) override;
+
     void mousePressEvent(QMouseEvent *e) override;
 
     void mouseMoveEvent(QMouseEvent *e) override;
