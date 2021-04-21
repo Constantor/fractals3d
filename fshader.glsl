@@ -13,6 +13,7 @@ uniform int POWER = 2; //степень
 uniform float CriticalPointX; //координаты точки
 uniform float CriticalPointY;
 uniform float CriticalPointZ;
+uniform vec3 CameraPosition;
 
 #define MAX_STEPS 255
 #define MAX_DIST 1000.0
@@ -147,7 +148,6 @@ void main() {
     float MaxX = Resolution.x/Resolution.y;
     vec2 FragCoord = linmap(gl_FragCoord.xy, vec2(0, 0), Resolution, vec2(MinX, MinY), vec2(MaxX, MaxY));
     vec3 Color = vec3(0);
-    vec3 CameraPosition = vec3(0, 0, 1.5);
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);
     vec3 RayDirection = normalize((inverse(mvp_matrix) * vec4(FragCoord, 1.0, 1.0)).xyz);
 

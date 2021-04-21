@@ -57,7 +57,7 @@ private:
     QOpenGLTexture *texture = nullptr;
 
     QMatrix4x4 projection;
-
+    QVector3D camera = QVector3D(0.0, 0.0, 1.5);
     QVector2D mousePressPosition;
     QVector3D rotationAxis;
     qreal rotationDelta = 0;
