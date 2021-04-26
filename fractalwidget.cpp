@@ -41,7 +41,7 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
     // vector
     QVector3D n = QVector3D(0, diff.x(), 0.0).normalized();
     float alpha = 0.5 * (diff.x() * M_PI / 360.0);
-    rotationDelta = diffX / 4;
+    rotationDelta = diff.length() / 4;
 	//короче есть окружность в x-z кордах, которая x^2+z^2=2.25
     //есть изначально x = 0, z = 1.5
 	camera = QVector3D(camera.x() * cos(alpha) - camera.z() * sin(alpha), 0.0, camera.x() * sin(alpha) + camera.z() * cos(alpha));
