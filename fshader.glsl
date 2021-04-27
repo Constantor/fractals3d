@@ -16,9 +16,9 @@ uniform float CriticalPointZ;
 uniform vec3 CameraPosition;
 
 #define MAX_STEPS 255
-#define MAX_DIST 1000.0
+#define MAX_DIST 5000.0
 #define MIN_DIST 0.0001
-#define MANDEL_ITER 100
+#define MANDEL_ITER 50
 
 float sphere(vec3 point, vec3 center, float radius) {
     return length(point - center) - radius;
@@ -74,6 +74,32 @@ QDual qdPow(QDual qd, int n)
     return p;
 }
 
+float psychoFractal(vec4 point, vec4 CriticalPoint) {
+    vec4 z = point;
+    float dr = 1.0;
+    float r = 0.0;
+    for (int i = 0; i < MANDEL_ITER; ++i) {
+        r = length(z);
+        if (r > RADIUS) break;
+
+        float theta = acos(z.z / r);
+        float phi = atan(z.y, z.x);
+        dr = pow(r, POWER - 1.0) * POWER * dr + 1.0;
+
+        float zr = pow(r, POWER);
+        theta = theta * POWER;
+        phi = phi * POWER;
+
+        z = zr * vec4(
+        sin(theta) * cos(phi),
+        sin(phi) * tan(theta),
+        cos(theta),
+        1.0);
+        z += CriticalPoint;
+    }
+    return 0.5 * log(r) * r / dr;
+}
+
 float flowerFractal(vec4 point, vec4 CriticalPoint) {
     vec4 z = point;
     float dr = 1.0;
@@ -100,6 +126,33 @@ float flowerFractal(vec4 point, vec4 CriticalPoint) {
     return 0.5 * log(r) * r / dr;
 }
 
+float anotherFractal(vec4 point, vec4 CriticalPoint) {
+    vec4 z = point;
+    float dr = 1.0;
+    float r = 0.0;
+    for (int i = 0; i < MANDEL_ITER; ++i) {
+        r = length(z);
+        if (r > RADIUS) break;
+
+        float theta = acos(z.z / r);
+        float phi = atan(z.y, z.x);
+        dr = pow(r, POWER - 1.0) * POWER * dr + 1.0;
+
+        float zr = pow(r, POWER);
+        theta = theta * POWER;
+        phi = phi * POWER;
+
+        z = zr * vec4(
+        cos(theta) * cos(phi),
+        sin(phi) * sin(theta),
+        cos(theta),
+        1.0);
+        z += CriticalPoint;
+    }
+    return 0.5 * log(r) * r / dr;
+}
+
+
 float mandelbrot(vec4 c, vec4 z)
 {
     QDual zd = QDual(z, vec4(0.0, vec3(0.0)));
@@ -114,9 +167,12 @@ float mandelbrot(vec4 c, vec4 z)
 }
 
 float GetDist(vec3 point, vec3 CriticalPoint) {
-    //float mandelDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
-    float mandelDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
-    return mandelDist;
+    //mandelbrot
+    //psychoFractal
+    //anotherFractal
+    //flowerFractal
+    float fractalDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+    return fractalDist;
 }
 
 float RayMarch(vec3 CameraPosition, vec3 RayDirection, vec3 CriticalPoint) {
