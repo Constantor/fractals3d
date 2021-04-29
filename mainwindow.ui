@@ -190,13 +190,6 @@
          </property>
         </spacer>
        </item>
-       <item>
-        <widget class="QPushButton" name="drawButton">
-         <property name="text">
-          <string>Draw</string>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
     </item>

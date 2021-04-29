@@ -17,9 +17,8 @@ namespace {
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
-    ui->recordWidget->close();
+	ui->recordWidget->close();
 	connectBoxBar();
-	connect(ui->drawButton, &QPushButton::clicked, [&]() { readAndDraw(); });
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { clickAction(); });
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
@@ -54,6 +53,14 @@ void MainWindow::connectBoxBar() {
 	connect(ui->thirdCoordBar, &QSlider::valueChanged, ui->thirdCoordBox, [&]() { ui->thirdCoordBox->setValue(getValFromBar(ui->thirdCoordBox, ui->thirdCoordBar)); });
 	connect(ui->powerBox, &QSpinBox::valueChanged, ui->powerBar, [&]() { ui->powerBar->setValue(ui->powerBox->value() / 2); });
 	connect(ui->powerBar, &QSlider::valueChanged, ui->powerBox, [&]() { ui->powerBox->setValue(2 * ui->powerBar->value()); });
+	connect(ui->firstCoordBox, &QDoubleSpinBox::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->firstCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->secondCoordBox, &QDoubleSpinBox::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->secondCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->thirdCoordBox, &QDoubleSpinBox::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->thirdCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->powerBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 }
 
 void MainWindow::readAndDraw() {
@@ -79,6 +86,7 @@ void MainWindow::loadFromFile() {
 		file.close();
 
 		setValues();
+		readAndDraw();
 	}
 }
 
@@ -123,8 +131,8 @@ void MainWindow::setValues() {
 }
 
 void MainWindow::recordVideo() {
-    ui->recordLabel->setText("Recording is not started.");
-    ui->recordProgressBar->setValue(0);
+	ui->recordLabel->setText("Recording is not started.");
+	ui->recordProgressBar->setValue(0);
 	ui->recordWidget->show();
 }
 
