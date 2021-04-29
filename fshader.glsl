@@ -14,9 +14,12 @@ uniform float CriticalPointX; //координаты точки
 uniform float CriticalPointY;
 uniform float CriticalPointZ;
 uniform vec3 CameraPosition;
+uniform vec3 Ambience = vec3(0.6, 0.8, 0.8);
+uniform vec3 ColorFractal = vec3(0.6, 0.5, 0.8);
+
 
 #define MAX_STEPS 255
-#define MAX_DIST 5000.0
+#define MAX_DIST 1000.0
 #define MIN_DIST 0.0001
 #define MANDEL_ITER 50
 
@@ -171,7 +174,8 @@ float GetDist(vec3 point, vec3 CriticalPoint) {
     //psychoFractal
     //anotherFractal
     //flowerFractal
-    float fractalDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+    //каждому фракталу константу, заифать все
+    float fractalDist = psychoFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
     return fractalDist;
 }
 
@@ -197,7 +201,6 @@ vec2 linmap(vec2 point, vec2 leftCorner, vec2 rightCorner, vec2 newLeftCorner, v
 out vec4 FragColor;
 
 void main() {
-    vec3 Ambience = vec3(0.8, 0.8, 0.8);
     float MinY = -1.0;
     float MaxY = 1.0;
     float MinX = -Resolution.x / Resolution.y;
@@ -208,7 +211,7 @@ void main() {
     vec3 RayDirection = normalize((inverse(mvp_matrix) * vec4(FragCoord, 1.0, 1.0)).xyz);
 
     float distance = RayMarch(CameraPosition, RayDirection, CriticalPoint);
-    result = vec3(distance * 0.6, distance * distance * 0.5, distance * 0.8);
+    result = vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
     if (distance > 100) {
         result = Ambience;
     }
