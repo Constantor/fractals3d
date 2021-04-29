@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->setupUi(this);
 	ui->recordWidget->close();
 	connectBoxBar();
-	connect(ui->recordButton, &QPushButton::clicked, [&]() { clickAction(); });
+	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
@@ -138,6 +138,7 @@ void MainWindow::recordVideo() {
 
 void MainWindow::startRecord() {
 	isOnRecord = true;
+    ui->recordButton->setText("Stop");
 	temporaryDir = new QTemporaryDir;
 	timer = new QTimer(this);
 	elapsedTimer = new QElapsedTimer;
@@ -176,7 +177,7 @@ void MainWindow::saveVideo() {
 	}
 }
 
-void MainWindow::clickAction() {
+void MainWindow::recordClickAction() {
 	if(isOnRecord) {
 		stopRecord();
 	} else {

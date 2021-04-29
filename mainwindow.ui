@@ -248,7 +248,7 @@
           <item>
            <widget class="QPushButton" name="recordButton">
             <property name="text">
-             <string>Rec</string>
+             <string>Start</string>
             </property>
            </widget>
           </item>

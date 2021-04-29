@@ -57,5 +57,5 @@ private:
 	void shot();
 	void stopRecord();
 	void saveVideo();
-	void clickAction();
+	void recordClickAction();
 };
