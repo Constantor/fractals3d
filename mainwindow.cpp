@@ -143,17 +143,21 @@ void MainWindow::recordVideo() {
 void MainWindow::startRecord() {
 	isOnRecord = true;
 	ui->recordButton->setText("Stop");
+	time = 0, frames = 0;
 	temporaryDir = new QTemporaryDir;
+	recorder = new Recorder(Recorder::Mode::kWaitProcessing);
+	recorder->start();
 	timer = new QTimer(this);
 	elapsedTimer = new QElapsedTimer;
 	connect(timer, &QTimer::timeout, [&]() { shot(); });
 	elapsedTimer->start();
-	timer->start(INTERVAL);
+	timer->start();
 }
 
 void MainWindow::shot() {
-	qint64 time = elapsedTimer->elapsed();
-	//TODO: take a screenshot and write it to QFile(temporaryDir->filePath(QString::number(time)+".png"));
+	time = elapsedTimer->elapsed();
+	recorder->push_back({ui->fractalWidget->grabFramebuffer(), temporaryDir->filePath(QString::number(time) + ".png")});
+	frames++;
 	ui->recordLabel->setText("Recording: " + timeFormat(time));
 	ui->recordProgressBar->setValue(100 * time / LIMIT);
 	if(time >= LIMIT) {
@@ -177,7 +181,10 @@ void MainWindow::saveVideo() {
 									 "Can't save to " + fileInfo.fileName());
 			return;
 		}
-		//TODO: start ffmpeg passing fileName and temporaryDir->path() to exec(), it will perform writing
+		int framerate = frames * 1000 / time;
+		QString command = QString("ffmpeg -framerate %1 -pattern_type glob -i '%2/*.png' -c:v libx264 -r 30 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %3").arg(QString::number(framerate), temporaryDir->path(), fileName);
+		qDebug() << command;
+		std::system(command.toStdString().data());
 	}
 }
 

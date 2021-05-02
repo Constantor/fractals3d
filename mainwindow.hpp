@@ -1,18 +1,19 @@
 #pragma once
 
+#include "Recorder.hpp"
 #include "fractaldata.hpp"
 #include "fractalwidget.hpp"
 #include <QDoubleSpinBox>
+#include <QElapsedTimer>
 #include <QFileDialog>
 #include <QJsonDocument>
-#include <QMessageBox>
-#include <QSlider>
-#include <QElapsedTimer>
 #include <QMainWindow>
+#include <QMessageBox>
+#include <QProgressBar>
 #include <QScrollBar>
+#include <QSlider>
 #include <QTemporaryDir>
 #include <QTimer>
-#include <QProgressBar>
 
 #include <ui_mainwindow.h>
 
@@ -27,7 +28,7 @@ QT_FORWARD_DECLARE_CLASS(QOpenGLWidget)
 class MainWindow : public QMainWindow {
 	Q_OBJECT
 
-	static const qint64 INTERVAL = 40;
+	static const qint64 INTERVAL = 10;
 	static const qint64 LIMIT = 10000;
 
 public:
@@ -38,9 +39,11 @@ public:
 private:
 	Ui::MainWindow *ui;
 	FractalData data;
-	QElapsedTimer *elapsedTimer;
+	QElapsedTimer *elapsedTimer{};
 	QTimer *timer{};
-	QTemporaryDir *temporaryDir{};
+    qint64 time{}, frames{};
+    QTemporaryDir *temporaryDir{};
+	Recorder *recorder{};
 	bool isOnRecord = false;
 
 	void connectBoxBar();
