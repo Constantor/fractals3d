@@ -13,6 +13,10 @@ namespace {
 	QString timeFormat(qint64 time) {
 		return QString::number(time / 1000) + " s " + QString::number(time % 1000) + " ms";
 	}
+
+	void saveImageToFile(const QImage &image, const QString &fileName) {
+		image.save(fileName);
+	}
 }// namespace
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -119,7 +123,7 @@ void MainWindow::saveToImage() {
 									 "Can't save to " + fileInfo.fileName());
 			return;
 		}
-		ui->fractalWidget->grabFramebuffer().save(fileName);
+		saveImageToFile(ui->fractalWidget->grabFramebuffer(), fileName);
 	}
 }
 
@@ -138,7 +142,7 @@ void MainWindow::recordVideo() {
 
 void MainWindow::startRecord() {
 	isOnRecord = true;
-    ui->recordButton->setText("Stop");
+	ui->recordButton->setText("Stop");
 	temporaryDir = new QTemporaryDir;
 	timer = new QTimer(this);
 	elapsedTimer = new QElapsedTimer;
