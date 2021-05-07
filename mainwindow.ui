@@ -6,8 +6,8 @@
 			<rect>
 				<x>0</x>
 				<y>0</y>
-				<width>847</width>
-				<height>614</height>
+				<width>1000</width>
+				<height>700</height>
 			</rect>
 		</property>
 		<property name="windowTitle">
@@ -284,6 +284,47 @@
 							</item>
 							<item>
 								<widget class="QPushButton" name="colorButton">
+									<property name="text">
+										<string>Ambience color</string>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QFrame">
+									<property name="frameShape">
+										<enum>QFrame::HLine</enum>
+									</property>
+									<property name="frameShadow">
+										<enum>QFrame::Sunken</enum>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QLabel" name="ambienceColorHintLabel">
+									<property name="text">
+										<string>Ambience color</string>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QLabel" name="ambienceColorLabel">
+									<property name="text">
+										<string>Color is not chosen</string>
+									</property>
+									<property name="frameStyle">
+										<enum>QFrame::Sunken</enum>
+										<enum>QFrame::Panel</enum>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>0</width>
+											<height>35</height>
+										</size>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QPushButton" name="ambienceColorButton">
 									<property name="text">
 										<string>Choose color</string>
 									</property>

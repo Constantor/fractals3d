@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
 	chooseColor(chosenColor);
+	chooseColor(chosenAmbienceColor, 1);
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
@@ -50,17 +51,33 @@ void MainWindow::makeMenu() {
 	menuBar()->addMenu("About");
 }
 
-void MainWindow::chooseColor(QColor const &color) {
+void MainWindow::chooseColor(QColor const &color, unsigned int whatColor) {
+	QLabel* colorFrame;
+	if(whatColor == 0) {
+		colorFrame = ui->colorLabel;
+	} else if(whatColor == 1) {
+		colorFrame = ui->ambienceColorLabel;
+	}
 	if(color.isValid()) {
-		ui->colorLabel->setText(color.name());
-		ui->colorLabel->setPalette(QPalette(color));
-		ui->colorLabel->setAutoFillBackground(true);
-		chosenColor = color;
+		colorFrame->setText(color.name());
+		colorFrame->setPalette(QPalette(color));
+		colorFrame->setAutoFillBackground(true);
+		if(whatColor == 0) {
+			chosenColor = color;
+		} else if(whatColor == 1) {
+			chosenAmbienceColor = color;
+		}
 	}
 }
 
-void MainWindow::askColor() {
-	chooseColor(QColorDialog::getColor(Qt::green, this, "Select color"));
+void MainWindow::askColor(unsigned int whatColor) {
+	QString title;
+	if(whatColor == 0) {
+		title = "Select fractal color";
+	} else if(whatColor == 1) {
+		title = "Select ambience color";
+	}
+	chooseColor(QColorDialog::getColor(Qt::green, this, title), whatColor);
 }
 
 void MainWindow::connectBoxBar() {
@@ -82,6 +99,7 @@ void MainWindow::connectBoxBar() {
 	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->typeBox, &QComboBox::currentIndexChanged, [&]() { readAndDraw(); });
 	connect(ui->colorButton, &QPushButton::clicked, [&]() { askColor(); });
+	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(); });
 }
 
 void MainWindow::readAndDraw() {

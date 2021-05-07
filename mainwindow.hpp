@@ -46,12 +46,13 @@ private:
 	Recorder *recorder{};
 	bool isOnRecord = false;
 	QColor chosenColor = QColor(55, 255, 55); // default color
+	QColor chosenAmbienceColor = QColor(255, 55, 55); // default ambience color
 
 	void connectBoxBar();
 	void makeMenu();
 
-	void chooseColor(QColor const &color);
-	void askColor();
+	void chooseColor(QColor const &color, unsigned int whatColor = 0);
+	void askColor(unsigned int whatColor = 0);
 
 	void readAndDraw();
 	void saveToFile();
