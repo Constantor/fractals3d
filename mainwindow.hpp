@@ -49,6 +49,7 @@ private:
 	void connectBoxBar();
 	void makeMenu();
 
+	void askColor();
 	void readAndDraw();
 	void saveToFile();
 	void saveToImage();

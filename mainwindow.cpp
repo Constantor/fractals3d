@@ -49,6 +49,15 @@ void MainWindow::makeMenu() {
 	menuBar()->addMenu("About");
 }
 
+void MainWindow::askColor() {
+	const QColor color = QColorDialog::getColor(Qt::green, this, "Select color");
+	if(color.isValid()) {
+		ui->colorLabel->setText(color.name());
+		ui->colorLabel->setPalette(QPalette(color));
+		ui->colorLabel->setAutoFillBackground(true);
+	}
+}
+
 void MainWindow::connectBoxBar() {
 	connect(ui->firstCoordBox, &QDoubleSpinBox::valueChanged, ui->firstCoordBar, [&]() { ui->firstCoordBar->setValue(getValFromBox(ui->firstCoordBox, ui->firstCoordBar)); });
 	connect(ui->firstCoordBar, &QSlider::valueChanged, ui->firstCoordBox, [&]() { ui->firstCoordBox->setValue(getValFromBar(ui->firstCoordBox, ui->firstCoordBar)); });
@@ -66,10 +75,7 @@ void MainWindow::connectBoxBar() {
 	connect(ui->thirdCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
-	connect(ui->colorButton, &QPushButton::clicked, [&]() {
-		const QColor color = QColorDialog::getColor(Qt::green, this, "Select color");
-		qDebug() << color;
-	});
+	connect(ui->colorButton, &QPushButton::clicked, [&]() { askColor(); });
 }
 
 void MainWindow::readAndDraw() {
