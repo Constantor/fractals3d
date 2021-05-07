@@ -7,10 +7,10 @@ precision mediump float;
 #endif
 
 uniform mat4 mvp_matrix;
-uniform vec2 Resolution = vec2(600, 600);//размеры окна
-uniform float RADIUS = 2.5;//радиус сходимости, если хочешь
-uniform int POWER = 2;//степень
-uniform float CriticalPointX;//координаты точки
+uniform vec2 Resolution = vec2(600, 600); //размеры окна
+uniform float RADIUS = 2.5; //радиус сходимости, если хочешь
+uniform int POWER = 2; //степень
+uniform float CriticalPointX; //координаты точки
 uniform float CriticalPointY;
 uniform float CriticalPointZ;
 uniform vec3 CameraPosition;
