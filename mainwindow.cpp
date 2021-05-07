@@ -25,8 +25,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->recordWidget->close();
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
+
 	chooseColor(chosenColor);
 	chooseColor(chosenAmbienceColor, 1);
+
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
@@ -98,8 +100,9 @@ void MainWindow::connectBoxBar() {
 	connect(ui->powerBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->typeBox, &QComboBox::currentIndexChanged, [&]() { readAndDraw(); });
-	connect(ui->colorButton, &QPushButton::clicked, [&]() { askColor(); });
-	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(); });
+
+	connect(ui->colorButton, &QPushButton::clicked, [&]() { askColor(0); });
+	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(1); });
 }
 
 void MainWindow::readAndDraw() {
