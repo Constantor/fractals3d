@@ -1,4 +1,5 @@
 #include "mainwindow.hpp"
+#include "QColorDialog"
 #include "ui_mainwindow.h"
 
 namespace {
@@ -65,6 +66,10 @@ void MainWindow::connectBoxBar() {
 	connect(ui->thirdCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->colorButton, &QPushButton::clicked, [&]() {
+		const QColor color = QColorDialog::getColor(Qt::green, this, "Select color");
+		qDebug() << color;
+	});
 }
 
 void MainWindow::readAndDraw() {
