@@ -31,6 +31,37 @@
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QLabel" name="typeLabel">
+         <property name="text">
+          <string>Fractal type</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBox">
+         <item>
+          <property name="text">
+           <string>Mandelbrot</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Psycho</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Another</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Flower</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
         <widget class="QLabel" name="firstCoordLabel">
          <property name="text">
           <string>First add coordinate</string>

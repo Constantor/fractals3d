@@ -65,10 +65,11 @@ void MainWindow::connectBoxBar() {
 	connect(ui->thirdCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->comboBox, &QComboBox::currentIndexChanged, [&]() { readAndDraw(); });
 }
 
 void MainWindow::readAndDraw() {
-	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), FLOWERFRACTAL);
+	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), static_cast<FractalType>(ui->comboBox->currentIndex()));
 	ui->fractalWidget->repaint();
 }
 
