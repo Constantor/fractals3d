@@ -2,6 +2,7 @@
 
 #include "Complex3D.hpp"
 #include "FractalPoint.hpp"
+
 #include <QColor>
 #include <QPoint>
 #include <QVector>

@@ -1,4 +1,5 @@
 #include "mainwindow.hpp"
+#include "QColorDialog"
 #include "ui_mainwindow.h"
 
 namespace {
@@ -24,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->recordWidget->close();
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
+	chooseColor(chosenColor);
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
@@ -48,6 +50,19 @@ void MainWindow::makeMenu() {
 	menuBar()->addMenu("About");
 }
 
+void MainWindow::chooseColor(QColor const &color) {
+	if(color.isValid()) {
+		ui->colorLabel->setText(color.name());
+		ui->colorLabel->setPalette(QPalette(color));
+		ui->colorLabel->setAutoFillBackground(true);
+		chosenColor = color;
+	}
+}
+
+void MainWindow::askColor() {
+	chooseColor(QColorDialog::getColor(Qt::green, this, "Select color"));
+}
+
 void MainWindow::connectBoxBar() {
 	connect(ui->firstCoordBox, &QDoubleSpinBox::valueChanged, ui->firstCoordBar, [&]() { ui->firstCoordBar->setValue(getValFromBox(ui->firstCoordBox, ui->firstCoordBar)); });
 	connect(ui->firstCoordBar, &QSlider::valueChanged, ui->firstCoordBox, [&]() { ui->firstCoordBox->setValue(getValFromBar(ui->firstCoordBox, ui->firstCoordBar)); });
@@ -66,6 +81,7 @@ void MainWindow::connectBoxBar() {
 	connect(ui->powerBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->typeBox, &QComboBox::currentIndexChanged, [&]() { readAndDraw(); });
+	connect(ui->colorButton, &QPushButton::clicked, [&]() { askColor(); });
 }
 
 void MainWindow::readAndDraw() {
@@ -184,6 +200,7 @@ void MainWindow::saveVideo() {
 		}
 		int framerate = frames * 1000 / time;
 		QString command = QString("ffmpeg -framerate %1 -pattern_type glob -i '%2/*.png' -c:v libx264 -r 30 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %3").arg(QString::number(framerate), temporaryDir->path(), fileName);
+		qDebug() << command;
 		std::system(command.toStdString().data());
 	}
 }
