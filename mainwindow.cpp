@@ -55,20 +55,19 @@ void MainWindow::makeMenu() {
 
 void MainWindow::chooseColor(QColor const &color, unsigned int whatColor) {
 	QLabel* colorFrame;
+	QColor* colorMemory;
 	if(whatColor == 0) {
 		colorFrame = ui->colorLabel;
+		colorMemory = &chosenColor;
 	} else if(whatColor == 1) {
 		colorFrame = ui->ambienceColorLabel;
+		colorMemory = &chosenAmbienceColor;
 	}
 	if(color.isValid()) {
 		colorFrame->setText(color.name());
 		colorFrame->setPalette(QPalette(color));
 		colorFrame->setAutoFillBackground(true);
-		if(whatColor == 0) {
-			chosenColor = color;
-		} else if(whatColor == 1) {
-			chosenAmbienceColor = color;
-		}
+		*colorMemory = color;
 	}
 }
 
