@@ -10,6 +10,7 @@ uniform mat4 mvp_matrix;
 uniform vec2 Resolution = vec2(600, 600); //размеры окна
 uniform float RADIUS = 2.5; //радиус сходимости, если хочешь
 uniform int POWER = 2; //степень
+uniform int TYPE = 0;
 uniform float CriticalPointX; //координаты точки
 uniform float CriticalPointY;
 uniform float CriticalPointZ;
@@ -170,12 +171,21 @@ float mandelbrot(vec4 c, vec4 z)
 }
 
 float GetDist(vec3 point, vec3 CriticalPoint) {
-    //mandelbrot
-    //psychoFractal
-    //anotherFractal
-    //flowerFractal
-    //каждому фракталу константу, заифать все
-    float fractalDist = psychoFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+    float fractalDist;
+    switch(TYPE){
+        case 0:
+        fractalDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+        break;
+        case 1:
+        fractalDist = psychoFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+        break;
+        case 2:
+        fractalDist = anotherFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+        break;
+        case 3:
+        fractalDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+        break;
+    }
     return fractalDist;
 }
 

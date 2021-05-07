@@ -68,7 +68,7 @@ void MainWindow::connectBoxBar() {
 }
 
 void MainWindow::readAndDraw() {
-	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value());
+	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), FLOWERFRACTAL);
 	ui->fractalWidget->repaint();
 }
 
@@ -183,7 +183,6 @@ void MainWindow::saveVideo() {
 		}
 		int framerate = frames * 1000 / time;
 		QString command = QString("ffmpeg -framerate %1 -pattern_type glob -i '%2/*.png' -c:v libx264 -r 30 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %3").arg(QString::number(framerate), temporaryDir->path(), fileName);
-		qDebug() << command;
 		std::system(command.toStdString().data());
 	}
 }
