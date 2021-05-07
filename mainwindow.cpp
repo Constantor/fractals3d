@@ -28,7 +28,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
-	chooseColor(QColor(55, 255, 55));
+
+	chooseColor(chosenColor);
 }
 
 MainWindow::~MainWindow() {
