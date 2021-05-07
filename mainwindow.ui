@@ -62,6 +62,16 @@
 								</widget>
 							</item>
 							<item>
+								<widget class="QFrame">
+									<property name="frameShape">
+										<enum>QFrame::HLine</enum>
+									</property>
+									<property name="frameShadow">
+										<enum>QFrame::Sunken</enum>
+									</property>
+								</widget>
+							</item>
+							<item>
 								<widget class="QLabel" name="firstCoordLabel">
 									<property name="text">
 										<string>First add coordinate</string>
@@ -97,6 +107,16 @@
 									</property>
 									<property name="orientation">
 										<enum>Qt::Horizontal</enum>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QFrame">
+									<property name="frameShape">
+										<enum>QFrame::HLine</enum>
+									</property>
+									<property name="frameShadow">
+										<enum>QFrame::Sunken</enum>
 									</property>
 								</widget>
 							</item>
@@ -140,6 +160,16 @@
 								</widget>
 							</item>
 							<item>
+								<widget class="QFrame">
+									<property name="frameShape">
+										<enum>QFrame::HLine</enum>
+									</property>
+									<property name="frameShadow">
+										<enum>QFrame::Sunken</enum>
+									</property>
+								</widget>
+							</item>
+							<item>
 								<widget class="QLabel" name="thirdCoordLabel">
 									<property name="text">
 										<string>Third add coordinate</string>
@@ -176,6 +206,16 @@
 								</widget>
 							</item>
 							<item>
+								<widget class="QFrame">
+									<property name="frameShape">
+										<enum>QFrame::HLine</enum>
+									</property>
+									<property name="frameShadow">
+										<enum>QFrame::Sunken</enum>
+									</property>
+								</widget>
+							</item>
+							<item>
 								<widget class="QLabel" name="powerLabel">
 									<property name="text">
 										<string>Power</string>
@@ -205,6 +245,47 @@
 									</property>
 									<property name="orientation">
 										<enum>Qt::Horizontal</enum>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QFrame">
+									<property name="frameShape">
+										<enum>QFrame::HLine</enum>
+									</property>
+									<property name="frameShadow">
+										<enum>QFrame::Sunken</enum>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QLabel" name="colorHintLabel">
+									<property name="text">
+										<string>Fractal color</string>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QLabel" name="colorLabel">
+									<property name="text">
+										<string>Color is not chosen</string>
+									</property>
+									<property name="frameStyle">
+										<enum>QFrame::Sunken</enum>
+										<enum>QFrame::Panel</enum>
+									</property>
+									<property name="minimumSize">
+										<size>
+											<width>0</width>
+											<height>35</height>
+										</size>
+									</property>
+								</widget>
+							</item>
+							<item>
+								<widget class="QPushButton" name="colorButton">
+									<property name="text">
+										<string>Choose color</string>
 									</property>
 								</widget>
 							</item>
