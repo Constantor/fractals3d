@@ -25,11 +25,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->recordWidget->close();
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
+	chooseColor(chosenColor);
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
-
-	chooseColor(chosenColor);
 }
 
 MainWindow::~MainWindow() {
