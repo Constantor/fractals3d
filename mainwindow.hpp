@@ -50,7 +50,9 @@ private:
 	void connectBoxBar();
 	void makeMenu();
 
+	void chooseColor(QColor const &color);
 	void askColor();
+
 	void readAndDraw();
 	void saveToFile();
 	void saveToImage();

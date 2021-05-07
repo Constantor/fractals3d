@@ -28,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
+	chooseColor(QColor(55, 255, 55));
 }
 
 MainWindow::~MainWindow() {
@@ -49,14 +50,17 @@ void MainWindow::makeMenu() {
 	menuBar()->addMenu("About");
 }
 
-void MainWindow::askColor() {
-	const QColor color = QColorDialog::getColor(Qt::green, this, "Select color");
+void MainWindow::chooseColor(QColor const &color) {
 	if(color.isValid()) {
 		ui->colorLabel->setText(color.name());
 		ui->colorLabel->setPalette(QPalette(color));
 		ui->colorLabel->setAutoFillBackground(true);
 		chosenColor = color;
 	}
+}
+
+void MainWindow::askColor() {
+	chooseColor(QColorDialog::getColor(Qt::green, this, "Select color"));
 }
 
 void MainWindow::connectBoxBar() {
