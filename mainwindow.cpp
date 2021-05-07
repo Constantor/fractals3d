@@ -55,6 +55,7 @@ void MainWindow::askColor() {
 		ui->colorLabel->setText(color.name());
 		ui->colorLabel->setPalette(QPalette(color));
 		ui->colorLabel->setAutoFillBackground(true);
+		chosenColor = color;
 	}
 }
 

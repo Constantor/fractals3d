@@ -45,6 +45,7 @@ private:
     QTemporaryDir *temporaryDir{};
 	Recorder *recorder{};
 	bool isOnRecord = false;
+	QColor chosenColor{};
 
 	void connectBoxBar();
 	void makeMenu();
