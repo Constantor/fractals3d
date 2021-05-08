@@ -56,12 +56,12 @@ void MainWindow::makeMenu() {
 void MainWindow::chooseColor(QColor const &color, unsigned int whatColor) {
 	QLabel* colorFrame;
 	QColor* colorMemory;
-	if(whatColor == 0) {
-		colorFrame = ui->colorLabel;
-		colorMemory = &chosenColor;
-	} else if(whatColor == 1) {
+	if(whatColor == 1) {
 		colorFrame = ui->ambienceColorLabel;
 		colorMemory = &chosenAmbienceColor;
+	} else { // whatColor == 0
+		colorFrame = ui->colorLabel;
+		colorMemory = &chosenColor;
 	}
 	if(color.isValid()) {
 		colorFrame->setText(color.name());
@@ -73,10 +73,10 @@ void MainWindow::chooseColor(QColor const &color, unsigned int whatColor) {
 
 void MainWindow::askColor(unsigned int whatColor) {
 	QString title;
-	if(whatColor == 0) {
-		title = "Select fractal color";
-	} else if(whatColor == 1) {
+	if(whatColor == 1) {
 		title = "Select ambience color";
+	} else { // whatColor == 0
+		title = "Select fractal color";
 	}
 	chooseColor(QColorDialog::getColor(Qt::green, this, title), whatColor);
 }
