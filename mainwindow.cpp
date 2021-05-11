@@ -26,8 +26,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
 
-	chooseColor(chosenColor);
-	chooseColor(chosenAmbienceColor, 1);
 
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
@@ -53,32 +51,27 @@ void MainWindow::makeMenu() {
 	menuBar()->addMenu("About");
 }
 
-void MainWindow::chooseColor(QColor const &color, unsigned int whatColor) {
-	QLabel* colorFrame;
-	QColor* colorMemory;
-	if(whatColor == 1) {
-		colorFrame = ui->ambienceColorLabel;
-		colorMemory = &chosenAmbienceColor;
-	} else { // whatColor == 0
-		colorFrame = ui->colorLabel;
-		colorMemory = &chosenColor;
+void MainWindow::chooseColor(QColor const &color, ColorType type = FRACTAL) {
+	QColor *colorMemory;
+	if(type == AMBIENCE) {
+		colorMemory = &data.ambienceColor;
+	} else {
+		colorMemory = &data.fractalColor;
 	}
 	if(color.isValid()) {
-		colorFrame->setText(color.name());
-		colorFrame->setPalette(QPalette(color));
-		colorFrame->setAutoFillBackground(true);
 		*colorMemory = color;
+		readAndDraw();
 	}
 }
 
-void MainWindow::askColor(unsigned int whatColor) {
+void MainWindow::askColor(ColorType type) {
 	QString title;
-	if(whatColor == 1) {
+	if(type == AMBIENCE) {
 		title = "Select ambience color";
-	} else { // whatColor == 0
+	} else {
 		title = "Select fractal color";
 	}
-	chooseColor(QColorDialog::getColor(Qt::green, this, title), whatColor);
+	chooseColor(QColorDialog::getColor(Qt::green, this, title), type);
 }
 
 void MainWindow::connectBoxBar() {
@@ -99,13 +92,16 @@ void MainWindow::connectBoxBar() {
 	connect(ui->powerBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->typeBox, &QComboBox::currentIndexChanged, [&]() { readAndDraw(); });
-
-	connect(ui->colorButton, &QPushButton::clicked, [&]() { askColor(0); });
-	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(1); });
+	connect(ui->fractalColorButton, &QPushButton::clicked, [&]() { askColor(FRACTAL); });
+	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
 }
 
 void MainWindow::readAndDraw() {
-	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), static_cast<FractalType>(ui->typeBox->currentIndex()));
+	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor);
+    ui->fractalColorButton->setPalette(QPalette(data.fractalColor));
+    ui->fractalColorButton->setText(data.fractalColor.name());
+    ui->ambienceColorButton->setPalette(QPalette(data.ambienceColor));
+    ui->ambienceColorButton->setText(data.ambienceColor.name());
 	ui->fractalWidget->repaint();
 }
 
@@ -218,8 +214,8 @@ void MainWindow::saveVideo() {
 									 "Can't save to " + fileInfo.fileName());
 			return;
 		}
-		int framerate = frames * 1000 / time;
-		QString command = QString("ffmpeg -framerate %1 -pattern_type glob -i '%2/*.png' -c:v libx264 -r 30 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %3").arg(QString::number(framerate), temporaryDir->path(), fileName);
+		//int framerate = frames * 1000 / time;
+		QString command = QString("ffmpeg -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2").arg(temporaryDir->path(), fileName);
 		qDebug() << command;
 		std::system(command.toStdString().data());
 	}

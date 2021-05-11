@@ -41,18 +41,17 @@ private:
 	FractalData data;
 	QElapsedTimer *elapsedTimer{};
 	QTimer *timer{};
-    qint64 time{}, frames{};
-    QTemporaryDir *temporaryDir{};
+	qint64 time{}, frames{};
+	QTemporaryDir *temporaryDir{};
 	Recorder *recorder{};
 	bool isOnRecord = false;
-	QColor chosenColor = QColor(55, 255, 55); // default color
-	QColor chosenAmbienceColor = QColor(255, 55, 55); // default ambience color
+
 
 	void connectBoxBar();
 	void makeMenu();
 
-	void chooseColor(QColor const &color, unsigned int whatColor = 0);
-	void askColor(unsigned int whatColor = 0);
+	void chooseColor(QColor const &color, ColorType type);
+	void askColor(ColorType type);
 
 	void readAndDraw();
 	void saveToFile();
