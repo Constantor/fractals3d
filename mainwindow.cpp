@@ -168,6 +168,7 @@ void MainWindow::setValues() {
 	ui->secondCoordBox->setValue(data.b);
 	ui->thirdCoordBox->setValue(data.c);
 	ui->powerBox->setValue(data.n);
+	updateButtons();
 }
 
 void MainWindow::recordVideo() {

@@ -23,4 +23,6 @@ void FractalData::readFrom(QJsonDocument &in) {
 	c = fractalData.value("c").toDouble();
 	n = fractalData.value("n").toInt();
 	type = static_cast<FractalType>(fractalData.value("type").toInt());
+	fractalColor = QColor(fractalData.value("Fractal color").toString());
+	ambienceColor = QColor(fractalData.value("Ambience color").toString());
 }
