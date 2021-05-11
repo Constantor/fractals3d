@@ -1,5 +1,6 @@
 #pragma once
 
+#include "QColorDialog"
 #include "Recorder.hpp"
 #include "fractaldata.hpp"
 #include "fractalwidget.hpp"
@@ -52,6 +53,7 @@ private:
 
 	void chooseColor(QColor const &color, ColorType type);
 	void askColor(ColorType type);
+	void updateButtons();
 
 	void readAndDraw();
 	void saveToFile();

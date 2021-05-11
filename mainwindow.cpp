@@ -1,5 +1,4 @@
 #include "mainwindow.hpp"
-#include "QColorDialog"
 #include "ui_mainwindow.h"
 
 namespace {
@@ -26,8 +25,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
 
-
 	ui->fractalWidget->setFractalData(&data);
+	updateButtons();
 	readAndDraw();
 	makeMenu();
 }
@@ -51,6 +50,13 @@ void MainWindow::makeMenu() {
 	menuBar()->addMenu("About");
 }
 
+void MainWindow::updateButtons() {
+	ui->fractalColorButton->setPalette(QPalette(data.fractalColor));
+	ui->fractalColorButton->setText(data.fractalColor.name());
+	ui->ambienceColorButton->setPalette(QPalette(data.ambienceColor));
+	ui->ambienceColorButton->setText(data.ambienceColor.name());
+}
+
 void MainWindow::chooseColor(QColor const &color, ColorType type = FRACTAL) {
 	QColor *colorMemory;
 	if(type == AMBIENCE) {
@@ -60,6 +66,7 @@ void MainWindow::chooseColor(QColor const &color, ColorType type = FRACTAL) {
 	}
 	if(color.isValid()) {
 		*colorMemory = color;
+		updateButtons();
 		readAndDraw();
 	}
 }
@@ -98,10 +105,6 @@ void MainWindow::connectBoxBar() {
 
 void MainWindow::readAndDraw() {
 	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor);
-    ui->fractalColorButton->setPalette(QPalette(data.fractalColor));
-    ui->fractalColorButton->setText(data.fractalColor.name());
-    ui->ambienceColorButton->setPalette(QPalette(data.ambienceColor));
-    ui->ambienceColorButton->setText(data.ambienceColor.name());
 	ui->fractalWidget->repaint();
 }
 
