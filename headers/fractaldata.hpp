@@ -25,7 +25,7 @@ struct FractalData {
     QColor ambienceColor = QColor(255, 55, 55);
 
 	FractalData() = default;
-	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
+	[[maybe_unused]] FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
 	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor);
 
 	[[nodiscard]] QJsonObject serialize() const;

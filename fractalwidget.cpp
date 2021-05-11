@@ -4,6 +4,12 @@
 
 #include <cmath>
 
+namespace {
+	QVector3D transformColor(const QColor &color) {
+		return QVector3D(color.red() / 255.0, color.green() / 255.0, color.blue() / 255.0 );
+	}
+}// namespace
+
 FractalWidget::~FractalWidget() {
 	// Make sure the context is current when deleting the texture
 	// and the buffers.
@@ -149,6 +155,8 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("CriticalPointY", (GLfloat) fd->b);
 	program.setUniformValue("CriticalPointZ", (GLfloat) fd->c);
 	program.setUniformValue("TYPE", (GLint) fd->type);
+	program.setUniformValue("Ambience", transformColor(fd->ambienceColor));
+	program.setUniformValue("ColorFractal", transformColor(fd->fractalColor));
 	program.setUniformValue("CameraPosition", QVector3D(camera));
 
 	// Use texture unit 0 which contains cube.png
