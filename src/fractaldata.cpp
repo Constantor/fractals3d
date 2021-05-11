@@ -11,6 +11,8 @@ QJsonObject FractalData::serialize() const {
 	serialized.insert("c", c);
 	serialized.insert("n", n);
 	serialized.insert("type", type);
+	serialized.insert("Fractal color", fractalColor.name());
+    serialized.insert("Ambience color", ambienceColor.name());
 	return serialized;
 }
 
