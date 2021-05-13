@@ -2,7 +2,7 @@
 
 [[maybe_unused]] FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type) : a(a), b(b), c(c), n(n), type(type) {}
 
-FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor) : a(a), b(b), c(c), n(n), type(type), fractalColor(fractalColor), ambienceColor(ambienceColor) {}
+FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera) : a(a), b(b), c(c), n(n), type(type), fractalColor(fractalColor), ambienceColor(ambienceColor), camera(camera) {}
 
 QJsonObject FractalData::serialize() const {
 	QJsonObject serialized;
@@ -12,7 +12,12 @@ QJsonObject FractalData::serialize() const {
 	serialized.insert("n", n);
 	serialized.insert("type", type);
 	serialized.insert("Fractal color", fractalColor.name());
-    serialized.insert("Ambience color", ambienceColor.name());
+	serialized.insert("Ambience color", ambienceColor.name());
+	QJsonArray cameraPosition;
+	cameraPosition.insert(0, camera.x());
+	cameraPosition.insert(1, camera.y());
+	cameraPosition.insert(2, camera.z());
+	serialized.insert("camera", cameraPosition);
 	return serialized;
 }
 
@@ -25,4 +30,6 @@ void FractalData::readFrom(QJsonDocument &in) {
 	type = static_cast<FractalType>(fractalData.value("type").toInt());
 	fractalColor = QColor(fractalData.value("Fractal color").toString());
 	ambienceColor = QColor(fractalData.value("Ambience color").toString());
+	QJsonArray cameraPosition = fractalData.value("camera").toArray();
+	camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
 }

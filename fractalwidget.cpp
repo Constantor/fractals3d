@@ -6,7 +6,7 @@
 
 namespace {
 	QVector3D transformColor(const QColor &color) {
-		return QVector3D(color.red() / 255.0, color.green() / 255.0, color.blue() / 255.0 );
+		return QVector3D(color.red() / 255.0, color.green() / 255.0, color.blue() / 255.0);
 	}
 }// namespace
 
@@ -50,7 +50,7 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
 	rotationDelta = diff.length() / 4;
 	//короче есть окружность в x-z кордах, которая x^2+z^2=2.25
 	//есть изначально x = 0, z = 1.5
-	camera = QVector3D(camera.x() * cos(alpha) - camera.z() * sin(alpha), 0.0, camera.x() * sin(alpha) + camera.z() * cos(alpha));
+	fd->camera = QVector3D(fd->camera.x() * cos(alpha) - fd->camera.z() * sin(alpha), 0.0, fd->camera.x() * sin(alpha) + fd->camera.z() * cos(alpha));
 	// Calculate new rotation axis as weighted sum
 	rotationAxis = (n * rotationDelta).normalized();
 
@@ -157,7 +157,7 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("TYPE", (GLint) fd->type);
 	program.setUniformValue("Ambience", transformColor(fd->ambienceColor));
 	program.setUniformValue("ColorFractal", transformColor(fd->fractalColor));
-	program.setUniformValue("CameraPosition", QVector3D(camera));
+	program.setUniformValue("CameraPosition", QVector3D(fd->camera));
 
 	// Use texture unit 0 which contains cube.png
 	program.setUniformValue("texture", 0);
