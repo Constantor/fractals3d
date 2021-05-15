@@ -1,6 +1,7 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
+typedef QString string;
 namespace {
 	int getValFromBox(QDoubleSpinBox *box, QSlider *bar) {
 		return (bar->maximum() - bar->minimum()) * (box->value() - box->minimum()) / (box->maximum() - box->minimum());
@@ -193,7 +194,8 @@ void MainWindow::startRecord() {
 
 void MainWindow::shot() {
 	time = elapsedTimer->elapsed();
-	recorder->push_back({ui->fractalWidget->grabFramebuffer(), temporaryDir->filePath(QString::number(time) + ".png")});
+	string fileName = QStringLiteral("%1.png").arg(time, 5, 10, QLatin1Char('0'));
+	recorder->push_back({ui->fractalWidget->grabFramebuffer(), temporaryDir->filePath(fileName)});
 	frames++;
 	ui->recordLabel->setText("Recording: " + timeFormat(time));
 	ui->recordProgressBar->setValue(100 * time / LIMIT);
