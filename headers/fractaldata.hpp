@@ -1,11 +1,13 @@
 #pragma once
 
+#include <QColor>
 #include <QDataStream>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QJsonArray>
+#include <QRandomGenerator>
 #include <QVector3D>
-#include <QColor>
+#include <random>
 
 enum FractalType {
 	MANDELBROT,
@@ -14,20 +16,20 @@ enum FractalType {
 	FLOWERFRACTAL
 };
 
-enum ColorType{
+enum ColorType {
 	FRACTAL,
 	AMBIENCE
 };
 
 struct FractalData {
-	qreal a{}, b{}, c{};
-	quint8 n{};
+	qreal a, b, c;
+	quint8 n = 2;
 	FractalType type{};
-    QColor fractalColor = QColor(55, 255, 55);
-    QColor ambienceColor = QColor(255, 55, 55);
-    QVector3D camera = QVector3D(0.0, 0.0, 1.5);
+	QColor fractalColor = QColor(55, 255, 55);
+	QColor ambienceColor = QColor(255, 55, 55);
+	QVector3D camera = QVector3D(0.0, 0.0, 1.5);
 
-	FractalData() = default;
+	FractalData();
 	[[maybe_unused]] FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
 	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera);
 

@@ -46,6 +46,7 @@ private:
 	QTemporaryDir *temporaryDir{};
 	Recorder *recorder{};
 	bool isOnRecord = false;
+    bool isSetting = true;
 
 
 	void connectBoxBar();

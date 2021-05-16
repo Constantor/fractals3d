@@ -25,7 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->recordWidget->close();
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
-
+	setValues();
 	ui->fractalWidget->setFractalData(&data);
 	updateButtons();
 	readAndDraw();
@@ -105,8 +105,10 @@ void MainWindow::connectBoxBar() {
 }
 
 void MainWindow::readAndDraw() {
-	data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera);
-	ui->fractalWidget->repaint();
+	if(!isSetting) {
+		data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera);
+		ui->fractalWidget->repaint();
+	}
 }
 
 void MainWindow::loadFromFile() {
@@ -165,10 +167,12 @@ void MainWindow::saveToImage() {
 }
 
 void MainWindow::setValues() {
+	isSetting = true;
 	ui->firstCoordBox->setValue(data.a);
 	ui->secondCoordBox->setValue(data.b);
 	ui->thirdCoordBox->setValue(data.c);
 	ui->powerBox->setValue(data.n);
+	isSetting = false;
 	updateButtons();
 }
 

@@ -1,5 +1,12 @@
 #include "fractaldata.hpp"
 
+namespace {
+	qreal randomReal() {
+		std::uniform_real_distribution dist(-0.3, 0.3);
+		return dist(*QRandomGenerator::global());
+	}
+}// namespace
+
 [[maybe_unused]] FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type) : a(a), b(b), c(c), n(n), type(type) {}
 
 FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera) : a(a), b(b), c(c), n(n), type(type), fractalColor(fractalColor), ambienceColor(ambienceColor), camera(camera) {}
@@ -33,4 +40,16 @@ void FractalData::readFrom(QJsonDocument &in) {
 	//	QJsonArray cameraPosition = fractalData.value("camera").toArray();
 	//	camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
 	camera = QVector3D(0.0, 0.0, 1.5);
+}
+
+FractalData::FractalData() {
+	a = randomReal();
+	qDebug() << a << " a\n";
+	b = randomReal();
+	qDebug() << b << " b\n";
+	c = randomReal();
+	qDebug() << c << " c\n";
+	n = 2 * (QRandomGenerator::global()->bounded(15) + 1);
+	type = FractalType(QRandomGenerator::global()->bounded(3));
+	qDebug() << type << " type\n";
 }
