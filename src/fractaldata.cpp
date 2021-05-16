@@ -5,6 +5,10 @@ namespace {
 		std::uniform_real_distribution dist(-0.3, 0.3);
 		return dist(*QRandomGenerator::global());
 	}
+
+	QColor randomColor() {
+		return QColor(QRandomGenerator::global()->bounded(255), QRandomGenerator::global()->bounded(255), QRandomGenerator::global()->bounded(255));
+	}
 }// namespace
 
 [[maybe_unused]] FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type) : a(a), b(b), c(c), n(n), type(type) {}
@@ -44,12 +48,10 @@ void FractalData::readFrom(QJsonDocument &in) {
 
 FractalData::FractalData() {
 	a = randomReal();
-	qDebug() << a << " a\n";
 	b = randomReal();
-	qDebug() << b << " b\n";
 	c = randomReal();
-	qDebug() << c << " c\n";
 	n = 2 * (QRandomGenerator::global()->bounded(15) + 1);
 	type = FractalType(QRandomGenerator::global()->bounded(3));
-	qDebug() << type << " type\n";
+	fractalColor = randomColor();
+	ambienceColor = randomColor();
 }
