@@ -26,8 +26,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
 	setValues();
-	ui->fractalWidget->setFractalData(&data);
 	updateButtons();
+	ui->fractalWidget->setFractalData(&data);
+
 	readAndDraw();
 	makeMenu();
 }
@@ -172,8 +173,9 @@ void MainWindow::setValues() {
 	ui->secondCoordBox->setValue(data.b);
 	ui->thirdCoordBox->setValue(data.c);
 	ui->powerBox->setValue(data.n);
-	isSetting = false;
+	ui->typeBox->setCurrentIndex(data.type);
 	updateButtons();
+	isSetting = false;
 }
 
 void MainWindow::recordVideo() {
