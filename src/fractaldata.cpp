@@ -30,6 +30,7 @@ void FractalData::readFrom(QJsonDocument &in) {
 	type = static_cast<FractalType>(fractalData.value("type").toInt());
 	fractalColor = QColor(fractalData.value("Fractal color").toString());
 	ambienceColor = QColor(fractalData.value("Ambience color").toString());
-	QJsonArray cameraPosition = fractalData.value("camera").toArray();
-	camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
+	//	QJsonArray cameraPosition = fractalData.value("camera").toArray();
+	//	camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
+	camera = QVector3D(0.0, 0.0, 1.5);
 }
