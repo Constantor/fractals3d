@@ -20,9 +20,9 @@ uniform vec3 ColorFractal = vec3(0.6, 0.5, 0.8);
 
 
 #define MAX_STEPS 255
-#define MAX_DIST 1000.0
+#define MAX_DIST 5000.0
 #define MIN_DIST 0.0001
-#define MANDEL_ITER 50
+#define MANDEL_ITER 200
 
 float sphere(vec3 point, vec3 center, float radius) {
     return length(point - center) - radius;
