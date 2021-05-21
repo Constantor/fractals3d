@@ -86,18 +86,16 @@ float psychoFractal(vec4 point, vec4 CriticalPoint) {
         r = length(z);
         if (r > RADIUS) break;
 
-        float theta = acos(z.z / r);
-        float phi = atan(z.y, z.x);
         dr = pow(r, POWER - 1.0) * POWER * dr + 1.0;
 
         float zr = pow(r, POWER);
-        theta = theta * POWER;
-        phi = phi * POWER;
+        float theta = acos(z.z / r) * POWER;
+        float phi = atan(z.y, z.x) * POWER;
 
         z = zr * vec4(
-        sin(theta) * cos(phi),
-        sin(phi) * tan(theta),
-        cos(theta),
+        sin(theta) * sin(phi),
+        sin(phi) * sin(theta),
+        sin(theta),
         1.0);
         z += CriticalPoint;
     }
@@ -112,13 +110,11 @@ float flowerFractal(vec4 point, vec4 CriticalPoint) {
         r = length(z);
         if (r > RADIUS) break;
 
-        float theta = acos(z.z / r);
-        float phi = atan(z.y, z.x);
         dr = pow(r, POWER - 1.0) * POWER * dr + 1.0;
 
         float zr = pow(r, POWER);
-        theta = theta * POWER;
-        phi = phi * POWER;
+        float theta = acos(z.z / r) * POWER;
+        float phi = atan(z.y, z.x) * POWER;
 
         z = zr * vec4(
         sin(theta) * cos(phi),
@@ -138,13 +134,11 @@ float anotherFractal(vec4 point, vec4 CriticalPoint) {
         r = length(z);
         if (r > RADIUS) break;
 
-        float theta = acos(z.z / r);
-        float phi = atan(z.y, z.x);
         dr = pow(r, POWER - 1.0) * POWER * dr + 1.0;
 
         float zr = pow(r, POWER);
-        theta = theta * POWER;
-        phi = phi * POWER;
+        float theta = acos(z.z / r) * POWER;
+        float phi = atan(z.y, z.x) * POWER;
 
         z = zr * vec4(
         cos(theta) * cos(phi),
