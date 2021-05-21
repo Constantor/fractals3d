@@ -20,9 +20,10 @@ uniform vec3 ColorFractal = vec3(0.6, 0.5, 0.8);
 
 
 #define MAX_STEPS 255
-#define MAX_DIST 5000.0
+#define MAX_DIST 2000.0
 #define MIN_DIST 0.0001
-#define MANDEL_ITER 200
+#define OTHER_ITER 200
+#define MANDEL_ITER 50
 
 float sphere(vec3 point, vec3 center, float radius) {
     return length(point - center) - radius;
@@ -82,7 +83,7 @@ float psychoFractal(vec4 point, vec4 CriticalPoint) {
     vec4 z = point;
     float dr = 1.0;
     float r = 0.0;
-    for (int i = 0; i < MANDEL_ITER; ++i) {
+    for (int i = 0; i < OTHER_ITER; ++i) {
         r = length(z);
         if (r > RADIUS) break;
 
@@ -106,7 +107,7 @@ float flowerFractal(vec4 point, vec4 CriticalPoint) {
     vec4 z = point;
     float dr = 1.0;
     float r = 0.0;
-    for (int i = 0; i < MANDEL_ITER; ++i) {
+    for (int i = 0; i < OTHER_ITER; ++i) {
         r = length(z);
         if (r > RADIUS) break;
 
@@ -130,7 +131,7 @@ float anotherFractal(vec4 point, vec4 CriticalPoint) {
     vec4 z = point;
     float dr = 1.0;
     float r = 0.0;
-    for (int i = 0; i < MANDEL_ITER; ++i) {
+    for (int i = 0; i < OTHER_ITER; ++i) {
         r = length(z);
         if (r > RADIUS) break;
 
@@ -215,8 +216,8 @@ void main() {
     vec3 RayDirection = normalize((inverse(mvp_matrix) * vec4(FragCoord, 1.0, 1.0)).xyz);
 
     float distance = RayMarch(CameraPosition, RayDirection, CriticalPoint);
-    result = vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
-    if (distance > 100) {
+    result = 1.1 * vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
+    if (distance > MAX_DIST * 0.75) {
         result = Ambience;
     }
     FragColor = vec4(result, 1.0);
