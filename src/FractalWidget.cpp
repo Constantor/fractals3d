@@ -33,9 +33,8 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 }
 
 void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
-	if(!mousePressed) {
+	if(!mousePressed)
 		return;
-	}
 	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
 
 	QVector3D n = QVector3D(0, diff.x(), 0.0).normalized();
@@ -84,10 +83,6 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
 //        rotationDelta = 0;
 //    }
 //}
-
-void FractalWidget::timerEvent(QTimerEvent *) {
-	// timer
-}
 
 void FractalWidget::initializeGL() {
 	this->setMouseTracking(true);

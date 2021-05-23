@@ -12,8 +12,6 @@
 #include <QQuaternion>
 #include <QVector2D>
 
-class GeometryEngine;
-
 class FractalWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 Q_OBJECT
 
@@ -33,8 +31,6 @@ protected:
 
 	void mouseReleaseEvent(QMouseEvent *e) override;
 
-	void timerEvent(QTimerEvent *e) override;
-
 	void initializeGL() override;
 
 	void resizeGL(int w, int h) override;
@@ -47,7 +43,6 @@ private:
 	// const constexpr static qreal EPS = 1e-6;
 
 	bool mousePressed = false;
-	// QBasicTimer timer;
 	QOpenGLShaderProgram program;
 	FractalData *fd;
 	GeometryEngine *geometries = nullptr;
