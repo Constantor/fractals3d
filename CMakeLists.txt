@@ -32,14 +32,14 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS "${PROJECT_SOURCE_DIR}/ui")
 
 add_executable(${PROJECT_NAME}
 		main.cpp
-		src/mainwindow.cpp headers/mainwindow.hpp ui/mainwindow.ui
-		fractalwidget.hpp fractalwidget.cpp
+		headers/mainwindow.hpp src/mainwindow.cpp ui/mainwindow.ui
+		headers/fractalwidget.hpp src/fractalwidget.cpp
 		headers/FractalData.hpp src/FractalData.cpp
-		src/GeometryEngine.cpp headers/GeometryEngine.hpp
-		src/FractalPoint.cpp headers/FractalPoint.hpp
-		src/Complex3D.cpp headers/Complex3D.hpp
-		src/Fractal3D.cpp headers/Fractal3D.hpp
-		src/Recorder.cpp headers/Recorder.hpp
+		headers/GeometryEngine.hpp src/GeometryEngine.cpp
+		headers/FractalPoint.hpp src/FractalPoint.cpp
+		headers/Complex3D.hpp src/Complex3D.cpp
+		headers/Fractal3D.hpp src/Fractal3D.cpp
+		headers/Recorder.hpp src/Recorder.cpp
 		)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
