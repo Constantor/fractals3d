@@ -60,11 +60,10 @@ void MainWindow::updateButtons() {
 
 void MainWindow::chooseColor(QColor const &color, ColorType type = FRACTAL) {
 	QColor *colorMemory;
-	if(type == AMBIENCE) {
+	if(type == AMBIENCE)
 		colorMemory = &data.ambienceColor;
-	} else {
+	else
 		colorMemory = &data.fractalColor;
-	}
 	if(color.isValid()) {
 		*colorMemory = color;
 		updateButtons();
@@ -106,7 +105,8 @@ void MainWindow::connectBoxBar() {
 
 void MainWindow::readAndDraw() {
 	if(!isSetting) {
-		data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(), static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera);
+		data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(),
+						   static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera);
 		ui->fractalWidget->repaint();
 	}
 }
@@ -139,8 +139,7 @@ void MainWindow::saveToFile() {
 		QFile file(fileName);
 
 		if(!file.open(QIODevice::WriteOnly)) {
-			QMessageBox::information(this, tr("Unable to save the file"),
-									 file.errorString());
+			QMessageBox::information(this, tr("Unable to save the file"), file.errorString());
 			return;
 		}
 
@@ -204,9 +203,8 @@ void MainWindow::shot() {
 	frames++;
 	ui->recordLabel->setText("Recording: " + timeFormat(time));
 	ui->recordProgressBar->setValue(100 * time / LIMIT);
-	if(time >= LIMIT) {
+	if(LIMIT <= time)
 		stopRecord();
-	}
 }
 
 void MainWindow::stopRecord() {
@@ -221,21 +219,21 @@ void MainWindow::saveVideo() {
 	if(!fileName.isEmpty()) {
 		QFileInfo fileInfo(fileName);
 		if(fileInfo.exists() && !fileInfo.isWritable()) {
-			QMessageBox::information(this, tr("Unable to open file"),
+			QMessageBox::information(this, tr("Unable to write to the file"),
 									 "Can't save to " + fileInfo.fileName());
 			return;
 		}
 		//int framerate = frames * 1000 / time;
-		QString command = QString("ffmpeg -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2").arg(temporaryDir->path(), fileName);
+		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2").arg(
+				temporaryDir->path(), fileName);
 		qDebug() << command;
 		std::system(command.toStdString().data());
 	}
 }
 
 void MainWindow::recordClickAction() {
-	if(isOnRecord) {
+	if(isOnRecord)
 		stopRecord();
-	} else {
+	else
 		startRecord();
-	}
 }
