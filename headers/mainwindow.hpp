@@ -1,9 +1,9 @@
 #pragma once
 
-#include "QColorDialog"
 #include "Recorder.hpp"
 #include "FractalData.hpp"
 #include "fractalwidget.hpp"
+#include <QColorDialog>
 #include <QDoubleSpinBox>
 #include <QElapsedTimer>
 #include <QFileDialog>
@@ -27,7 +27,7 @@ QT_END_NAMESPACE
 QT_FORWARD_DECLARE_CLASS(QOpenGLWidget)
 
 class MainWindow : public QMainWindow {
-	Q_OBJECT
+Q_OBJECT
 
 	static const qint64 INTERVAL = 10;
 	static const qint64 LIMIT = 10000;
@@ -46,26 +46,38 @@ private:
 	QTemporaryDir *temporaryDir{};
 	Recorder *recorder{};
 	bool isOnRecord = false;
-    bool isSetting = true;
+	bool isSetting = true;
 
 
 	void connectBoxBar();
+
 	void makeMenu();
 
 	void chooseColor(QColor const &color, ColorType type);
+
 	void askColor(ColorType type);
+
 	void updateButtons();
 
 	void readAndDraw();
+
 	void saveToFile();
+
 	void saveToImage();
+
 	void loadFromFile();
+
 	void setValues();
+
 	void recordVideo();
 
 	void startRecord();
+
 	void shot();
+
 	void stopRecord();
+
 	void saveVideo();
+
 	void recordClickAction();
 };

@@ -1,7 +1,5 @@
 #include "fractalwidget.hpp"
-
 #include <QMouseEvent>
-
 #include <cmath>
 
 namespace {
@@ -11,10 +9,8 @@ namespace {
 }// namespace
 
 FractalWidget::~FractalWidget() {
-	// Make sure the context is current when deleting the texture
-	// and the buffers.
+	// Make sure the context is current when deleting the buffers.
 	makeCurrent();
-	delete texture;
 	delete geometries;
 	doneCurrent();
 }
@@ -100,7 +96,6 @@ void FractalWidget::initializeGL() {
 	glClearColor(0, 0, 0, 1);
 
 	initShaders();
-	initTextures();
 
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
@@ -132,21 +127,6 @@ void FractalWidget::initShaders() {
 		close();
 }
 
-void FractalWidget::initTextures() {
-	// Load cube.png image
-	texture = new QOpenGLTexture(QImage(":/cube.png").mirrored());
-
-	// Set nearest filtering mode for texture minification
-	texture->setMinificationFilter(QOpenGLTexture::Nearest);
-
-	// Set bilinear filtering mode for texture magnification
-	texture->setMagnificationFilter(QOpenGLTexture::Linear);
-
-	// Wrap texture coordinates by repeating
-	// f.ex. texture coordinate (1.1, 1.2) is same as (0.1, 0.2)
-	texture->setWrapMode(QOpenGLTexture::Repeat);
-}
-
 void FractalWidget::resizeGL(int w, int h) {
 	// Calculate aspect ratio
 	qreal aspect = qreal(w) / qreal(h ? h : 1);
@@ -165,8 +145,6 @@ void FractalWidget::paintGL() {
 	// Clear color and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	texture->bind();
-
 	// Calculate model view transformation
 	QMatrix4x4 matrix;
 	matrix.translate(0.0, 0.0, -5.0);
@@ -184,9 +162,6 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("Ambience", transformColor(fd->ambienceColor));
 	program.setUniformValue("ColorFractal", transformColor(fd->fractalColor));
 	program.setUniformValue("CameraPosition", QVector3D(fd->camera));
-
-	// Use texture unit 0 which contains cube.png
-	program.setUniformValue("texture", 0);
 
 	// Draw cube geometry
 	geometries->drawGeometry(&program);

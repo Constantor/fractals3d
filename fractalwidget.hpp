@@ -43,8 +43,6 @@ protected:
 
     void initShaders();
 
-    void initTextures();
-
 private:
     // const constexpr static qreal EPS = 1e-6;
 
@@ -53,8 +51,6 @@ private:
     QOpenGLShaderProgram program;
     FractalData *fd;
     GeometryEngine *geometries = nullptr;
-
-    QOpenGLTexture *texture = nullptr;
 
     QMatrix4x4 projection;
     QVector2D mousePressPosition;

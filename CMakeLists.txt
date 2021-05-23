@@ -21,32 +21,35 @@ set(REQUIRED_LIBS Core Gui Widgets OpenGL OpenGLWidgets)
 set(REQUIRED_LIBS_QUALIFIED ${QT_LIB_PREF}Core ${QT_LIB_PREF}Gui ${QT_LIB_PREF}Widgets ${QT_LIB_PREF}OpenGL ${QT_LIB_PREF}OpenGLWidgets)
 
 add_compile_options(-Wall -Wextra -O3 -ffast-math)
-if (UNIX AND DEBUG)
-    add_compile_options(-fsanitize=address)
-    add_link_options(-fsanitize=address)
-endif (UNIX AND DEBUG)
+if(UNIX AND DEBUG)
+	add_compile_options(-fsanitize=address)
+	add_link_options(-fsanitize=address)
+endif(UNIX AND DEBUG)
 
 include_directories(headers)
 
+set(CMAKE_AUTOUIC_SEARCH_PATHS "${PROJECT_SOURCE_DIR}/ui")
+
 add_executable(${PROJECT_NAME}
-        main.cpp mainwindow.cpp mainwindow.hpp mainwindow.ui
-        fractalwidget.hpp fractalwidget.cpp
-        headers/FractalData.hpp src/FractalData.cpp
-        src/GeometryEngine.cpp headers/GeometryEngine.hpp
-        src/FractalPoint.cpp headers/FractalPoint.hpp
-        src/Complex3D.cpp headers/Complex3D.hpp
-        src/Fractal3D.cpp headers/Fractal3D.hpp
-        src/Recorder.cpp headers/Recorder.hpp
-)
+		main.cpp
+		src/mainwindow.cpp headers/mainwindow.hpp ui/mainwindow.ui
+		fractalwidget.hpp fractalwidget.cpp
+		headers/FractalData.hpp src/FractalData.cpp
+		src/GeometryEngine.cpp headers/GeometryEngine.hpp
+		src/FractalPoint.cpp headers/FractalPoint.hpp
+		src/Complex3D.cpp headers/Complex3D.hpp
+		src/Fractal3D.cpp headers/Fractal3D.hpp
+		src/Recorder.cpp headers/Recorder.hpp
+		)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
 target_link_libraries(${PROJECT_NAME} PUBLIC ${REQUIRED_LIBS_QUALIFIED})
 
 set_target_properties(${PROJECT_NAME} PROPERTIES
-        WIN32_EXECUTABLE TRUE
-        MACOSX_BUNDLE TRUE
-        AUTOMOC TRUE # for color picker
-        )
+		WIN32_EXECUTABLE TRUE
+		MACOSX_BUNDLE TRUE
+		AUTOMOC TRUE # for color picker
+		)
 #if (NOT CMAKE_PREFIX_PATH)
 #    message(WARNING "CMAKE_PREFIX_PATH is not defined, you may need to set it "
 #            "(-DCMAKE_PREFIX_PATH=\"path/to/Qt/lib/cmake\" or -DCMAKE_PREFIX_PATH=/usr/include/{host}/qt{version}/ on Ubuntu)")
@@ -54,18 +57,17 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 
 # Resources
 set(shaders_resource_files
-        "fshader.glsl"
-        "vshader.glsl"
-        )
+		"fshader.glsl"
+		"vshader.glsl"
+		)
 
 qt6_add_resources(fractals3d "shaders" PREFIX "/" FILES ${shaders_resource_files})
-set(textures_resource_files "cube.png")
 
 qt6_add_resources(fractals3d "textures" PREFIX "/" FILES ${textures_resource_files})
 # End resources
 
 install(TARGETS fractals3d
-        RUNTIME DESTINATION "${INSTALL_DIR}"
-        BUNDLE DESTINATION "${INSTALL_DIR}"
-        LIBRARY DESTINATION "${INSTALL_DIR}"
-        )
+		RUNTIME DESTINATION "${INSTALL_DIR}"
+		BUNDLE DESTINATION "${INSTALL_DIR}"
+		LIBRARY DESTINATION "${INSTALL_DIR}"
+		)

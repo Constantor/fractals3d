@@ -1,5 +1,5 @@
 #include "mainwindow.hpp"
-#include "ui_mainwindow.h"
+//#include "ui_mainwindow.h"
 
 typedef QString string;
 namespace {
