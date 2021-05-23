@@ -33,44 +33,35 @@ float plane(vec3 point) {
     return point.y;
 }
 
-vec4 Add(vec4 z1, vec4 z2)
-{
+vec4 Add(vec4 z1, vec4 z2) {
     return z1 + z2;
 }
 
-vec4 Mul(vec4 z1, vec4 z2)
-{
+vec4 Mul(vec4 z1, vec4 z2) {
     return vec4(z1.x * z2.x - dot(z1.yzw, z2.yzw), z2.x * z1.yzw + z1.x * z2.yzw + cross(z1.yzw, z2.yzw));
 }
 
-vec4 Pow(vec4 z, int n)
-{
+vec4 Pow(vec4 z, int n) {
     vec4 z0 = vec4(1.0, vec3(0.0));
-    for (int i = 0; i < n; ++i)
-    {
+    for(int i = 0; i < n; i++)
         z0 = Mul(z0, z);
-    }
     return z0;
 }
 
-struct QDual
-{
+struct QDual {
     vec4 q;
     vec4 d;
 };
 
-QDual qdAdd(QDual qd1, QDual qd2)
-{
+QDual qdAdd(QDual qd1, QDual qd2) {
     return QDual(Add(qd1.q, qd2.q), Add(qd1.d, qd2.d));
 }
 
-QDual qdMul(QDual qd1, QDual qd2)
-{
+QDual qdMul(QDual qd1, QDual qd2) {
     return QDual(Mul(qd1.q, qd2.q), Add(Mul(qd1.d, qd2.q), Mul(qd1.q, qd2.d)));
 }
 
-QDual qdPow(QDual qd, int n)
-{
+QDual qdPow(QDual qd, int n) {
     QDual p = QDual(vec4(1.0, vec3(0.0)), vec4(0.0, vec3(0.0)));
     for (int i = 0; i < n; ++i)
     {
@@ -152,12 +143,10 @@ float anotherFractal(vec4 point, vec4 CriticalPoint) {
 }
 
 
-float mandelbrot(vec4 c, vec4 z)
-{
+float mandelbrot(vec4 c, vec4 z) {
     QDual zd = QDual(z, vec4(0.0, vec3(0.0)));
     QDual cd = QDual(c, vec4(1.0, vec3(0.0)));
-    for (int i = 0; i < MANDEL_ITER; ++i)
-    {
+    for(int i = 0; i < MANDEL_ITER; i++) {
         zd = qdAdd(qdPow(zd, POWER), cd);
         if (length(zd.q) > RADIUS) break;
     }
@@ -167,7 +156,7 @@ float mandelbrot(vec4 c, vec4 z)
 
 float GetDist(vec3 point, vec3 CriticalPoint) {
     float fractalDist;
-    switch(TYPE){
+    switch(TYPE) {
         case 0:
         fractalDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
         break;
@@ -186,20 +175,17 @@ float GetDist(vec3 point, vec3 CriticalPoint) {
 
 float RayMarch(vec3 CameraPosition, vec3 RayDirection, vec3 CriticalPoint) {
     float dist = 0.0;
-    for (int i = 0; i < MAX_STEPS; ++i) {
+    for(int i = 0; i < MAX_STEPS; i++) {
         vec3 RayPosition = CameraPosition + RayDirection * dist;
         float distNear = GetDist(RayPosition, CriticalPoint);
         dist += distNear;
-        if (dist > MAX_DIST || distNear < MIN_DIST) {
+        if (MAX_DIST < dist || distNear < MIN_DIST)
             break;
-        }
     }
-
     return dist;
 }
 
-vec2 linmap(vec2 point, vec2 leftCorner, vec2 rightCorner, vec2 newLeftCorner, vec2 newRightCorner)
-{
+vec2 linmap(vec2 point, vec2 leftCorner, vec2 rightCorner, vec2 newLeftCorner, vec2 newRightCorner) {
     return (point - leftCorner) / (rightCorner - leftCorner) * (newRightCorner - newLeftCorner) + newLeftCorner;
 }
 
@@ -217,8 +203,7 @@ void main() {
 
     float distance = RayMarch(CameraPosition, RayDirection, CriticalPoint);
     result = 1.1 * vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
-    if (distance > MAX_DIST * 0.75) {
+    if (MAX_DIST * 0.75 < distance)
         result = Ambience;
-    }
     FragColor = vec4(result, 1.0);
 }
