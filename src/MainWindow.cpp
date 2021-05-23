@@ -1,4 +1,4 @@
-#include "mainwindow.hpp"
+#include "MainWindow.hpp"
 
 typedef QString string;
 namespace {

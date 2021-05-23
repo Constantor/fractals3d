@@ -2,7 +2,7 @@
 
 #include "Recorder.hpp"
 #include "FractalData.hpp"
-#include "fractalwidget.hpp"
+#include "FractalWidget.hpp"
 #include <QColorDialog>
 #include <QDoubleSpinBox>
 #include <QElapsedTimer>

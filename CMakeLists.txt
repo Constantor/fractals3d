@@ -32,8 +32,8 @@ set(CMAKE_AUTOUIC_SEARCH_PATHS "${PROJECT_SOURCE_DIR}/ui")
 
 add_executable(${PROJECT_NAME}
 		main.cpp
-		headers/mainwindow.hpp src/mainwindow.cpp ui/mainwindow.ui
-		headers/fractalwidget.hpp src/fractalwidget.cpp
+		headers/MainWindow.hpp src/MainWindow.cpp ui/mainwindow.ui
+		headers/FractalWidget.hpp src/FractalWidget.cpp
 		headers/FractalData.hpp src/FractalData.cpp
 		headers/GeometryEngine.hpp src/GeometryEngine.cpp
 		headers/FractalPoint.hpp src/FractalPoint.cpp
