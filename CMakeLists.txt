@@ -38,7 +38,6 @@ add_executable(${PROJECT_NAME}
 		headers/GeometryEngine.hpp src/GeometryEngine.cpp
 		headers/FractalPoint.hpp src/FractalPoint.cpp
 		headers/Complex3D.hpp src/Complex3D.cpp
-		headers/Fractal3D.hpp src/Fractal3D.cpp
 		headers/Recorder.hpp src/Recorder.cpp
 		shaders/shaders.qrc
 		)
