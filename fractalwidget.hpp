@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GeometryEngine.hpp"
-#include "fractaldata.hpp"
+#include "FractalData.hpp"
 
 #include <QBasicTimer>
 #include <QMatrix4x4>

@@ -1,4 +1,4 @@
-#include "fractaldata.hpp"
+#include "FractalData.hpp"
 
 namespace {
 	qreal randomReal() {
