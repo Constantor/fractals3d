@@ -61,9 +61,7 @@ set(shaders_resource_files
 		"vshader.glsl"
 		)
 
-qt6_add_resources(fractals3d "shaders" PREFIX "/" FILES ${shaders_resource_files})
-
-qt6_add_resources(fractals3d "textures" PREFIX "/" FILES ${textures_resource_files})
+qt_add_resources(fractals3d "shaders" PREFIX "/" FILES ${shaders_resource_files})
 # End resources
 
 install(TARGETS fractals3d
