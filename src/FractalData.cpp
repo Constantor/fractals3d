@@ -46,7 +46,7 @@ void FractalData::readFrom(QJsonDocument &in) {
 	camera = QVector3D(0.0, 0.0, 1.5);
 }
 
-FractalData::FractalData() {
+void FractalData::genRandom() {
 	a = randomReal();
 	b = randomReal();
 	c = randomReal();
@@ -54,4 +54,8 @@ FractalData::FractalData() {
 	type = FractalType(QRandomGenerator::global()->bounded(3));
 	fractalColor = randomColor();
 	ambienceColor = randomColor();
+}
+
+FractalData::FractalData() {
+	genRandom();
 }

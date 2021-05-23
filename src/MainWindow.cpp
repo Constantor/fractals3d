@@ -100,6 +100,10 @@ void MainWindow::connectBoxBar() {
 	connect(ui->typeBox, &QComboBox::currentIndexChanged, [&]() { readAndDraw(); });
 	connect(ui->fractalColorButton, &QPushButton::clicked, [&]() { askColor(FRACTAL); });
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
+	connect(ui->randomizeButton, &QPushButton::clicked, [&]() {
+		data.genRandom();
+		ui->fractalWidget->repaint();
+	});
 }
 
 void MainWindow::readAndDraw() {

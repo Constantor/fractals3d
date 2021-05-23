@@ -29,8 +29,6 @@ QT_FORWARD_DECLARE_CLASS(QOpenGLWidget)
 
 class MainWindow : public QMainWindow {
 Q_OBJECT
-
-	static const qint64 INTERVAL = 10;
 	static const qint64 LIMIT = 10000;
 
 public:
@@ -40,7 +38,7 @@ public:
 
 private:
 	Ui::MainWindow *ui;
-	FractalData data;
+	FractalData data{};
 	QElapsedTimer *elapsedTimer{};
 	QTimer *timer{};
 	qint64 time{}, frames{};
@@ -48,7 +46,6 @@ private:
 	Recorder *recorder{};
 	bool isOnRecord = false;
 	bool isSetting = true;
-
 
 	void connectBoxBar();
 

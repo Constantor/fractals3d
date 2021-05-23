@@ -62,7 +62,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame">
+								<widget class="QFrame" name="frame1">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -111,7 +111,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame">
+								<widget class="QFrame" name="frame2">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -160,7 +160,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame">
+								<widget class="QFrame" name="frame3">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -206,7 +206,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame">
+								<widget class="QFrame" name="frame3">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -249,7 +249,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame">
+								<widget class="QFrame" name="frame3">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -273,7 +273,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame">
+								<widget class="QFrame" name="frame3">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -297,17 +297,21 @@
 								</widget>
 							</item>
 							<item>
-								<spacer name="verticalSpacer">
-									<property name="orientation">
-										<enum>Qt::Vertical</enum>
+								<widget class="QFrame" name="frame3">
+									<property name="frameShape">
+										<enum>QFrame::HLine</enum>
 									</property>
-									<property name="sizeHint" stdset="0">
-										<size>
-											<width>20</width>
-											<height>40</height>
-										</size>
+									<property name="frameShadow">
+										<enum>QFrame::Sunken</enum>
 									</property>
-								</spacer>
+								</widget>
+							</item>
+							<item>
+								<widget class="QPushButton" name="randomizeButton">
+									<property name="text">
+										<string>Generate random</string>
+									</property>
+								</widget>
 							</item>
 						</layout>
 					</widget>

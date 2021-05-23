@@ -40,8 +40,6 @@ protected:
 	void initShaders();
 
 private:
-	// const constexpr static qreal EPS = 1e-6;
-
 	bool mousePressed = false;
 	QOpenGLShaderProgram program;
 	FractalData *fd;
