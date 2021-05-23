@@ -73,11 +73,10 @@ void MainWindow::chooseColor(QColor const &color, ColorType type = FRACTAL) {
 
 void MainWindow::askColor(ColorType type) {
 	QString title;
-	if(type == AMBIENCE) {
+	if(type == AMBIENCE)
 		title = "Select ambience color";
-	} else {
+	else
 		title = "Select fractal color";
-	}
 	chooseColor(QColorDialog::getColor(Qt::green, this, title), type);
 }
 
