@@ -40,6 +40,7 @@ add_executable(${PROJECT_NAME}
 		headers/Complex3D.hpp src/Complex3D.cpp
 		headers/Fractal3D.hpp src/Fractal3D.cpp
 		headers/Recorder.hpp src/Recorder.cpp
+		shaders/shaders.qrc
 		)
 
 find_package(Qt${QT_VERSION} COMPONENTS ${REQUIRED_LIBS} REQUIRED)
@@ -61,7 +62,7 @@ set(shaders_resource_files
 		"vshader.glsl"
 		)
 
-qt_add_resources(fractals3d "shaders" PREFIX "/" FILES ${shaders_resource_files})
+#qt_add_resources(fractals3d "shaders" PREFIX "/" FILES ${shaders_resource_files})
 # End resources
 
 install(TARGETS fractals3d
