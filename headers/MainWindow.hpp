@@ -3,6 +3,7 @@
 #include "Recorder.hpp"
 #include "FractalData.hpp"
 #include "FractalWidget.hpp"
+
 #include <QColorDialog>
 #include <QDoubleSpinBox>
 #include <QElapsedTimer>

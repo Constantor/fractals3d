@@ -1,4 +1,5 @@
 #include "FractalWidget.hpp"
+
 #include <QMouseEvent>
 #include <cmath>
 

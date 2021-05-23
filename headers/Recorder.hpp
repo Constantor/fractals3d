@@ -1,13 +1,12 @@
 #pragma once
 
-#include <QImage>
 #include <atomic>
 #include <condition_variable>
 #include <mutex>
 #include <queue>
 #include <thread>
-
 #include <chrono>
+#include <QImage>
 
 class Recorder {
 public:
@@ -16,62 +15,25 @@ public:
 		kWaitProcessing
 	};
 
-	Recorder(Mode mode) : instant_stop_(mode == Mode::kInstantStop) {}
-	virtual ~Recorder() {
-		stop();
-	}
+	Recorder(Mode mode);
 
-	void start() {
-		if(!running_) {
-			running_ = true;
-			worker_ = std::thread(&Recorder::run, this);
-		}
-	}
+	virtual ~Recorder() noexcept;
 
-	void stop() {
-		if(!running_)
-			return;
+	void start();
 
-		{
-			std::unique_lock<std::mutex> lock(queue_mutex_);
-			running_ = false;
-			queue_condition_.notify_all();
-		}
-		worker_.join();
-	}
+	void stop();
 
-	void push_back(std::pair<QImage, QString> &&data) {
-		std::unique_lock<std::mutex> lock(queue_mutex_);
-		queue_.emplace(std::move(data));
-		queue_condition_.notify_all();
-	}
+	void push_back(std::pair<QImage, QString> &&data);
 
 private:
-	void run() {
-		while(running_ || !queue_.empty()) {
-			std::unique_lock<std::mutex> lock(queue_mutex_);
-			queue_condition_.wait(lock, [this] { return !queue_.empty() || !running_; });
-			if(!running_ && instant_stop_) {
-				break;
-			}
-			if(queue_.empty()) {
-				continue;
-			}
-
-			auto data = std::move(queue_.front());
-			queue_.pop();
-			lock.unlock();
-
-			data.first.save(data.second);
-		}
-	}
+	void run();
 
 private:
-	const bool instant_stop_;
-	std::atomic_bool running_ = false;
-	std::thread worker_;
+	const bool instantStop;
+	std::atomic_bool running = false;
+	std::thread worker;
 
-	std::queue<std::pair<QImage, QString>> queue_;
-	std::mutex queue_mutex_;
-	std::condition_variable queue_condition_;
+	std::queue<std::pair<QImage, QString>> queue;
+	std::mutex queueMutex;
+	std::condition_variable queueCondition;
 };
