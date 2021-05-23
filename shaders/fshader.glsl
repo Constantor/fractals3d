@@ -158,17 +158,17 @@ float GetDist(vec3 point, vec3 CriticalPoint) {
     float fractalDist;
     switch(TYPE) {
         case 0:
-        fractalDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
-        break;
+            fractalDist = mandelbrot(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+            break;
         case 1:
-        fractalDist = psychoFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
-        break;
+            fractalDist = psychoFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+            break;
         case 2:
-        fractalDist = anotherFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
-        break;
+            fractalDist = anotherFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+            break;
         case 3:
-        fractalDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
-        break;
+            fractalDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+            break;
     }
     return fractalDist;
 }
