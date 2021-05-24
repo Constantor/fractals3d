@@ -102,6 +102,7 @@ void MainWindow::connectBoxBar() {
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
 	connect(ui->randomizeButton, &QPushButton::clicked, [&]() {
 		data.genRandom();
+		setValues();
 		ui->fractalWidget->repaint();
 	});
 }

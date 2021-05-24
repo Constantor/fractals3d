@@ -40,7 +40,7 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
 	QVector3D n = QVector3D(0, diff.x(), 0.0).normalized();
 	float alpha = 0.5 * (diff.x() * M_PI / 360.0);
 	rotationDelta = diff.x() / 4;
-	fd->camera = QVector3D(fd->camera.x() * cos(alpha) - fd->camera.z() * sin(alpha), fd->camera.y(), fd->camera.x() * sin(alpha) + fd->camera.z() * cos(alpha));
+	fractalData->camera = QVector3D(fractalData->camera.x() * cos(alpha) - fractalData->camera.z() * sin(alpha), fractalData->camera.y(), fractalData->camera.x() * sin(alpha) + fractalData->camera.z() * cos(alpha));
 	rotationAxis = (n * rotationDelta).normalized();
 
 	if(rotationDelta != 0) {
@@ -149,20 +149,20 @@ void FractalWidget::paintGL() {
 	// Set modelview-projection matrix
 	program.setUniformValue("mvp_matrix", projection * matrix);
 
-	program.setUniformValue("POWER", (GLint) fd->n);
+	program.setUniformValue("POWER", (GLint) fractalData->n);
 	program.setUniformValue("Resolution", QVector2D(this->height(), this->width()));
-	program.setUniformValue("CriticalPointX", (GLfloat) fd->a);
-	program.setUniformValue("CriticalPointY", (GLfloat) fd->b);
-	program.setUniformValue("CriticalPointZ", (GLfloat) fd->c);
-	program.setUniformValue("TYPE", (GLint) fd->type);
-	program.setUniformValue("Ambience", transformColor(fd->ambienceColor));
-	program.setUniformValue("ColorFractal", transformColor(fd->fractalColor));
-	program.setUniformValue("CameraPosition", QVector3D(fd->camera));
+	program.setUniformValue("CriticalPointX", (GLfloat) fractalData->a);
+	program.setUniformValue("CriticalPointY", (GLfloat) fractalData->b);
+	program.setUniformValue("CriticalPointZ", (GLfloat) fractalData->c);
+	program.setUniformValue("TYPE", (GLint) fractalData->type);
+	program.setUniformValue("Ambience", transformColor(fractalData->ambienceColor));
+	program.setUniformValue("ColorFractal", transformColor(fractalData->fractalColor));
+	program.setUniformValue("CameraPosition", QVector3D(fractalData->camera));
 
 	// Draw cube geometry
 	geometries->drawGeometry(&program);
 }
 
-void FractalWidget::setFractalData(FractalData *fractalData) {
-	fd = fractalData;
+void FractalWidget::setFractalData(FractalData *data) {
+	fractalData = data;
 }

@@ -4,6 +4,8 @@
 #include <utility>
 #include <map>
 
+const QVector3D FractalData::baseCamera = QVector3D(0, 0, 1.5); // is more centered, but worse in some way
+
 namespace {
 	qreal randomReal() {
 		std::uniform_real_distribution dist(-0.3, 0.3);
@@ -47,7 +49,8 @@ void FractalData::readFrom(QJsonDocument &in) {
 	ambienceColor = QColor(fractalData.value("Ambience color").toString());
 	//	QJsonArray cameraPosition = fractalData.value("camera").toArray();
 	//	camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
-	camera = QVector3D(0.0, 0.0, 1.5);
+	// camera = QVector3D(0.0, 0.0, 1.5);
+	camera = baseCamera;
 }
 
 void FractalData::genRandom(bool similarityProtection) {
@@ -72,7 +75,7 @@ void FractalData::genRandom(bool similarityProtection) {
 										out += std::pow(std::abs(u[i] - v[i]) / 255., p);
 									return std::pow(out, 1. / p) / std::pow(3, 1. / p);
 								},
-								0.2 // threshold
+								0.25 // threshold
 						}
 				}
 		};

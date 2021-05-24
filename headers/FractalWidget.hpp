@@ -20,7 +20,7 @@ public:
 
 	~FractalWidget();
 
-	void setFractalData(FractalData *fractalData);
+	void setFractalData(FractalData *data);
 
 protected:
 	void wheelEvent(QWheelEvent *e) override;
@@ -42,7 +42,7 @@ protected:
 private:
 	bool mousePressed = false;
 	QOpenGLShaderProgram program;
-	FractalData *fd;
+	FractalData *fractalData;
 	GeometryEngine *geometries = nullptr;
 
 	QMatrix4x4 projection;
