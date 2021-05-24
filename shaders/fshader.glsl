@@ -208,7 +208,7 @@ void main() {
 
     float distance = RayMarch(CameraPosition, RayDirection, CriticalPoint);
     result = 1.1 * vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
-    if (MAX_DIST * 0.75 < distance)
+    if(MAX_DIST * 0.75 < distance)
         result = Ambience;
     FragColor = vec4(result, 1.0);
 
