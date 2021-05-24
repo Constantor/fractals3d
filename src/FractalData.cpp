@@ -70,7 +70,7 @@ void FractalData::genRandom(bool similarityProtection) {
 	genColors();
 	if(similarityProtection) {
 		static std::map<const std::string, const std::pair<std::function<qreal(std::vector<int> const &, std::vector<int> const &)>, const qreal>> metrics = {
-				{"minkowski",
+				{"minkowski-normalized",
 						{
 								[](std::vector<int> const &u, std::vector<int> const &v) -> qreal {
 									static const int p = 5;
@@ -79,7 +79,7 @@ void FractalData::genRandom(bool similarityProtection) {
 										out += std::pow(std::abs(u[i] - v[i]) / 255., p);
 									return std::pow(out, 1. / p) / std::pow(3, 1. / p);
 								},
-								0.2
+								0.2 // threshold
 						}
 				}
 		};
@@ -89,7 +89,7 @@ void FractalData::genRandom(bool similarityProtection) {
 			};
 			return metric.first(toVector(u), toVector(v)) < metric.second;
 		};
-		while(isSimilar(fractalColor, ambienceColor, metrics["minkowski"]))
+		while(isSimilar(fractalColor, ambienceColor, metrics["minkowski-normalized"]))
 			genColors();
 	}
 }
