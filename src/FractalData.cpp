@@ -63,30 +63,35 @@ void FractalData::genRandom(bool similarityProtection) {
 	c = randomReal();
 	n = 2 * (QRandomGenerator::global()->bounded(15) + 1);
 	type = FractalType(QRandomGenerator::global()->bounded(3));
-	static std::map<const std::string, const std::pair<std::function<qreal(std::vector<int> const &, std::vector<int> const &)>, const qreal>> metrics = {
-			{"minkowski",
-					{
-							[](std::vector<int> const &u, std::vector<int> const &v) -> qreal {
-								static const int p = 5;
-								qreal out = 0;
-								for(size_t i = 0; i < std::min(u.size(), v.size()); i++)
-									out += std::pow(std::abs(u[i] - v[i]) / 255., p);
-								return std::pow(out, 1. / p);
-							},
-							0.25
-					}
-			}
-	};
-	auto isSimilar = [](QColor const &u, QColor const &v, std::pair<std::function<qreal(std::vector<int>, std::vector<int>)>, qreal> const &metric) -> bool {
-		static const auto toVector = [](QColor const &color) -> std::vector<int> {
-			return {color.red(), color.green(), color.blue()};
-		};
-		return metric.first(toVector(u), toVector(v)) < metric.second;
-	};
-	do {
+	auto genColors = [this]() {
 		fractalColor = randomColor();
 		ambienceColor = randomColor();
-	} while(isSimilar(fractalColor, ambienceColor, metrics["minkowski"]));
+	};
+	genColors();
+	if(similarityProtection) {
+		static std::map<const std::string, const std::pair<std::function<qreal(std::vector<int> const &, std::vector<int> const &)>, const qreal>> metrics = {
+				{"minkowski",
+						{
+								[](std::vector<int> const &u, std::vector<int> const &v) -> qreal {
+									static const int p = 5;
+									qreal out = 0;
+									for(size_t i = 0; i < std::min(u.size(), v.size()); i++)
+										out += std::pow(std::abs(u[i] - v[i]) / 255., p);
+									return std::pow(out, 1. / p) / std::pow(3, 1. / p);
+								},
+								0.2
+						}
+				}
+		};
+		auto isSimilar = [](QColor const &u, QColor const &v, std::pair<std::function<qreal(std::vector<int>, std::vector<int>)>, qreal> const &metric) -> bool {
+			static const auto toVector = [](QColor const &color) -> std::vector<int> {
+				return {color.red(), color.green(), color.blue()};
+			};
+			return metric.first(toVector(u), toVector(v)) < metric.second;
+		};
+		while(isSimilar(fractalColor, ambienceColor, metrics["minkowski"]))
+			genColors();
+	}
 }
 
 FractalData::FractalData() {
