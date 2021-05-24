@@ -185,6 +185,8 @@ float RayMarch(vec3 CameraPosition, vec3 RayDirection, vec3 CriticalPoint) {
     return dist;
 }
 
+vec2 shift = vec2(0, 0);
+
 vec2 linmap(vec2 point, vec2 leftCorner, vec2 rightCorner, vec2 newLeftCorner, vec2 newRightCorner) {
     return (point - leftCorner) / (rightCorner - leftCorner) * (newRightCorner - newLeftCorner) + newLeftCorner;
 }
@@ -194,9 +196,12 @@ out vec4 FragColor;
 void main() {
     float MinY = -1.0;
     float MaxY = 1.0;
+    //float MinX = -1.0;
+    //float MaxX = 1.0;
     float MinX = -Resolution.x / Resolution.y;
     float MaxX = Resolution.x / Resolution.y;
-    vec2 FragCoord = linmap(gl_FragCoord.xy, vec2(0, 0), Resolution, vec2(MinX, MinY), vec2(MaxX, MaxY));
+    float minXY = min(Resolution.x, Resolution.y);
+    vec2 FragCoord = linmap(gl_FragCoord.xy, vec2(0, 0), vec2(minXY, minXY), vec2(MinX, MinY), vec2(MaxX, MaxY));
     vec3 result = vec3(0);
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);
     vec3 RayDirection = normalize((inverse(mvp_matrix) * vec4(FragCoord, 1.0, 1.0)).xyz);
@@ -206,4 +211,10 @@ void main() {
     if (MAX_DIST * 0.75 < distance)
         result = Ambience;
     FragColor = vec4(result, 1.0);
+
+    //if(1 <= gl_FragColor.x)
+    //    FragColor = vec4(1, 0, 0, 1);
+
+    if(-0.01 <= FragCoord.x && FragCoord.x <= 0.01 && -0.01 <= FragCoord.y && FragCoord.y <= 0.01)
+        FragColor = vec4(1, 0, 0, 1);
 }
