@@ -1,4 +1,8 @@
 #include "FractalData.hpp"
+#include <functional>
+#include <vector>
+#include <utility>
+#include <map>
 
 namespace {
 	qreal randomReal() {
@@ -13,7 +17,14 @@ namespace {
 
 [[maybe_unused]] FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type) : a(a), b(b), c(c), n(n), type(type) {}
 
-FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera) : a(a), b(b), c(c), n(n), type(type), fractalColor(fractalColor), ambienceColor(ambienceColor), camera(camera) {}
+FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera) : a(a), b(b),
+																																									c(c), n(n),
+																																									type(type),
+																																									fractalColor(
+																																											fractalColor),
+																																									ambienceColor(
+																																											ambienceColor),
+																																									camera(camera) {}
 
 QJsonObject FractalData::serialize() const {
 	QJsonObject serialized;
@@ -46,16 +57,38 @@ void FractalData::readFrom(QJsonDocument &in) {
 	camera = QVector3D(0.0, 0.0, 1.5);
 }
 
-void FractalData::genRandom() {
+void FractalData::genRandom(bool similarityProtection) {
 	a = randomReal();
 	b = randomReal();
 	c = randomReal();
 	n = 2 * (QRandomGenerator::global()->bounded(15) + 1);
 	type = FractalType(QRandomGenerator::global()->bounded(3));
-	fractalColor = randomColor();
-	ambienceColor = randomColor();
+	static std::map<const std::string, const std::pair<std::function<qreal(std::vector<int> const &, std::vector<int> const &)>, const qreal>> metrics = {
+			{"minkowski",
+					{
+							[](std::vector<int> const &u, std::vector<int> const &v) -> qreal {
+								static const int p = 5;
+								qreal out = 0;
+								for(size_t i = 0; i < std::min(u.size(), v.size()); i++)
+									out += std::pow(std::abs(u[i] - v[i]) / 255., p);
+								return std::pow(out, 1. / p);
+							},
+							0.25
+					}
+			}
+	};
+	auto isSimilar = [](QColor const &u, QColor const &v, std::pair<std::function<qreal(std::vector<int>, std::vector<int>)>, qreal> const &metric) -> bool {
+		static const auto toVector = [](QColor const &color) -> std::vector<int> {
+			return {color.red(), color.green(), color.blue()};
+		};
+		return metric.first(toVector(u), toVector(v)) < metric.second;
+	};
+	do {
+		fractalColor = randomColor();
+		ambienceColor = randomColor();
+	} while(isSimilar(fractalColor, ambienceColor, metrics["minkowski"]));
 }
 
 FractalData::FractalData() {
-	genRandom();
+	genRandom(true);
 }

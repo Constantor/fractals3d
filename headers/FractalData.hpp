@@ -30,7 +30,7 @@ public:
 	QColor ambienceColor = QColor(255, 55, 55);
 	QVector3D camera = QVector3D(0.0, 0.0, 1.5);
 
-	void genRandom();
+	void genRandom(bool similarityProtection = false);
 
 	FractalData();
 	[[maybe_unused]] FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
