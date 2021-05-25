@@ -29,16 +29,16 @@ namespace {
 					 0.25// threshold
 			 }}};
 
-	auto isSimilar = [](QColor const &u, QColor const &v, std::pair<std::function<qreal(std::vector<int>, std::vector<int>)>, qreal> const &metric) -> bool {
+	bool isSimilar(QColor const &u, QColor const &v, std::pair<std::function<qreal(std::vector<int>, std::vector<int>)>, qreal> const &metric) {
 		static const auto toVector = [](QColor const &color) -> std::vector<int> {
 			return {color.red(), color.green(), color.blue()};
 		};
 		return metric.first(toVector(u), toVector(v)) < metric.second;
 	};
 
-	auto isBlack = [](const QColor &color) -> bool {
-		return (color.value() < 150);
-	};
+	bool isBlack(QColor const &color) {
+		return color.value() < 150;
+	}
 
 }// namespace
 
