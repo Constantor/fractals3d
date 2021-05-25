@@ -25,14 +25,14 @@ class FractalData {
 public:
 	static const QVector3D baseCamera; // set in FractalData.cpp
 
-	qreal a, b, c;
+	qreal a{}, b{}, c{};
 	quint8 n = 2;
 	FractalType type{};
 	QColor fractalColor = QColor(55, 255, 55);
 	QColor ambienceColor = QColor(255, 55, 55);
 	QVector3D camera = baseCamera; // I tried (-1.3, -0.6, 1.5), it was more centered, but not so beautiful
 
-	void genRandom(bool similarityProtection = false);
+	void genRandom();
 
 	FractalData();
 	[[maybe_unused]] FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);

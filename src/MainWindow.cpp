@@ -100,11 +100,7 @@ void MainWindow::connectBoxBar() {
 	connect(ui->typeBox, &QComboBox::currentIndexChanged, [&]() { readAndDraw(); });
 	connect(ui->fractalColorButton, &QPushButton::clicked, [&]() { askColor(FRACTAL); });
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
-	connect(ui->randomizeButton, &QPushButton::clicked, [&]() {
-		data.genRandom();
-		setValues();
-		ui->fractalWidget->repaint();
-	});
+	connect(ui->randomizeButton, &QPushButton::clicked, [&]() { generateRandom(); });
 }
 
 void MainWindow::readAndDraw() {
@@ -228,8 +224,7 @@ void MainWindow::saveVideo() {
 			return;
 		}
 		//int framerate = frames * 1000 / time;
-		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2").arg(
-				temporaryDir->path(), fileName);
+		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2").arg(temporaryDir->path(), fileName);
 		qDebug() << command;
 		std::system(command.toStdString().data());
 	}
@@ -240,4 +235,9 @@ void MainWindow::recordClickAction() {
 		stopRecord();
 	else
 		startRecord();
+}
+void MainWindow::generateRandom() {
+	data.genRandom();
+	setValues();
+	ui->fractalWidget->repaint();
 }

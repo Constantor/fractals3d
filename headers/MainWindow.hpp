@@ -78,4 +78,6 @@ private:
 	void saveVideo();
 
 	void recordClickAction();
+
+	void generateRandom();
 };

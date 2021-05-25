@@ -78,7 +78,7 @@ void FractalData::readFrom(QJsonDocument &in) {
 	camera = baseCamera;
 }
 
-void FractalData::genRandom(bool similarityProtection) {
+void FractalData::genRandom() {
 	a = randomReal();
 	b = randomReal();
 	c = randomReal();
@@ -89,13 +89,11 @@ void FractalData::genRandom(bool similarityProtection) {
 		ambienceColor = randomColor();
 	};
 	genColors();
-	if(similarityProtection) {
-		while(isSimilar(fractalColor, ambienceColor, metrics["minkowski-normalized"]) || isBlack(fractalColor)) {
-			genColors();
-		}
+	while(isSimilar(fractalColor, ambienceColor, metrics["minkowski-normalized"]) || isBlack(fractalColor)) {
+		genColors();
 	}
 }
 
 FractalData::FractalData() {
-	genRandom(true);
+	genRandom();
 }
