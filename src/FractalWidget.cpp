@@ -2,6 +2,7 @@
 
 #include <QMouseEvent>
 #include <cmath>
+#include <QApplication>
 
 namespace {
 	QVector3D transformColor(const QColor &color) {
@@ -150,7 +151,8 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("mvp_matrix", projection * matrix);
 
 	program.setUniformValue("POWER", (GLint) fractalData->n);
-	program.setUniformValue("Resolution", QVector2D(this->height(), this->width()));
+	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+	program.setUniformValue("Resolution", app->devicePixelRatio() * QVector2D(this->height(), this->width()));
 	program.setUniformValue("CriticalPointX", (GLfloat) fractalData->a);
 	program.setUniformValue("CriticalPointY", (GLfloat) fractalData->b);
 	program.setUniformValue("CriticalPointZ", (GLfloat) fractalData->c);
