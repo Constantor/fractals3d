@@ -223,8 +223,8 @@ void MainWindow::saveVideo() {
 									 "Can't save to " + fileInfo.fileName());
 			return;
 		}
-		//int framerate = frames * 1000 / time;
-		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2").arg(temporaryDir->path(), fileName);
+		int framerate = frames * 1000 / time;
+		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -framerate %2 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %3").arg(temporaryDir->path(), QString::number(framerate), fileName);
 		qDebug() << command;
 		std::system(command.toStdString().data());
 	}
