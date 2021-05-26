@@ -12,7 +12,7 @@ GeometryEngine::GeometryEngine() : indexBuf(QOpenGLBuffer::IndexBuffer) {
 	arrayBuf.create();
 	indexBuf.create();
 
-	// Initializes cube geometry and transfers it to VBOs
+	// Initializes geometry and transfers it to VBOs
 	initGeometry();
 }
 
@@ -22,7 +22,7 @@ GeometryEngine::~GeometryEngine() {
 }
 
 void GeometryEngine::initGeometry() {
-	// For cube we would need only 8 vertices but we have to
+	// We would need only 8 vertices but we have to
 	// duplicate vertex for each face because texture coordinate
 	// is different.
 	VertexData vertices[] = {
@@ -86,6 +86,6 @@ void GeometryEngine::drawGeometry(QOpenGLShaderProgram *program) {
 	arrayBuf.bind();
 	indexBuf.bind();
 
-	// Draw cube geometry using indices from VBO 1
+	// Draw geometry using indices from VBO 1
 	glDrawElements(GL_TRIANGLE_STRIP, 34, GL_UNSIGNED_SHORT, nullptr);
 }

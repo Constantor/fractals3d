@@ -206,7 +206,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame3">
+								<widget class="QFrame" name="frame4">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -249,7 +249,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame3">
+								<widget class="QFrame" name="frame5">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -273,7 +273,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame3">
+								<widget class="QFrame" name="frame6">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -297,7 +297,7 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QFrame" name="frame3">
+								<widget class="QFrame" name="frame7">
 									<property name="frameShape">
 										<enum>QFrame::HLine</enum>
 									</property>
@@ -312,6 +312,19 @@
 										<string>Generate random</string>
 									</property>
 								</widget>
+							</item>
+							<item>
+								<spacer name="verticalSpacer">
+									<property name="orientation">
+										<enum>Qt::Vertical</enum>
+									</property>
+									<property name="sizeHint" stdset="0">
+										<size>
+											<width>20</width>
+											<height>40</height>
+										</size>
+									</property>
+								</spacer>
 							</item>
 						</layout>
 					</widget>
