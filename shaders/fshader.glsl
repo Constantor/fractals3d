@@ -192,40 +192,28 @@ vec2 linmap(vec2 point, vec2 leftCorner, vec2 rightCorner, vec2 newLeftCorner, v
 out vec4 FragColor;
 
 void main() {
-    float minY, maxY, minX, maxX;
     float resolutionMin = min(Resolution.x, Resolution.y);
     float resolutionMax = max(Resolution.x, Resolution.y);
-    float resolutionSurplus = resolutionMax - resolutionMin;
-    vec2 shift = vec2(0, 0);
-    float majorCoord = 0;
-    if(Resolution.y < Resolution.x) {
-        minY = -1.0;
-        maxY = 1.0;
-        minX = -Resolution.y / Resolution.x;
-        maxX = Resolution.y / Resolution.x;
-        shift.x += resolutionSurplus * 0.5;
-        majorCoord = gl_FragCoord.x;
-    } else {
-        minX = -1.0;
-        maxX = 1.0;
-        minY = -Resolution.x / Resolution.y;
-        maxY = Resolution.x / Resolution.y;
-        shift.y += resolutionSurplus * 0.5;
-        majorCoord = gl_FragCoord.y;
-    }
-    vec2 FragCoord;
-    if(resolutionSurplus * 0.5 <= majorCoord && majorCoord <= resolutionMax - resolutionSurplus * 0.5)
-        FragCoord = linmap(gl_FragCoord.xy - shift, vec2(0, 0), vec2(resolutionMin), vec2(minX, minY), vec2(maxX, maxY));
-    else {
+    if(resolutionMin < 1) {
         FragColor = vec4(Ambience, 1.0);
         return;
     }
-    vec3 result = vec3(0);
+
+    // horizontal
+    vec2 bounds = vec2(Resolution.y / Resolution.x, 1);
+    vec2 shift = vec2((resolutionMax - resolutionMin) * 0.5, 0);
+    if(Resolution.x < Resolution.y) { // vertical
+        bounds.y = 1 / bounds.x;
+        bounds.x = 1;
+        shift.y = shift.x;
+        shift.x = 0;
+    }
+    vec2 FragCoord = linmap(gl_FragCoord.xy - shift, vec2(0), vec2(resolutionMin), -bounds, bounds);
+
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);
     vec3 RayDirection = normalize((inverse(mvp_matrix) * vec4(FragCoord, 1.0, 1.0)).xyz);
-
     float distance = RayMarch(CameraPosition, RayDirection, CriticalPoint);
-    result = 1.1 * vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
+    vec3 result = 1.1 * vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
     if(MAX_DIST * 0.75 < distance)
         result = Ambience;
     FragColor = vec4(result, 1.0);
