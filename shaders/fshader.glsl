@@ -154,7 +154,7 @@ float mandelbrot(vec4 c, vec4 z) {
     return 0.5 * length(zd.q) * log(length(zd.q)) / length(zd.d);
 }
 
-float newFractal(vec4 point, vec4 CriticalPoint) {
+float circleFractal(vec4 point, vec4 CriticalPoint) {
     vec4 z = point;
     float dr = 1.0;
     float r = 0.0;
@@ -183,7 +183,7 @@ float newFractal(vec4 point, vec4 CriticalPoint) {
     return 0.5 * log(r) * r / dr;
 }
 
-float newNewFractal(vec4 point, vec4 CriticalPoint) {
+float spongeFractal(vec4 point, vec4 CriticalPoint) {
     vec4 z = point;
     float dr = 1.0;
     float r = 0.0;
@@ -228,10 +228,10 @@ float GetDist(vec3 point, vec3 CriticalPoint) {
             fractalDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
             break;
         case 4:
-            fractalDist = newFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+            fractalDist = circleFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
             break;
         case 5:
-            fractalDist = newNewFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+            fractalDist = spongeFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
             break;
     }
     return fractalDist;
