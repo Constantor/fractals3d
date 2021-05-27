@@ -18,9 +18,17 @@ FractalWidget::~FractalWidget() {
 }
 
 void FractalWidget::wheelEvent(QWheelEvent *e) {
-	QPoint numPixels = e->pixelDelta();
 	QPoint numDegrees = e->angleDelta();
-	e->accept();
+	static const qreal degreesCoefficient = 0.7 / 360;
+	static const qreal EPS = 0.0065;
+	static const qreal minZoom = 0.3;
+	static const qreal maxZoom = 22;
+	qreal multiplier = numDegrees.y() * degreesCoefficient;
+	qreal newValue = fractalData->zoomCoefficient * (1. + multiplier);
+	if(EPS < abs(multiplier) && minZoom <= newValue && newValue <= maxZoom) {
+		fractalData->zoomCoefficient = newValue;
+		update();
+	}
 }
 
 void FractalWidget::mousePressEvent(QMouseEvent *e) {
@@ -160,6 +168,7 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("Ambience", transformColor(fractalData->ambienceColor));
 	program.setUniformValue("ColorFractal", transformColor(fractalData->fractalColor));
 	program.setUniformValue("CameraPosition", QVector3D(fractalData->camera));
+	program.setUniformValue("ZoomCoefficient", static_cast<GLfloat>(1. / fractalData->zoomCoefficient));
 
 	// Draw cube geometry
 	geometries->drawGeometry(&program);

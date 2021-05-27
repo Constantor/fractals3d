@@ -31,6 +31,7 @@ public:
 	QColor fractalColor = QColor(55, 255, 55);
 	QColor ambienceColor = QColor(255, 55, 55);
 	QVector3D camera = baseCamera; // I tried (-1.3, -0.6, 1.5), it was more centered, but not so beautiful
+	qreal zoomCoefficient = 1.0;
 
 	void genRandom();
 

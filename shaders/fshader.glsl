@@ -17,7 +17,7 @@ uniform float CriticalPointZ;
 uniform vec3 CameraPosition;
 uniform vec3 Ambience = vec3(0.6, 0.8, 0.8);
 uniform vec3 ColorFractal = vec3(0.6, 0.5, 0.8);
-
+uniform float ZoomCoefficient = 1.0;
 
 #define MAX_STEPS 255
 #define MAX_DIST 2000.0
@@ -208,6 +208,7 @@ void main() {
         shift.y = shift.x;
         shift.x = 0;
     }
+    bounds *= ZoomCoefficient;
     vec2 FragCoord = linmap(gl_FragCoord.xy - shift, vec2(0), vec2(resolutionMin), -bounds, bounds);
 
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);

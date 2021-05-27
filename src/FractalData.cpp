@@ -3,6 +3,8 @@
 #include <map>
 #include <utility>
 #include <vector>
+#include <QVector>
+#include <QPair>
 
 const QVector3D FractalData::baseCamera = QVector3D(0, 0, 1.5);// is more centered, but worse in some way
 
@@ -55,6 +57,7 @@ QJsonObject FractalData::serialize() const {
 	serialized.insert("type", type);
 	serialized.insert("Fractal color", fractalColor.name());
 	serialized.insert("Ambience color", ambienceColor.name());
+	serialized.insert("zoomCoefficient", zoomCoefficient);
 	QJsonArray cameraPosition;
 	cameraPosition.insert(0, camera.x());
 	cameraPosition.insert(1, camera.y());
@@ -64,18 +67,30 @@ QJsonObject FractalData::serialize() const {
 }
 
 void FractalData::readFrom(QJsonDocument &in) {
-	QJsonObject fractalData = in.object().value("Fractal").toObject();
-	a = fractalData.value("a").toDouble();
-	b = fractalData.value("b").toDouble();
-	c = fractalData.value("c").toDouble();
-	n = fractalData.value("n").toInt();
-	type = static_cast<FractalType>(fractalData.value("type").toInt());
-	fractalColor = QColor(fractalData.value("Fractal color").toString());
-	ambienceColor = QColor(fractalData.value("Ambience color").toString());
+	genRandom();
 	//	QJsonArray cameraPosition = fractalData.value("camera").toArray();
 	//	camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
 	// camera = QVector3D(0.0, 0.0, 1.5);
 	camera = baseCamera;
+	QJsonObject fractalData;
+	try {
+		fractalData = in.object().value("Fractal").toObject();
+	} catch(...) {
+		return;
+	}
+	for(auto &[name, reference] : QVector<QPair<QString, qreal&>>{{"a", a}, {"b", b}, {"c", c}})
+		if(fractalData.contains(name))
+			reference = fractalData.value(name).toDouble();
+	if(fractalData.contains("n"))
+		n = fractalData.value("n").toInt();
+	if(fractalData.contains("type"))
+		type = static_cast<FractalType>(fractalData.value("type").toInt());
+	if(fractalData.contains("Fractal color"))
+		fractalColor = QColor(fractalData.value("Fractal color").toString());
+	if(fractalData.contains("Ambience color"))
+		ambienceColor = QColor(fractalData.value("Ambience color").toString());
+	if(fractalData.contains("zoomCoefficient"))
+		zoomCoefficient = fractalData.value("zoomCoefficient").toDouble();
 }
 
 void FractalData::genRandom() {
@@ -88,10 +103,10 @@ void FractalData::genRandom() {
 		fractalColor = randomColor();
 		ambienceColor = randomColor();
 	};
-	genColors();
-	while(isSimilar(fractalColor, ambienceColor, metrics["minkowski-normalized"]) || isBlack(fractalColor)) {
-		genColors();
-	}
+	do {
+		genColors();;
+	} while(isSimilar(fractalColor, ambienceColor, metrics["minkowski-normalized"]) || isBlack(fractalColor));
+	zoomCoefficient = 1.;
 }
 
 FractalData::FractalData() {
