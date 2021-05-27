@@ -41,57 +41,62 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 	mousePressed = false;
 }
 
-void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
-	if(!mousePressed)
-		return;
-	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
 
-	QVector3D n = QVector3D(0, diff.x(), 0.0).normalized();
-	float alpha = 0.5 * (diff.x() * M_PI / 360.0);
-	rotationDelta = diff.x() / 4;
-	fractalData->camera = QVector3D(fractalData->camera.x() * cos(alpha) - fractalData->camera.z() * sin(alpha), fractalData->camera.y(), fractalData->camera.x() * sin(alpha) + fractalData->camera.z() * cos(alpha));
-	rotationAxis = (n * rotationDelta).normalized();
-
-	if(rotationDelta != 0) {
-		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
-		update();
-		mousePressPosition = QVector2D(e->position());
-		rotationDelta = 0;
-	}
+QVector3D rotate(QVector3D point, float alpha, QVector3D axis) {
+    double t11 = cos(alpha) + (1 - cos(alpha)) * axis.x() * axis.x();
+    double t12 = (1 - cos(alpha)) * axis.x() * axis.y() - sin(alpha) * axis.z();
+    double t13 = (1 - cos(alpha)) * axis.x() * axis.z() + sin(alpha) * axis.y();
+    double t21 = (1 - cos(alpha)) * axis.x() * axis.y() + sin(alpha) * axis.z();
+    double t22 = cos(alpha) + (1 - cos(alpha)) * axis.y() * axis.y();
+    double t23 = (1 - cos(alpha)) * axis.y() * axis.z() - sin(alpha) * axis.x();
+    double t31 = (1 - cos(alpha)) * axis.x() * axis.z() - sin(alpha) * axis.y();
+    double t32 = (1 - cos(alpha)) * axis.y() * axis.z() + sin(alpha) * axis.x();
+    double t33 = cos(alpha) + (1 - cos(alpha)) * axis.z() * axis.z();
+    return QVector3D(point.x() * t11 + point.y() * t21 + point.z() * t31,
+                     point.x() * t12 + point.y() * t22 + point.z() * t32,
+                     point.x() * t13 + point.y() * t23 + point.z() * t33);
 }
 
-//void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
-//    if(!mousePressed) {
-//        return;
-//    }
-//
-//    QVector2D diff = QVector2D(e->position()) - mousePressPosition;
-//
-//    QVector3D n = QVector3D(diff.y(), diff.x(), 0.0).normalized();
-//
-//    rotationDelta = diff.length() / 4;
-//
-//    QVector3D vec = QVector3D(diff.length() * sin(acos(fd->camera.x() / sqrt(fd->camera.x() * fd->camera.x() + fd->camera.y() * fd->camera.y() + fd->camera.z() * fd->camera.z()))),
-//                              diff.length() * sin(acos(fd->camera.y() / sqrt(fd->camera.x() * fd->camera.x() + fd->camera.y() * fd->camera.y() + fd->camera.z() * fd->camera.z()))),
-//                              diff.length() * sin(acos(fd->camera.z() / sqrt(fd->camera.x() * fd->camera.x() + fd->camera.y() * fd->camera.y() + fd->camera.z() * fd->camera.z()))));
-//
-//    float alphaX = 0.5 * (vec.x() * M_PI / 360.0);
-//    float alphaY = 0.5 * (vec.y() * M_PI / 360.0);
-//    float alphaZ = 0.5 * (vec.z() * M_PI / 360.0);
-////
-//    fd->camera = QVector3D(fd->camera.x(), fd->camera.y() * cos(alphaX) - fd->camera.z() * sin(alphaX), fd->camera.y() * sin(alphaX) + fd->camera.z() * cos(alphaX));
-//    fd->camera = QVector3D(fd->camera.x() * cos(alphaY) - fd->camera.z() * sin(alphaY), fd->camera.y(), fd->camera.x() * sin(alphaY) + fd->camera.z() * cos(alphaY));
-//    //fd->camera = QVector3D(fd->camera.x() * cos(alphaZ) - fd->camera.y() * sin(alphaZ), fd->camera.x() * sin(alphaZ) + fd->camera.y() * cos(alphaZ), fd->camera.z());
-//
-//    rotationAxis = (n * rotationDelta).normalized();
-//
-//    if (rotationDelta != 0) {
-//        rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
-//        update();
-//        mousePressPosition = QVector2D(e->position());
-//        rotationDelta = 0;
-//    }
-//}
+void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
+    if(!mousePressed)
+        return;
+    QVector2D diff = QVector2D(e->position()) - mousePressPosition;
+
+    float diffX = 25;
+    float diffY = 25;
+    QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
+    rotationDelta = diffX / 4;
+
+    float alphaX = diffX * M_PI / 720.0;
+
+    pointAxisX = rotate(pointAxisX, alphaX, vecAxisY);
+    pointAxisY = rotate(pointAxisY, alphaX, vecAxisY);
+    fractalData->camera = rotate(fractalData->camera, alphaX, vecAxisY);
+
+    if(rotationDelta != 0) {
+        rotation = QQuaternion::fromAxisAndAngle(vecAxisY, rotationDelta) * rotation;
+        rotationDelta = 0;
+    }
+
+    QVector3D vecAxisX = (pointAxisX - fractalData->camera).normalized();
+
+    QVector3D nY = vecAxisX.normalized();
+    rotationDelta = diffY / 4;
+
+    float alphaY = diffY * M_PI / 720.0;
+
+    fractalData->camera = rotate(fractalData->camera, alphaY, vecAxisX);
+    pointAxisX = rotate(pointAxisX, alphaY, vecAxisX);
+    pointAxisY = rotate(pointAxisY, alphaY, vecAxisX);
+
+    if(rotationDelta != 0) {
+        rotation = QQuaternion::fromAxisAndAngle(vecAxisX, rotationDelta) * rotation;
+        rotationDelta = 0;
+    }
+
+    update();
+    mousePressPosition = QVector2D(e->position());
+}
 
 void FractalWidget::initializeGL() {
 	this->setMouseTracking(true);
