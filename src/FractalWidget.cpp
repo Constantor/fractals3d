@@ -22,7 +22,7 @@ void FractalWidget::wheelEvent(QWheelEvent *e) {
 	static const qreal degreesCoefficient = 0.7 / 360;
 	static const qreal EPS = 0.0065;
 	static const qreal minZoom = 0.9;
-	static const qreal maxZoom = 1.48;
+	static const qreal maxZoom = 4.48;
 	qreal delta = numDegrees.y() * degreesCoefficient;
 	qreal newValue = fractalData->zoomCoefficient + delta;
 	if(EPS < abs(delta) && minZoom <= newValue && newValue <= maxZoom) {
