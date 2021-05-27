@@ -1,10 +1,10 @@
 #include "FractalData.hpp"
+#include <QPair>
+#include <QVector>
 #include <functional>
 #include <map>
 #include <utility>
 #include <vector>
-#include <QVector>
-#include <QPair>
 
 const QVector3D FractalData::baseCamera = QVector3D(0, 0, 1.5);// is more centered, but worse in some way
 
@@ -44,9 +44,6 @@ namespace {
 
 }// namespace
 
-[[maybe_unused]] FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type) : a(a), b(b), c(c), n(n), type(type) {}
-
-FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera) : a(a), b(b), c(c), n(n), type(type), fractalColor(fractalColor), ambienceColor(ambienceColor), camera(camera) {}
 
 QJsonObject FractalData::serialize() const {
 	QJsonObject serialized;
@@ -78,7 +75,7 @@ void FractalData::readFrom(QJsonDocument &in) {
 	} catch(...) {
 		return;
 	}
-	for(auto &[name, reference] : QVector<QPair<QString, qreal&>>{{"a", a}, {"b", b}, {"c", c}})
+	for(auto &[name, reference] : QVector<QPair<QString, qreal &>>{{"a", a}, {"b", b}, {"c", c}})
 		if(fractalData.contains(name))
 			reference = fractalData.value(name).toDouble();
 	if(fractalData.contains("n"))
@@ -104,7 +101,7 @@ void FractalData::genRandom() {
 		ambienceColor = randomColor();
 	};
 	do {
-		genColors();;
+		genColors();
 	} while(isSimilar(fractalColor, ambienceColor, metrics["minkowski-normalized"]) || isBlack(fractalColor));
 	zoomCoefficient = 1.;
 }
@@ -112,3 +109,5 @@ void FractalData::genRandom() {
 FractalData::FractalData() {
 	genRandom();
 }
+
+FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, bool isRotating) : a(a), b(b), c(c), n(n), type(type), fractalColor(fractalColor), ambienceColor(ambienceColor), camera(camera), isRotating(isRotating) {}

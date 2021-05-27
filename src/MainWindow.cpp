@@ -101,12 +101,13 @@ void MainWindow::connectBoxBar() {
 	connect(ui->fractalColorButton, &QPushButton::clicked, [&]() { askColor(FRACTAL); });
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
 	connect(ui->randomizeButton, &QPushButton::clicked, [&]() { generateRandom(); });
+	connect(ui->rotationBox, &QCheckBox::clicked, [&]() { readAndDraw(); });
 }
 
 void MainWindow::readAndDraw() {
 	if(!isSetting) {
 		data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(),
-						   static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera);
+						   static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera, ui->rotationBox->isChecked());
 		ui->fractalWidget->repaint();
 	}
 }
@@ -225,7 +226,6 @@ void MainWindow::saveVideo() {
 		}
 		int framerate = frames * 1000 / time;
 		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -framerate %2 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %3").arg(temporaryDir->path(), QString::number(framerate), fileName);
-		qDebug() << command;
 		std::system(command.toStdString().data());
 	}
 }
