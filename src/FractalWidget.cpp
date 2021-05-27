@@ -59,11 +59,9 @@ QVector3D rotate(QVector3D point, qreal alpha, QVector3D axis) {
 void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
     if(!mousePressed)
         return;
+
     QVector2D diff = QVector2D(e->position()) - mousePressPosition;
-	if(diff.x() == 0 && diff.y() == 0)
-		return;
-	diff = -diff;
-	QVector2D alpha = diff * (M_PI / 720.);
+    QVector2D alpha = diff * (M_PI / 720.0);
 
     QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
 
@@ -71,19 +69,11 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
     pointAxisY = rotate(pointAxisY, alpha.x(), vecAxisY);
     fractalData->camera = rotate(fractalData->camera, alpha.x(), vecAxisY);
 
-    /*if(diff.x() != 0) {
-		rotation = QQuaternion::fromAxisAndAngle(vecAxisY, diff.x()) * rotation;
-	}*/
-
     QVector3D vecAxisX = (pointAxisX - fractalData->camera).normalized();
 
-	fractalData->camera = rotate(fractalData->camera, alpha.y(), vecAxisX);
+    fractalData->camera = rotate(fractalData->camera, alpha.y(), vecAxisX);
     pointAxisX = rotate(pointAxisX, alpha.y(), vecAxisX);
     pointAxisY = rotate(pointAxisY, alpha.y(), vecAxisX);
-
-    /*if(diff.y() != 0) {
-        rotation = QQuaternion::fromAxisAndAngle(vecAxisX, diff.y()) * rotation;
-    }*/
 
     update();
     mousePressPosition = QVector2D(e->position());
@@ -143,19 +133,12 @@ void FractalWidget::resizeGL(int w, int h) {
 }
 
 void FractalWidget::paintGL() {
-	// Clear color and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Calculate model view transformation
 	QMatrix4x4 matrix;
-	matrix.translate(0.0, 0.0, -5);
-	//matrix.rotate(rotation);
-	matrix.rotate({rotation.x(), 1, 0, 0});
-	matrix.rotate({rotation.y(), 0, 1, 0});
-	matrix.translate(0, 0, 0);
-	matrix.lookAt(fractalData->zoomedCamera(), {0, 0, 0}, {0, 1, 0});
+	matrix.translate(0.0, 0.0, 0.0);
+	matrix.lookAt(fractalData->zoomedCamera(), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
 
-	// Set modelview-projection matrix
 	program.setUniformValue("mvp_matrix", projection * matrix);
 
 	program.setUniformValue("POWER", (GLint) fractalData->n);
