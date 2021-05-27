@@ -1,8 +1,8 @@
 #include "FractalWidget.hpp"
 
+#include <QApplication>
 #include <QMouseEvent>
 #include <cmath>
-#include <QApplication>
 
 namespace {
 	QVector3D transformColor(const QColor &color) {
@@ -14,6 +14,8 @@ FractalWidget::~FractalWidget() {
 	// Make sure the context is current when deleting the buffers.
 	makeCurrent();
 	delete geometries;
+	delete timer;
+	delete elapsedTimer;
 	doneCurrent();
 }
 
@@ -115,8 +117,12 @@ void FractalWidget::initializeGL() {
 
 	geometries = new GeometryEngine;
 
-	// Use QBasicTimer because its faster than QTimer
-	// timer.start(12, this);
+	// Prepare for auto-rotation
+	timer = new QTimer;
+	elapsedTimer = new QElapsedTimer();
+	connect(timer, &QTimer::timeout, [&]() { autoRotate(); });
+	elapsedTimer->start();
+	timer->start();
 }
 
 void FractalWidget::initShaders() {
@@ -164,7 +170,7 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("mvp_matrix", projection * matrix);
 
 	program.setUniformValue("POWER", (GLint) fractalData->n);
-	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+	QApplication *app = dynamic_cast<QApplication *>(QCoreApplication::instance());
 	program.setUniformValue("Resolution", app->devicePixelRatio() * QVector2D(this->width(), this->height()));
 	program.setUniformValue("CriticalPointX", (GLfloat) fractalData->a);
 	program.setUniformValue("CriticalPointY", (GLfloat) fractalData->b);
@@ -181,4 +187,19 @@ void FractalWidget::paintGL() {
 
 void FractalWidget::setFractalData(FractalData *data) {
 	fractalData = data;
+}
+
+void FractalWidget::autoRotate() {
+	if(fractalData->isRotating) {
+		auto nextPos = (qreal) (elapsedTimer->elapsed());
+		qreal dx = (nextPos - autoRotationPos)/5;
+		autoRotationPos = nextPos;
+		QVector3D n = QVector3D(0, dx, 0.0).normalized();
+		qreal alpha = 0.5 * (dx * M_PI / 360.0);
+		rotationDelta = dx / 4;
+		fractalData->camera = QVector3D(fractalData->camera.x() * cos(alpha) - fractalData->camera.z() * sin(alpha), fractalData->camera.y(), fractalData->camera.x() * sin(alpha) + fractalData->camera.z() * cos(alpha));
+		rotationAxis = (n * rotationDelta).normalized();
+		rotation = QQuaternion::fromAxisAndAngle(rotationAxis, rotationDelta) * rotation;
+		update();
+	}
 }

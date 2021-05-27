@@ -236,6 +236,7 @@ void MainWindow::recordClickAction() {
 	else
 		startRecord();
 }
+
 void MainWindow::generateRandom() {
 	data.genRandom();
 	setValues();
