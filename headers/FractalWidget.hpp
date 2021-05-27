@@ -48,7 +48,6 @@ private:
 	QMatrix4x4 projection;
 	QVector2D mousePressPosition;
 	QVector3D rotationAxis;
-	qreal rotationDelta = 0;
     QVector3D pointAxisX = QVector3D(1.0, 0.0, 1.5);
     QVector3D pointAxisY = QVector3D(0.0, 1.0, 1.5);
 	QQuaternion rotation;
