@@ -68,7 +68,7 @@ void FractalData::readFrom(QJsonDocument &in) {
 	//	QJsonArray cameraPosition = fractalData.value("camera").toArray();
 	//	camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
 	// camera = QVector3D(0.0, 0.0, 1.5);
-	camera = baseCamera;
+	//camera = baseCamera;
 	QJsonObject fractalData;
 	try {
 		fractalData = in.object().value("Fractal").toObject();
