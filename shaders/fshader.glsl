@@ -151,7 +151,65 @@ float mandelbrot(vec4 c, vec4 z) {
         if (length(zd.q) > RADIUS) break;
     }
 
-    return (length(zd.q) * log(length(zd.q))) / (2 * length(zd.d));
+    return 0.5 * length(zd.q) * log(length(zd.q)) / length(zd.d);
+}
+
+float newFractal(vec4 point, vec4 CriticalPoint) {
+    vec4 z = point;
+    float dr = 1.0;
+    float r = 0.0;
+    for (int i = 0; i < OTHER_ITER; ++i) {
+        r = length(z);
+        if (r > RADIUS) break;
+
+        dr = pow(r, POWER - 1.0) * POWER * dr + 1.0;
+
+        float zr = pow(r, POWER);
+        float theta;
+        float phi = atan(z.x, z.y) * POWER;
+        if (i % 2 == 0) {
+            theta = asin(-z.z / r) * POWER;
+        }
+        else {
+            theta = asin(z.z / r) * POWER;
+        }
+        z = zr * vec4(
+        cos(theta) * cos(phi),
+        sin(phi) * cos(theta),
+        sin(theta),
+        0.0);
+        z += CriticalPoint;
+    }
+    return 0.5 * log(r) * r / dr;
+}
+
+float newNewFractal(vec4 point, vec4 CriticalPoint) {
+    vec4 z = point;
+    float dr = 1.0;
+    float r = 0.0;
+    for (int i = 0; i < OTHER_ITER; ++i) {
+        r = length(z);
+        if (r > RADIUS) break;
+
+        dr = pow(r, POWER - 1.0) * POWER * dr + 1.0;
+
+        float zr = pow(r, POWER);
+        float theta = atan(z.x, z.y) * POWER;
+        float phi;
+        if (i % 2 == 0) {
+            phi = asin(-z.z / r) * POWER;
+        }
+        else {
+            phi = asin(z.z / r) * POWER;
+        }
+        z = zr * vec4(
+        cos(theta) * cos(phi),
+        sin(phi) * cos(theta),
+        sin(theta),
+        0.0);
+        z += CriticalPoint;
+    }
+    return 0.5 * log(r) * r / dr;
 }
 
 float GetDist(vec3 point, vec3 CriticalPoint) {
@@ -168,6 +226,12 @@ float GetDist(vec3 point, vec3 CriticalPoint) {
             break;
         case 3:
             fractalDist = flowerFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+            break;
+        case 4:
+            fractalDist = newFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
+            break;
+        case 5:
+            fractalDist = newNewFractal(vec4(point, 0.0), vec4(CriticalPoint, 0.0));
             break;
     }
     return fractalDist;

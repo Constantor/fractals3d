@@ -98,7 +98,7 @@ void FractalData::genRandom() {
 	b = randomReal();
 	c = randomReal();
 	n = 2 * (QRandomGenerator::global()->bounded(4) + 2);
-	type = FractalType(QRandomGenerator::global()->bounded(3));
+	type = FractalType(QRandomGenerator::global()->bounded(5));
 	auto genColors = [this]() {
 		fractalColor = randomColor();
 		ambienceColor = randomColor();

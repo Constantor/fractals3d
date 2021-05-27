@@ -46,17 +46,27 @@
 									</item>
 									<item>
 										<property name="text">
-											<string>Psycho</string>
+											<string>Round fractal</string>
 										</property>
 									</item>
 									<item>
 										<property name="text">
-											<string>Another</string>
+											<string>Flower 2.0 fractal</string>
 										</property>
 									</item>
 									<item>
 										<property name="text">
-											<string>Flower</string>
+											<string>Flower fractal</string>
+										</property>
+									</item>
+									<item>
+										<property name="text">
+											<string>Circle fractal</string>
+										</property>
+									</item>
+									<item>
+										<property name="text">
+											<string>Sponge fractal</string>
 										</property>
 									</item>
 								</widget>
