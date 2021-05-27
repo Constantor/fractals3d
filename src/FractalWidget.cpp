@@ -63,7 +63,6 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
     QVector2D diff = QVector2D(e->position()) - mousePressPosition;
 	if(diff.x() == 0 && diff.y() == 0)
 		return;
-	diff = -diff;
 	QVector2D alpha = diff * (M_PI / 720.);
 
     QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
@@ -150,10 +149,6 @@ void FractalWidget::paintGL() {
 	// Calculate model view transformation
 	QMatrix4x4 matrix;
 	matrix.translate(0.0, 0.0, -3);
-	//matrix.rotate(rotation);
-	matrix.rotate({rotation.x(), 1, 0, 0});
-	matrix.rotate({rotation.y(), 0, 1, 0});
-	matrix.translate(0, 0, 0);
 	matrix.lookAt(fractalData->zoomedCamera(), {0, 0, 0}, {0, 1, 0});
 
 	// Set modelview-projection matrix
