@@ -26,6 +26,7 @@ enum ColorType {
 class FractalData {
 public:
 	static const QVector3D baseCamera; // set in FractalData.cpp
+	static constexpr const qreal defaultZoom = 1.;
 
 	qreal a{}, b{}, c{};
 	quint8 n = 2;
@@ -33,12 +34,12 @@ public:
 	QColor fractalColor = QColor(55, 255, 55);
 	QColor ambienceColor = QColor(255, 55, 55);
 	QVector3D camera = baseCamera; // I tried (-1.3, -0.6, 1.5), it was more centered, but not so beautiful
-	qreal zoomCoefficient = 1.3;
+	qreal zoomCoefficient = defaultZoom;
 
 	void genRandom();
 
 	FractalData();
-	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
+	[[maybe_unused]]FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
 	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient);
 
 	[[nodiscard]] QJsonObject serialize() const;

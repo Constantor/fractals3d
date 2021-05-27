@@ -27,6 +27,7 @@ void FractalWidget::wheelEvent(QWheelEvent *e) {
 	qreal newValue = fractalData->zoomCoefficient + delta;
 	if(EPS < abs(delta) && minZoom <= newValue && newValue <= maxZoom) {
 		fractalData->zoomCoefficient = newValue;
+		// qDebug() << fractalData->zoomCoefficient;
 		update();
 	}
 }
@@ -61,7 +62,9 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
         return;
 
     QVector2D diff = QVector2D(e->position()) - mousePressPosition;
-    QVector2D alpha = diff * (M_PI / 720.0);
+	if(diff.x() == 0 && diff.y() == 0)
+		return;
+	QVector2D alpha = diff * (M_PI / 720.);
 
     QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
 
@@ -136,8 +139,8 @@ void FractalWidget::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	QMatrix4x4 matrix;
-	matrix.translate(0.0, 0.0, -3.0);
-	matrix.lookAt(fractalData->zoomedCamera(), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
+	matrix.translate(0.0, 0.0, -3);
+	matrix.lookAt(fractalData->zoomedCamera(), {0, 0, 0}, {0, 1, 0});
 
 	program.setUniformValue("mvp_matrix", projection * matrix);
 
