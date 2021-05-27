@@ -27,6 +27,7 @@ void FractalWidget::wheelEvent(QWheelEvent *e) {
 	qreal newValue = fractalData->zoomCoefficient + delta;
 	if(EPS < abs(delta) && minZoom <= newValue && newValue <= maxZoom) {
 		fractalData->zoomCoefficient = newValue;
+		// qDebug() << fractalData->zoomCoefficient;
 		update();
 	}
 }

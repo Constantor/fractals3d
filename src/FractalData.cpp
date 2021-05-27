@@ -106,7 +106,7 @@ void FractalData::genRandom() {
 	do {
 		genColors();;
 	} while(isSimilar(fractalColor, ambienceColor, metrics["minkowski-normalized"]) || isBlack(fractalColor));
-	zoomCoefficient = 1.;
+	zoomCoefficient = defaultZoom;
 }
 
 FractalData::FractalData() {
