@@ -213,6 +213,7 @@ void MainWindow::stopRecord() {
 	isOnRecord = false;
 	saveVideo();
 	ui->recordWidget->close();
+    ui->recordButton->setText("Start");
 }
 
 void MainWindow::saveVideo() {
