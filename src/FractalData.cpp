@@ -112,3 +112,7 @@ void FractalData::genRandom() {
 FractalData::FractalData() {
 	genRandom();
 }
+
+QVector3D FractalData::zoomedCamera() const {
+	return camera / zoomCoefficient;
+}

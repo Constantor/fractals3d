@@ -2,8 +2,8 @@
 
 #ifdef GL_ES
 // Set default precision to medium
-precision mediump int;
-precision mediump float;
+precision highp int;
+precision highp float;
 #endif
 
 uniform mat4 mvp_matrix;
@@ -272,7 +272,7 @@ void main() {
         shift.y = shift.x;
         shift.x = 0;
     }
-    bounds *= ZoomCoefficient;
+    //bounds /= ZoomCoefficient;
     vec2 FragCoord = linmap(gl_FragCoord.xy - shift, vec2(0), vec2(resolutionMin), -bounds, bounds);
 
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);

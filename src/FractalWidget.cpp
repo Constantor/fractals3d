@@ -21,11 +21,11 @@ void FractalWidget::wheelEvent(QWheelEvent *e) {
 	QPoint numDegrees = e->angleDelta();
 	static const qreal degreesCoefficient = 0.7 / 360;
 	static const qreal EPS = 0.0065;
-	static const qreal minZoom = 0.3;
-	static const qreal maxZoom = 22;
-	qreal multiplier = numDegrees.y() * degreesCoefficient;
-	qreal newValue = fractalData->zoomCoefficient * (1. + multiplier);
-	if(EPS < abs(multiplier) && minZoom <= newValue && newValue <= maxZoom) {
+	static const qreal minZoom = 0.9;
+	static const qreal maxZoom = 1.48;
+	qreal delta = numDegrees.y() * degreesCoefficient;
+	qreal newValue = fractalData->zoomCoefficient + delta;
+	if(EPS < abs(delta) && minZoom <= newValue && newValue <= maxZoom) {
 		fractalData->zoomCoefficient = newValue;
 		update();
 	}
@@ -40,7 +40,6 @@ void FractalWidget::mousePressEvent(QMouseEvent *e) {
 void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
 	mousePressed = false;
 }
-
 
 QVector3D rotate(QVector3D point, qreal alpha, QVector3D axis) {
     qreal t11 = cos(alpha) + (1 - cos(alpha)) * axis.x() * axis.x();
@@ -63,7 +62,7 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
     QVector2D diff = QVector2D(e->position()) - mousePressPosition;
 	if(diff.x() == 0 && diff.y() == 0)
 		return;
-	//diff = -diff;
+	diff = -diff;
 	QVector2D alpha = diff * (M_PI / 720.);
 
     QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
@@ -72,10 +71,9 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
     pointAxisY = rotate(pointAxisY, alpha.x(), vecAxisY);
     fractalData->camera = rotate(fractalData->camera, alpha.x(), vecAxisY);
 
-    /*if(rotationDelta != 0) {
-        rotation = QQuaternion::fromAxisAndAngle(vecAxisY, rotationDelta) * rotation;
-        rotationDelta = 0;
-    }*/
+    /*if(diff.x() != 0) {
+		rotation = QQuaternion::fromAxisAndAngle(vecAxisY, diff.x()) * rotation;
+	}*/
 
     QVector3D vecAxisX = (pointAxisX - fractalData->camera).normalized();
 
@@ -83,9 +81,8 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
     pointAxisX = rotate(pointAxisX, alpha.y(), vecAxisX);
     pointAxisY = rotate(pointAxisY, alpha.y(), vecAxisX);
 
-    /*if(rotationDelta != 0) {
-        rotation = QQuaternion::fromAxisAndAngle(vecAxisX, rotationDelta) * rotation;
-        rotationDelta = 0;
+    /*if(diff.y() != 0) {
+        rotation = QQuaternion::fromAxisAndAngle(vecAxisX, diff.y()) * rotation;
     }*/
 
     update();
@@ -153,10 +150,10 @@ void FractalWidget::paintGL() {
 	QMatrix4x4 matrix;
 	matrix.translate(0.0, 0.0, -5);
 	//matrix.rotate(rotation);
-	matrix.rotate({rotation.x(), 0, 1, 0});
-	matrix.rotate({rotation.y(), 1, 0, 0});
+	matrix.rotate({rotation.x(), 1, 0, 0});
+	matrix.rotate({rotation.y(), 0, 1, 0});
 	matrix.translate(0, 0, 0);
-	matrix.lookAt(fractalData->camera, {0, 0, 0}, {0, 1, 0});
+	matrix.lookAt(fractalData->zoomedCamera(), {0, 0, 0}, {0, 1, 0});
 
 	// Set modelview-projection matrix
 	program.setUniformValue("mvp_matrix", projection * matrix);
@@ -170,8 +167,8 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("TYPE", (GLint) fractalData->type);
 	program.setUniformValue("Ambience", transformColor(fractalData->ambienceColor));
 	program.setUniformValue("ColorFractal", transformColor(fractalData->fractalColor));
-	program.setUniformValue("CameraPosition", fractalData->camera);
-	program.setUniformValue("ZoomCoefficient", static_cast<GLfloat>(1. / fractalData->zoomCoefficient));
+	program.setUniformValue("CameraPosition", fractalData->zoomedCamera());
+	program.setUniformValue("ZoomCoefficient", static_cast<GLfloat>(fractalData->zoomCoefficient));
 
 	// Draw cube geometry
 	geometries->drawGeometry(&program);
