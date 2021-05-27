@@ -62,8 +62,8 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
         return;
     QVector2D diff = QVector2D(e->position()) - mousePressPosition;
 
-    float diffX = 25;
-    float diffY = 25;
+    float diffX = diff.x();
+    float diffY = diff.y();
     QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
     rotationDelta = diffX / 4;
 
@@ -73,10 +73,10 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
     pointAxisY = rotate(pointAxisY, alphaX, vecAxisY);
     fractalData->camera = rotate(fractalData->camera, alphaX, vecAxisY);
 
-    if(rotationDelta != 0) {
+    /*if(rotationDelta != 0) {
         rotation = QQuaternion::fromAxisAndAngle(vecAxisY, rotationDelta) * rotation;
         rotationDelta = 0;
-    }
+    }*/
 
     QVector3D vecAxisX = (pointAxisX - fractalData->camera).normalized();
 
@@ -85,14 +85,14 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
 
     float alphaY = diffY * M_PI / 720.0;
 
-    fractalData->camera = rotate(fractalData->camera, alphaY, vecAxisX);
+	fractalData->camera = rotate(fractalData->camera, alphaY, vecAxisX);
     pointAxisX = rotate(pointAxisX, alphaY, vecAxisX);
     pointAxisY = rotate(pointAxisY, alphaY, vecAxisX);
 
-    if(rotationDelta != 0) {
+    /*if(rotationDelta != 0) {
         rotation = QQuaternion::fromAxisAndAngle(vecAxisX, rotationDelta) * rotation;
         rotationDelta = 0;
-    }
+    }*/
 
     update();
     mousePressPosition = QVector2D(e->position());
@@ -158,7 +158,10 @@ void FractalWidget::paintGL() {
 	// Calculate model view transformation
 	QMatrix4x4 matrix;
 	matrix.translate(0.0, 0.0, -5.0);
-	matrix.rotate(rotation);
+	//matrix.rotate(rotation);
+	matrix.rotate({rotation.x(), 0, 1, 0});
+	matrix.rotate({rotation.y(), 1, 0, 0});
+	matrix.translate(0, 0, 0);
 
 	// Set modelview-projection matrix
 	program.setUniformValue("mvp_matrix", projection * matrix);
@@ -172,7 +175,7 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("TYPE", (GLint) fractalData->type);
 	program.setUniformValue("Ambience", transformColor(fractalData->ambienceColor));
 	program.setUniformValue("ColorFractal", transformColor(fractalData->fractalColor));
-	program.setUniformValue("CameraPosition", QVector3D(fractalData->camera));
+	program.setUniformValue("CameraPosition", fractalData->camera);
 	program.setUniformValue("ZoomCoefficient", static_cast<GLfloat>(1. / fractalData->zoomCoefficient));
 
 	// Draw cube geometry
