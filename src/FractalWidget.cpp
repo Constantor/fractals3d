@@ -136,7 +136,7 @@ void FractalWidget::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	QMatrix4x4 matrix;
-	matrix.translate(0.0, 0.0, 0.0);
+	matrix.translate(0.0, 0.0, -3.0);
 	matrix.lookAt(fractalData->zoomedCamera(), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
 
 	program.setUniformValue("mvp_matrix", projection * matrix);
