@@ -26,7 +26,7 @@ enum ColorType {
 class FractalData {
 public:
 	static const QVector3D baseCamera; // set in FractalData.cpp
-	static constexpr const qreal defaultZoom = 1.1;
+	static constexpr const qreal defaultZoom = 1.;
 
 	qreal a{}, b{}, c{};
 	quint8 n = 2;

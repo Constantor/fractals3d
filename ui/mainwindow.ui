@@ -241,7 +241,7 @@
 										<number>100</number>
 									</property>
 									<property name="singleStep">
-										<number>2</number>
+										<number>1</number>
 									</property>
 								</widget>
 							</item>

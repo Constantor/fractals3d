@@ -278,8 +278,18 @@ void main() {
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);
     vec3 RayDirection = normalize((inverse(mvp_matrix) * vec4(FragCoord, 1.0, 1.0)).xyz);
     float distance = RayMarch(CameraPosition, RayDirection, CriticalPoint);
-    vec3 result = 1.1 * vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
-    if(MAX_DIST * 0.75 < distance)
-        result = Ambience;
-    FragColor = vec4(result, 1.0);
+    if(MAX_DIST * 0.75 < distance) {
+        FragColor = vec4(Ambience, 1);
+        return;
+    }
+    const int method = 2;
+    if(method == 0) {
+        const float zoomCorrector = 1.25;
+        FragColor = vec4(1.1 * zoomCorrector * ZoomCoefficient * distance * ColorFractal, 1.0);
+    } else if(method == 1) {
+        FragColor = vec4(1.1 * distance * ColorFractal, 1.0);
+    } else {
+        float colorCoefficient = 1.1;
+        FragColor = vec4(colorCoefficient * (2. - distance) * 0.5 * ColorFractal, 1.0);
+    }
 }

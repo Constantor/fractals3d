@@ -139,7 +139,7 @@ void FractalWidget::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	QMatrix4x4 matrix;
-	matrix.translate(0.0, 0.0, -5 / fractalData->zoomCoefficient);
+	matrix.translate(0.0, 0.0, -4 / fractalData->zoomCoefficient);
 	matrix.lookAt(fractalData->zoomedCamera(), {0, 0, 0}, {0, 1, 0});
 
 	program.setUniformValue("mvp_matrix", projection * matrix);
@@ -154,7 +154,8 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("Ambience", transformColor(fractalData->ambienceColor));
 	program.setUniformValue("ColorFractal", transformColor(fractalData->fractalColor));
 	program.setUniformValue("CameraPosition", fractalData->zoomedCamera());
-	program.setUniformValue("ZoomCoefficient", static_cast<GLfloat>(fractalData->zoomCoefficient));
+	qDebug() << fractalData->zoomCoefficient;
+	program.setUniformValue("ZoomCoefficient", (GLfloat) fractalData->zoomCoefficient);
 
 	// Draw cube geometry
 	geometries->drawGeometry(&program);
