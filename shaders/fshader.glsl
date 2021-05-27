@@ -19,11 +19,11 @@ uniform vec3 Ambience = vec3(0.6, 0.8, 0.8);
 uniform vec3 ColorFractal = vec3(0.6, 0.5, 0.8);
 uniform float ZoomCoefficient = 1.0;
 
-#define MAX_STEPS 255
-#define MAX_DIST 2000.0
-#define MIN_DIST 0.0001
-#define OTHER_ITER 200
-#define MANDEL_ITER 50
+const int MAX_STEPS = 255;
+const float MAX_DIST = 2000.0;
+const float MIN_DIST = 0.0001;
+const int OTHER_ITER = 200;
+const int MANDEL_ITER = 50;
 
 float sphere(vec3 point, vec3 center, float radius) {
     return length(point - center) - radius;
@@ -158,21 +158,20 @@ float circleFractal(vec4 point, vec4 CriticalPoint) {
     vec4 z = point;
     float dr = 1.0;
     float r = 0.0;
-    for (int i = 0; i < OTHER_ITER; ++i) {
+    for (int i = 0; i < OTHER_ITER; i++) {
         r = length(z);
-        if (r > RADIUS) break;
+        if (RADIUS < r)
+            break;
 
         dr = pow(r, POWER - 1.0) * POWER * dr + 1.0;
 
         float zr = pow(r, POWER);
         float theta;
         float phi = atan(z.x, z.y) * POWER;
-        if (i % 2 == 0) {
+        if ((i & 1) == 0)
             theta = asin(-z.z / r) * POWER;
-        }
-        else {
+        else
             theta = asin(z.z / r) * POWER;
-        }
         z = zr * vec4(
         cos(theta) * cos(phi),
         sin(phi) * cos(theta),
@@ -282,14 +281,17 @@ void main() {
         FragColor = vec4(Ambience, 1);
         return;
     }
-    const int method = 2;
+    const float zoomCorrector = 1.3;
+    FragColor = vec4(zoomCorrector * ZoomCoefficient * pow(1 + distance, 0.5) / pow(3, 0.5) * ColorFractal, 1.0);
+
+    /*const int method = 0;
     if(method == 0) {
-        const float zoomCorrector = 1.25;
-        FragColor = vec4(1.1 * zoomCorrector * ZoomCoefficient * distance * ColorFractal, 1.0);
+        const float zoomCorrector = 1.3;
+        FragColor = vec4(zoomCorrector * ZoomCoefficient * pow(1 + distance, 0.5) / pow(3, 0.5) * ColorFractal, 1.0);
     } else if(method == 1) {
         FragColor = vec4(1.1 * distance * ColorFractal, 1.0);
-    } else {
-        float colorCoefficient = 1.1;
-        FragColor = vec4(colorCoefficient * (2. - distance) * 0.5 * ColorFractal, 1.0);
-    }
+    } else if(method == 2) {
+        float colorCoefficient = 1.5;
+        FragColor = vec4(colorCoefficient * (pow(2, 1.5) - pow(distance, 1.5)) / pow(2, 1.5) * ColorFractal / pow(ZoomCoefficient, 1.5 - distance), 1.0);
+    }*/
 }
