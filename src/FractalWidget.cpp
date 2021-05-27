@@ -19,7 +19,7 @@ FractalWidget::~FractalWidget() {
 
 void FractalWidget::wheelEvent(QWheelEvent *e) {
 	QPoint numDegrees = e->angleDelta();
-	static const qreal degreesCoefficient = 0.7 / 360;
+	static const qreal degreesCoefficient = 0.1 / 360;
 	static const qreal EPS = 0.0065;
 	static const qreal minZoom = 0.9;
 	static const qreal maxZoom = 4.48;

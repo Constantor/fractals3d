@@ -106,7 +106,7 @@ void MainWindow::connectBoxBar() {
 void MainWindow::readAndDraw() {
 	if(!isSetting) {
 		data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(),
-						   static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera);
+						   static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera, data.zoomCoefficient);
 		ui->fractalWidget->repaint();
 	}
 }
