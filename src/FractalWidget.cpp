@@ -38,7 +38,7 @@ void FractalWidget::mousePressEvent(QMouseEvent *e) {
 	mousePressed = true;
 }
 
-void FractalWidget::mouseReleaseEvent(QMouseEvent *e) {
+void FractalWidget::mouseReleaseEvent(QMouseEvent *) {
 	mousePressed = false;
 }
 
@@ -154,7 +154,6 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("Ambience", transformColor(fractalData->ambienceColor));
 	program.setUniformValue("ColorFractal", transformColor(fractalData->fractalColor));
 	program.setUniformValue("CameraPosition", fractalData->zoomedCamera());
-	qDebug() << fractalData->zoomCoefficient;
 	program.setUniformValue("ZoomCoefficient", (GLfloat) fractalData->zoomCoefficient);
 
 	// Draw cube geometry

@@ -281,7 +281,7 @@ void main() {
         FragColor = vec4(Ambience, 1);
         return;
     }
-    const float zoomCorrector = 1.3;
+    const float zoomCorrector = 1.28;
     FragColor = vec4(zoomCorrector * ZoomCoefficient * pow(1 + distance, 0.5) / pow(3, 0.5) * ColorFractal, 1.0);
 
     /*const int method = 0;

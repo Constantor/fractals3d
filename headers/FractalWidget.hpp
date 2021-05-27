@@ -29,7 +29,7 @@ protected:
 
 	void mouseMoveEvent(QMouseEvent *e) override;
 
-	void mouseReleaseEvent(QMouseEvent *e) override;
+	void mouseReleaseEvent(QMouseEvent *) override;
 
 	void initializeGL() override;
 
