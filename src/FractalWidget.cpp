@@ -21,8 +21,8 @@ void FractalWidget::wheelEvent(QWheelEvent *e) {
 	QPoint numDegrees = e->angleDelta();
 	static const qreal degreesCoefficient = 0.1 / 360;
 	static const qreal EPS = 0.0065;
-	static const qreal minZoom = 0.9;
-	static const qreal maxZoom = 4.48;
+	static const qreal minZoom = 0;
+	static const qreal maxZoom = INT_MAX;
 	qreal delta = numDegrees.y() * degreesCoefficient;
 	qreal newValue = fractalData->zoomCoefficient + delta;
 	if(EPS < abs(delta) && minZoom <= newValue && newValue <= maxZoom) {
@@ -139,7 +139,7 @@ void FractalWidget::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	QMatrix4x4 matrix;
-	matrix.translate(0.0, 0.0, -3);
+	matrix.translate(0.0, 0.0, -5 / fractalData->zoomCoefficient);
 	matrix.lookAt(fractalData->zoomedCamera(), {0, 0, 0}, {0, 1, 0});
 
 	program.setUniformValue("mvp_matrix", projection * matrix);
