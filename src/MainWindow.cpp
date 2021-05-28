@@ -24,6 +24,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->setupUi(this);
 	ui->recordWidget->close();
 	prevSize = this->size();
+	ui->rotationSlider->setValue(100 * FractalData::defaultSpeed);
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
 	setValues();
@@ -112,10 +113,14 @@ void MainWindow::connectBoxBar() {
 	connect(ui->fractalColorButton, &QPushButton::clicked, [&]() { askColor(FRACTAL); });
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
 	connect(ui->randomizeButton, &QPushButton::clicked, [&]() { generateRandom(); });
-	connect(ui->rotationBox, &QCheckBox::clicked, [&]() { readAndDraw(); });
+	connect(ui->rotationBox, &QCheckBox::stateChanged, [&]() { readAndDraw(); });
 	connect(ui->zoomButton, &QPushButton::clicked, [&]() {
 		data.setZoomCoefficient();
 		ui->fractalWidget->repaint();
+	});
+	connect(ui->rotationSlider, &QSlider::valueChanged, [&]() {
+		ui->rotationBox->setCheckState(Qt::Checked);
+		data.setAbsoluteSpeed(ui->rotationSlider->value() / 100.0);
 	});
 }
 
@@ -240,7 +245,7 @@ void MainWindow::saveVideo() {
 			return;
 		}
 		//int framerate = frames * 1000 / time;
-		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2").arg(temporaryDir->path(), fileName);
+		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2 > /dev/null").arg(temporaryDir->path(), fileName);
 		std::system(command.toStdString().data());
 	}
 }

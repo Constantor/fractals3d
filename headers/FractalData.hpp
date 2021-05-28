@@ -37,6 +37,7 @@ public:
 	QVector3D camera = baseCamera;
 	qreal zoomCoefficient = defaultZoom;
 	qreal rotateSpeed = defaultSpeed;
+	qreal absoluteSpeed = defaultSpeed;
 	bool isRotating = false;
 
 
@@ -47,6 +48,8 @@ public:
 	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient, bool isRotating);
 
 	void setZoomCoefficient(qreal zoomCoefficient = defaultZoom);
+
+	void setAbsoluteSpeed(qreal absoluteSpeed);
 
 	[[nodiscard]] QJsonObject serialize() const;
 

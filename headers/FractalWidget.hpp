@@ -3,8 +3,10 @@
 #include "FractalData.hpp"
 #include "GeometryEngine.hpp"
 
+#include <QApplication>
 #include <QElapsedTimer>
 #include <QMatrix4x4>
+#include <QMouseEvent>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
@@ -12,6 +14,8 @@
 #include <QQuaternion>
 #include <QTimer>
 #include <QVector2D>
+#include <cmath>
+#include <utility>
 
 class FractalWidget : public QOpenGLWidget, protected QOpenGLFunctions {
 	Q_OBJECT
@@ -56,5 +60,5 @@ private:
 	QVector2D mousePressPosition;
 	QVector3D pointAxisX = QVector3D(1.0, 0.0, 1.5);
 	QVector3D pointAxisY = QVector3D(0.0, 1.0, 1.5);
-    qreal autoRotationPos = 0.0;
+	qreal autoRotationPos = 0.0;
 };

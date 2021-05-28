@@ -1,9 +1,5 @@
 #include "FractalWidget.hpp"
 
-#include <QApplication>
-#include <QMouseEvent>
-#include <cmath>
-#include <utility>
 
 namespace {
 	QVector3D transformColor(const QColor &color) {
@@ -51,21 +47,21 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *) {
 }
 
 namespace {
-QVector3D rotate(QVector3D point, qreal alpha, QVector3D axis) {
-	qreal t11 = cos(alpha) + (1 - cos(alpha)) * axis.x() * axis.x();
-	qreal t12 = (1 - cos(alpha)) * axis.x() * axis.y() - sin(alpha) * axis.z();
-	qreal t13 = (1 - cos(alpha)) * axis.x() * axis.z() + sin(alpha) * axis.y();
-	qreal t21 = (1 - cos(alpha)) * axis.x() * axis.y() + sin(alpha) * axis.z();
-	qreal t22 = cos(alpha) + (1 - cos(alpha)) * axis.y() * axis.y();
-	qreal t23 = (1 - cos(alpha)) * axis.y() * axis.z() - sin(alpha) * axis.x();
-	qreal t31 = (1 - cos(alpha)) * axis.x() * axis.z() - sin(alpha) * axis.y();
-	qreal t32 = (1 - cos(alpha)) * axis.y() * axis.z() + sin(alpha) * axis.x();
-	qreal t33 = cos(alpha) + (1 - cos(alpha)) * axis.z() * axis.z();
-	return QVector3D(point.x() * t11 + point.y() * t21 + point.z() * t31,
-					 point.x() * t12 + point.y() * t22 + point.z() * t32,
-					 point.x() * t13 + point.y() * t23 + point.z() * t33);
-}
-};
+	QVector3D rotate(QVector3D point, qreal alpha, QVector3D axis) {
+		qreal t11 = cos(alpha) + (1 - cos(alpha)) * axis.x() * axis.x();
+		qreal t12 = (1 - cos(alpha)) * axis.x() * axis.y() - sin(alpha) * axis.z();
+		qreal t13 = (1 - cos(alpha)) * axis.x() * axis.z() + sin(alpha) * axis.y();
+		qreal t21 = (1 - cos(alpha)) * axis.x() * axis.y() + sin(alpha) * axis.z();
+		qreal t22 = cos(alpha) + (1 - cos(alpha)) * axis.y() * axis.y();
+		qreal t23 = (1 - cos(alpha)) * axis.y() * axis.z() - sin(alpha) * axis.x();
+		qreal t31 = (1 - cos(alpha)) * axis.x() * axis.z() - sin(alpha) * axis.y();
+		qreal t32 = (1 - cos(alpha)) * axis.y() * axis.z() + sin(alpha) * axis.x();
+		qreal t33 = cos(alpha) + (1 - cos(alpha)) * axis.z() * axis.z();
+		return QVector3D(point.x() * t11 + point.y() * t21 + point.z() * t31,
+						 point.x() * t12 + point.y() * t22 + point.z() * t32,
+						 point.x() * t13 + point.y() * t23 + point.z() * t33);
+	}
+};// namespace
 
 void FractalWidget::rotateFractal(QVector2D const &diff) {
 	if(diff.x() == 0 && diff.y() == 0)
@@ -154,9 +150,9 @@ void FractalWidget::paintGL() {
 
 	QMatrix4x4 matrix;
 	matrix.translate(0.0, 0.0, fractalData->zoomCoefficient);
-    matrix.lookAt(fractalData->camera, -fractalData->camera, pointAxisY - fractalData->camera);
+	matrix.lookAt(fractalData->camera, -fractalData->camera, pointAxisY - fractalData->camera);
 
-    program.setUniformValue("mvp_matrix", projection * matrix);
+	program.setUniformValue("mvp_matrix", projection * matrix);
 
 	program.setUniformValue("POWER", (GLint) fractalData->n);
 	program.setUniformValue("Resolution", dynamic_cast<QApplication *>(QCoreApplication::instance())->devicePixelRatio() * QVector2D(this->width(), this->height()));
@@ -179,9 +175,9 @@ void FractalWidget::setFractalData(FractalData *data) {
 
 void FractalWidget::autoRotate() {
 	if(fractalData->isRotating) {
-		qreal nextPos = static_cast<qreal>(elapsedTimer->elapsed());
-		qreal dx = (nextPos - autoRotationPos) / 5;
+		auto nextPos = static_cast<qreal>(elapsedTimer->elapsed());
+		qreal dx = (nextPos - autoRotationPos) * fractalData->absoluteSpeed;
 		autoRotationPos = nextPos;
-		rotateFractal({dx, 0.0});
+		rotateFractal({static_cast<float>(dx), 0.0});
 	}
 }
