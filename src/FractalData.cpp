@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-const QVector3D FractalData::baseCamera = QVector3D(0, 0, 1.5);// is more centered, but worse in some way
+const QVector3D FractalData::baseCamera = QVector3D(0, 0, 1.5);
 
 namespace {
 	qreal randomReal() {
@@ -28,7 +28,7 @@ namespace {
 							 out += std::pow(std::abs(u[i] - v[i]) / 255., p);
 						 return std::pow(out, 1. / p) / std::pow(3, 1. / p);
 					 },
-					 0.25// threshold
+					 0.25 // threshold
 			 }}};
 
 	bool isSimilar(QColor const &u, QColor const &v, std::pair<std::function<qreal(std::vector<int>, std::vector<int>)>, qreal> const &metric) {
@@ -42,7 +42,7 @@ namespace {
 		return color.value() < 150;
 	}
 
-}// namespace
+} // namespace
 
 [[maybe_unused]] FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type) : a(a), b(b), c(c), n(n), type(type) {}
 

@@ -240,7 +240,7 @@ float RayMarch(vec3 CameraPosition, vec3 RayDirection, vec3 CriticalPoint) {
         vec3 RayPosition = CameraPosition + RayDirection * dist;
         float distNear = GetDist(RayPosition, CriticalPoint);
         dist += distNear;
-        if (MAX_DIST < dist || distNear < MIN_DIST)
+        if(MAX_DIST < dist || distNear < MIN_DIST)
             break;
     }
     return dist;
@@ -260,12 +260,6 @@ void main() {
         return;
     }
 
-    /*MAX_STEPS = int(float(MAX_STEPS) * ZoomCoefficient);
-    MAX_DIST /= ZoomCoefficient;
-    MIN_DIST /= ZoomCoefficient;
-    OTHER_ITER = int(float(OTHER_ITER) * ZoomCoefficient);
-    MANDEL_ITER = int(float(MANDEL_ITER) * ZoomCoefficient);*/
-
     // horizontal
     vec2 bounds = vec2(Resolution.y / Resolution.x, 1);
     vec2 shift = vec2((resolutionMax - resolutionMin) * 0.5, 0);
@@ -275,7 +269,6 @@ void main() {
         shift.y = shift.x;
         shift.x = 0;
     }
-    //bounds /= ZoomCoefficient;
     vec2 FragCoord = linmap(gl_FragCoord.xy - shift, vec2(0), vec2(resolutionMin), -bounds, bounds);
 
     vec3 CriticalPoint = vec3(CriticalPointX, CriticalPointY, CriticalPointZ);
@@ -286,16 +279,6 @@ void main() {
         return;
     }
     const float zoomCorrector = 1.3;
-    FragColor = vec4(zoomCorrector * ZoomCoefficient * pow(1 + distance, 1.2) / pow(3, 1.2) * normalize(ColorFractal), 1.0);
-
-    /*const int method = 0;
-    if(method == 0) {
-        const float zoomCorrector = 1.3;
-        FragColor = vec4(zoomCorrector * ZoomCoefficient * pow(1 + distance, 0.5) / pow(3, 0.5) * ColorFractal, 1.0);
-    } else if(method == 1) {
-        FragColor = vec4(1.1 * distance * ColorFractal, 1.0);
-    } else if(method == 2) {
-        float colorCoefficient = 1.5;
-        FragColor = vec4(colorCoefficient * (pow(2, 1.5) - pow(distance, 1.5)) / pow(2, 1.5) * ColorFractal / pow(ZoomCoefficient, 1.5 - distance), 1.0);
-    }*/
+    const float distNormalizer = pow(3, 1.2);
+    FragColor = vec4(zoomCorrector * ZoomCoefficient * pow(1 + distance, 1.2) / distNormalizer * normalize(ColorFractal), 1.0);
 }

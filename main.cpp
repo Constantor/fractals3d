@@ -1,5 +1,4 @@
 #include "MainWindow.hpp"
-#include <QtGui/QScreen>
 #include <QtWidgets/QApplication>
 
 int main(int argc, char *argv[]) {

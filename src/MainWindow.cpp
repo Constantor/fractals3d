@@ -17,7 +17,7 @@ namespace {
 	void saveImageToFile(const QImage &image, const QString &fileName) {
 		image.save(fileName);
 	}
-}// namespace
+} // namespace
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);

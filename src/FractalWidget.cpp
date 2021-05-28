@@ -3,13 +3,12 @@
 #include <QApplication>
 #include <QMouseEvent>
 #include <cmath>
-#include <utility>
 
 namespace {
 	QVector3D transformColor(const QColor &color) {
 		return QVector3D(color.red() / 255.0, color.green() / 255.0, color.blue() / 255.0);
 	}
-}// namespace
+} // namespace
 
 FractalWidget::~FractalWidget() {
 	// Make sure the context is current when deleting the buffers.
@@ -163,7 +162,7 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("CameraPosition", fractalData->zoomedCamera());
 	program.setUniformValue("ZoomCoefficient", (GLfloat) fractalData->zoomCoefficient);
 
-	// Draw cube geometry
+	// Draw geometry
 	geometries->drawGeometry(&program);
 }
 
