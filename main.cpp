@@ -10,13 +10,11 @@ int main(int argc, char *argv[]) {
 	QSurfaceFormat::setDefaultFormat(format);
 
 	fractals3DApp.setApplicationName("Fractals 3D");
-	fractals3DApp.setApplicationVersion("0.1");
+	fractals3DApp.setApplicationVersion("1.0");
 	fractals3DApp.setOrganizationName("HSE University");
 	fractals3DApp.setOrganizationDomain("hse.ru");
 
 #ifndef QT_NO_OPENGL
-	//FractalWidget widget;
-	//widget.show();
 	MainWindow mainWindow{};
 	mainWindow.show();
 #else
