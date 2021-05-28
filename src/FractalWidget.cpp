@@ -1,8 +1,8 @@
 #include "FractalWidget.hpp"
 
+#include <QApplication>
 #include <QMouseEvent>
 #include <cmath>
-#include <QApplication>
 #include <utility>
 
 namespace {
@@ -46,8 +46,8 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *) {
 }
 
 QVector3D rotate(QVector3D point, qreal alpha, QVector3D axis) {
-    qreal t11 = cos(alpha) + (1 - cos(alpha)) * axis.x() * axis.x();
-    qreal t12 = (1 - cos(alpha)) * axis.x() * axis.y() - sin(alpha) * axis.z();
+	qreal t11 = cos(alpha) + (1 - cos(alpha)) * axis.x() * axis.x();
+	qreal t12 = (1 - cos(alpha)) * axis.x() * axis.y() - sin(alpha) * axis.z();
 	qreal t13 = (1 - cos(alpha)) * axis.x() * axis.z() + sin(alpha) * axis.y();
 	qreal t21 = (1 - cos(alpha)) * axis.x() * axis.y() + sin(alpha) * axis.z();
 	qreal t22 = cos(alpha) + (1 - cos(alpha)) * axis.y() * axis.y();
@@ -55,34 +55,34 @@ QVector3D rotate(QVector3D point, qreal alpha, QVector3D axis) {
 	qreal t31 = (1 - cos(alpha)) * axis.x() * axis.z() - sin(alpha) * axis.y();
 	qreal t32 = (1 - cos(alpha)) * axis.y() * axis.z() + sin(alpha) * axis.x();
 	qreal t33 = cos(alpha) + (1 - cos(alpha)) * axis.z() * axis.z();
-    return QVector3D(point.x() * t11 + point.y() * t21 + point.z() * t31,
-                     point.x() * t12 + point.y() * t22 + point.z() * t32,
-                     point.x() * t13 + point.y() * t23 + point.z() * t33);
+	return QVector3D(point.x() * t11 + point.y() * t21 + point.z() * t31,
+					 point.x() * t12 + point.y() * t22 + point.z() * t32,
+					 point.x() * t13 + point.y() * t23 + point.z() * t33);
 }
 
 void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
-    if(!mousePressed)
-        return;
+	if(!mousePressed)
+		return;
 
-    QVector2D diff = QVector2D(e->position()) - mousePressPosition;
+	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
 	if(diff.x() == 0 && diff.y() == 0)
 		return;
 	QVector2D alpha = diff * (M_PI / 720.);
 
-    QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
+	QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
 
-    pointAxisX = rotate(pointAxisX, alpha.x(), vecAxisY);
-    pointAxisY = rotate(pointAxisY, alpha.x(), vecAxisY);
-    fractalData->camera = rotate(fractalData->camera, alpha.x(), vecAxisY);
+	pointAxisX = rotate(pointAxisX, alpha.x(), vecAxisY);
+	pointAxisY = rotate(pointAxisY, alpha.x(), vecAxisY);
+	fractalData->camera = rotate(fractalData->camera, alpha.x(), vecAxisY);
 
-    QVector3D vecAxisX = (pointAxisX - fractalData->camera).normalized();
+	QVector3D vecAxisX = (pointAxisX - fractalData->camera).normalized();
 
-    fractalData->camera = rotate(fractalData->camera, alpha.y(), vecAxisX);
-    pointAxisX = rotate(pointAxisX, alpha.y(), vecAxisX);
-    pointAxisY = rotate(pointAxisY, alpha.y(), vecAxisX);
+	fractalData->camera = rotate(fractalData->camera, alpha.y(), vecAxisX);
+	pointAxisX = rotate(pointAxisX, alpha.y(), vecAxisX);
+	pointAxisY = rotate(pointAxisY, alpha.y(), vecAxisX);
 
-    update();
-    mousePressPosition = QVector2D(e->position());
+	update();
+	mousePressPosition = QVector2D(e->position());
 }
 
 void FractalWidget::initializeGL() {
@@ -102,12 +102,12 @@ void FractalWidget::initializeGL() {
 
 	geometries = new GeometryEngine;
 
-    // Prepare for auto-rotation
-    timer = new QTimer;
-    elapsedTimer = new QElapsedTimer();
-    connect(timer, &QTimer::timeout, [&]() { autoRotate(); });
-    elapsedTimer->start();
-    timer->start();
+	// Prepare for auto-rotation
+	timer = new QTimer;
+	elapsedTimer = new QElapsedTimer();
+	connect(timer, &QTimer::timeout, [&]() { autoRotate(); });
+	elapsedTimer->start();
+	timer->start();
 }
 
 void FractalWidget::initShaders() {
@@ -152,7 +152,7 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("mvp_matrix", projection * matrix);
 
 	program.setUniformValue("POWER", (GLint) fractalData->n);
-	QApplication* app = dynamic_cast<QApplication*>(QCoreApplication::instance());
+	QApplication *app = dynamic_cast<QApplication *>(QCoreApplication::instance());
 	program.setUniformValue("Resolution", app->devicePixelRatio() * QVector2D(this->width(), this->height()));
 	program.setUniformValue("CriticalPointX", (GLfloat) fractalData->a);
 	program.setUniformValue("CriticalPointY", (GLfloat) fractalData->b);
@@ -172,4 +172,7 @@ void FractalWidget::setFractalData(FractalData *data) {
 }
 
 void FractalWidget::autoRotate() {
+	if (fractalData->isRotating){
+
+	}
 }
