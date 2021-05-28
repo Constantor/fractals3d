@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
 	QSurfaceFormat::setDefaultFormat(format);
 
 	fractals3DApp.setApplicationName("Fractals 3D");
-	fractals3DApp.setApplicationVersion("v1.4");
+	fractals3DApp.setApplicationVersion("v1.5");
 	fractals3DApp.setOrganizationName("HSE University Saint Petersburg");
 	fractals3DApp.setOrganizationDomain("spb.hse.ru");
 

@@ -57,6 +57,7 @@ void MainWindow::makeMenu() {
 	aboutMenu->addAction("About", [&]() {
 		QMessageBox aboutBox;
 		aboutBox.setIcon(QMessageBox::Information);
+		aboutBox.setWindowTitle("About Fractals 3D");
 		aboutBox.setTextFormat(Qt::RichText);
 		aboutBox.setText("<strong>Fractals 3D</strong> is a program designed for exploring three-dimensional fractals. Made by the three students of the HSE University Saint Petersburg campus.<br><br><strong>Authors:</strong> Sergey Zhuravlev, Stepan Konstantinov, Daria Ledneva<br><strong>Mentor:</strong> Anton Sosnin<br><br><strong>Version:</strong> " + dynamic_cast<QApplication *>(QCoreApplication::instance())->applicationVersion() + "<br><strong>Source:</strong> <a href='https://github.com/Constantor/fractals3d'>github.com/Constantor/fractals3d</a><br><strong>License:</strong> GNU GPL v3.0");
 		aboutBox.exec();
