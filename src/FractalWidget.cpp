@@ -180,9 +180,9 @@ void FractalWidget::setFractalData(FractalData *data) {
 
 void FractalWidget::autoRotate() {
 	if(fractalData->isRotating) {
-		qreal nextPos = static_cast<qreal>(elapsedTimer->elapsed());
-		qreal dx = (nextPos - autoRotationPos) / 5;
+		auto nextPos = static_cast<qreal>(elapsedTimer->elapsed());
+		qreal dx = (nextPos - autoRotationPos) / 1;
 		autoRotationPos = nextPos;
-		rotateFractal({dx, 0.0});
+		rotateFractal({static_cast<float>(dx), 0.0});
 	}
 }
