@@ -42,9 +42,12 @@ public:
 	void genRandom();
 
 	FractalData();
+
 	[[maybe_unused]] FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
+
 	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient, bool isRotating);
 
+	void setZoomCoefficient(qreal zoomCoefficient);
 
 	[[nodiscard]] QJsonObject serialize() const;
 	void readFrom(QJsonDocument &in);
