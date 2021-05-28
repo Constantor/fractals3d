@@ -48,6 +48,9 @@ void MainWindow::makeMenu() {
 	fileMenu->addAction("Save as video", [&]() { recordVideo(); });
 	fileMenu->addAction("Exit", [&]() { QApplication::quit(); });
 
+	auto settingsMenu = menuBar()->addMenu("Settings");
+	settingsMenu->addAction(
+			"Fullscreen view ", [&]() { hideAndShow(); }, QKeySequence(tr("F11")));
 	auto aboutMenu = menuBar()->addMenu("Help");
 	aboutMenu->addAction("About", [&]() { QMessageBox::information(this, tr("About"), "Fractals 3D is a program intended for 3D fractals exploration. Done by the three students of the HSE University campus in Saint-Petersburg: Sergey Zhuravlev, Stepan Konstantinov, Daria Ledneva. Mentor: Anton Sosnin."); });
 }
