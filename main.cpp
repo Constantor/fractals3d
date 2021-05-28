@@ -9,9 +9,9 @@ int main(int argc, char *argv[]) {
 	QSurfaceFormat::setDefaultFormat(format);
 
 	fractals3DApp.setApplicationName("Fractals 3D");
-	fractals3DApp.setApplicationVersion("1.3");
-	fractals3DApp.setOrganizationName("HSE University");
-	fractals3DApp.setOrganizationDomain("hse.ru");
+	fractals3DApp.setApplicationVersion("v1.4");
+	fractals3DApp.setOrganizationName("HSE University Saint Petersburg");
+	fractals3DApp.setOrganizationDomain("spb.hse.ru");
 
 #ifndef QT_NO_OPENGL
 	MainWindow mainWindow{};

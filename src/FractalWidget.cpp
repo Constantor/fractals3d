@@ -155,8 +155,7 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("mvp_matrix", projection * matrix);
 
 	program.setUniformValue("POWER", (GLint) fractalData->n);
-	QApplication *app = dynamic_cast<QApplication *>(QCoreApplication::instance());
-	program.setUniformValue("Resolution", app->devicePixelRatio() * QVector2D(this->width(), this->height()));
+	program.setUniformValue("Resolution", dynamic_cast<QApplication *>(QCoreApplication::instance())->devicePixelRatio() * QVector2D(this->width(), this->height()));
 	program.setUniformValue("CriticalPointX", (GLfloat) fractalData->a);
 	program.setUniformValue("CriticalPointY", (GLfloat) fractalData->b);
 	program.setUniformValue("CriticalPointZ", (GLfloat) fractalData->c);
