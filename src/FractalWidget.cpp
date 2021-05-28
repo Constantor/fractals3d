@@ -20,20 +20,19 @@ FractalWidget::~FractalWidget() {
 
 void FractalWidget::wheelEvent(QWheelEvent *e) {
 	static const qreal degreesCoefficient = 0.09 / 360;
-	static const qreal EPS = 0.0065;
+	static const qreal EPS = 0.006;
 	QPoint numDegrees = e->angleDelta();
 	zoomStorage += numDegrees.y() * degreesCoefficient;
 	if(abs(zoomStorage) < EPS)
 		return;
 
-	static const qreal minZoom = 0.2;
-	static const qreal maxZoom = 50;
-	qreal old = fractalData->zoomCoefficient;
+	static const qreal minZoom = 0.8;
+	static const qreal maxZoom = 8;
 	fractalData->zoomCoefficient += zoomStorage;
 	zoomStorage = 0;
-	fractalData->zoomCoefficient = std::min(maxZoom, std::max(minZoom, fractalData->zoomCoefficient));
-	if(EPS < abs(fractalData->zoomCoefficient - old))
-		update();
+	fractalData->zoomCoefficient = std::max(minZoom, fractalData->zoomCoefficient);
+	fractalData->zoomCoefficient = std::min(maxZoom, fractalData->zoomCoefficient);
+	update();
 }
 
 void FractalWidget::mousePressEvent(QMouseEvent *e) {
