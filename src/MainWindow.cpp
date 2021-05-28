@@ -248,8 +248,11 @@ void MainWindow::generateRandom() {
 }
 
 
-void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+void MainWindow::keyPressEvent(QKeyEvent *event) {
 	if(event->key() == Qt::Key_F11) {
+		hideAndShow();
+	}
+	if(event->key() == Qt::Key_Escape && isFullScreen) {
 		hideAndShow();
 	}
 	QWidget::keyPressEvent(event);
