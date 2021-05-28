@@ -118,3 +118,7 @@ FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, 
 void FractalData::setZoomCoefficient(qreal zoomCoefficient) {
 	FractalData::zoomCoefficient = zoomCoefficient;
 }
+
+void FractalData::setAbsoluteSpeed(qreal absoluteSpeed) {
+	FractalData::absoluteSpeed = absoluteSpeed;
+}

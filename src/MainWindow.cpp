@@ -105,10 +105,14 @@ void MainWindow::connectBoxBar() {
 	connect(ui->fractalColorButton, &QPushButton::clicked, [&]() { askColor(FRACTAL); });
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
 	connect(ui->randomizeButton, &QPushButton::clicked, [&]() { generateRandom(); });
-	connect(ui->rotationBox, &QCheckBox::clicked, [&]() { readAndDraw(); });
+	connect(ui->rotationBox, &QCheckBox::stateChanged, [&]() { readAndDraw(); });
 	connect(ui->zoomButton, &QPushButton::clicked, [&]() {
 		data.setZoomCoefficient();
 		ui->fractalWidget->repaint();
+	});
+	connect(ui->rotationSlider, &QSlider::valueChanged, [&]() {
+		ui->rotationBox->setCheckState(Qt::Checked);
+		data.setAbsoluteSpeed(ui->rotationSlider->value() / 100.0);
 	});
 }
 
