@@ -1,14 +1,15 @@
 #pragma once
 
-#include "Recorder.hpp"
 #include "FractalData.hpp"
 #include "FractalWidget.hpp"
+#include "Recorder.hpp"
 
 #include <QColorDialog>
 #include <QDoubleSpinBox>
 #include <QElapsedTimer>
 #include <QFileDialog>
 #include <QJsonDocument>
+#include <QKeyEvent>
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QProgressBar>
@@ -28,7 +29,7 @@ QT_END_NAMESPACE
 QT_FORWARD_DECLARE_CLASS(QOpenGLWidget)
 
 class MainWindow : public QMainWindow {
-Q_OBJECT
+	Q_OBJECT
 	static const qint64 LIMIT = 10000;
 
 public:
@@ -44,7 +45,9 @@ private:
 	qint64 time{}, frames{};
 	QTemporaryDir *temporaryDir{};
 	Recorder *recorder{};
+	QSize prevSize{};
 	bool isOnRecord = false;
+	bool isFullScreen = false;
 	bool isSetting = true;
 
 	void connectBoxBar();
@@ -80,4 +83,9 @@ private:
 	void recordClickAction();
 
 	void generateRandom();
+
+	void hideAndShow();
+
+protected:
+	void keyReleaseEvent(QKeyEvent *event) override;
 };

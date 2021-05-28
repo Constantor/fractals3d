@@ -22,12 +22,12 @@ namespace {
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
 	ui->recordWidget->close();
+	prevSize = this->size();
 	connectBoxBar();
 	connect(ui->recordButton, &QPushButton::clicked, [&]() { recordClickAction(); });
 	setValues();
 	updateButtons();
 	ui->fractalWidget->setFractalData(&data);
-
 	readAndDraw();
 	makeMenu();
 }
@@ -237,8 +237,34 @@ void MainWindow::recordClickAction() {
 	else
 		startRecord();
 }
+
 void MainWindow::generateRandom() {
 	data.genRandom();
 	setValues();
 	ui->fractalWidget->repaint();
+}
+
+
+void MainWindow::keyReleaseEvent(QKeyEvent *event) {
+	if(event->key() == Qt::Key_F11) {
+		hideAndShow();
+	}
+	QWidget::keyPressEvent(event);
+}
+
+void MainWindow::hideAndShow() {
+	if(isFullScreen) {
+		ui->menubar->show();
+		ui->inputWidget->show();
+		ui->statusbar->show();
+		this->resize(prevSize);
+		isFullScreen = false;
+	} else {
+		prevSize = this->size();
+		ui->menubar->hide();
+		ui->inputWidget->hide();
+		ui->statusbar->hide();
+		this->showMaximized();
+		isFullScreen = true;
+	}
 }
