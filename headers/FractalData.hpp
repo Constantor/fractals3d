@@ -25,8 +25,9 @@ enum ColorType {
 
 class FractalData {
 public:
-	static const QVector3D baseCamera; // set in FractalData.cpp
-	static constexpr const qreal defaultZoom = 1.;
+	static const QVector3D baseCamera;
+	static constexpr const qreal defaultZoom = -3.0;
+	static constexpr const qreal defaultSpeed = 0.25;
 
 	qreal a{}, b{}, c{};
 	quint8 n = 2;
@@ -35,17 +36,16 @@ public:
 	QColor ambienceColor = QColor(255, 55, 55);
 	QVector3D camera = baseCamera;
 	qreal zoomCoefficient = defaultZoom;
-    bool isRotating = false;
+	qreal rotateSpeed = defaultSpeed;
+	bool isRotating = false;
 
 	void genRandom();
 
 	FractalData();
-	[[maybe_unused]]FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
+	[[maybe_unused]] FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
 	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient, bool isRotating);
 
 
 	[[nodiscard]] QJsonObject serialize() const;
 	void readFrom(QJsonDocument &in);
-
-	[[nodiscard]] QVector3D zoomedCamera() const;
 };

@@ -3,12 +3,13 @@
 #include <QApplication>
 #include <QMouseEvent>
 #include <cmath>
+#include <utility>
 
 namespace {
 	QVector3D transformColor(const QColor &color) {
 		return QVector3D(color.red() / 255.0, color.green() / 255.0, color.blue() / 255.0);
 	}
-} // namespace
+}// namespace
 
 FractalWidget::~FractalWidget() {
 	// Make sure the context is current when deleting the buffers.
@@ -18,20 +19,25 @@ FractalWidget::~FractalWidget() {
 }
 
 void FractalWidget::wheelEvent(QWheelEvent *e) {
-	static const qreal degreesCoefficient = 0.09 / 360;
-	static const qreal EPS = 0.006;
+	static const qreal degreesCoefficient = 1.0 / 360;
+	static const qreal EPS = 0.001;
 	QPoint numDegrees = e->angleDelta();
-	zoomStorage += numDegrees.y() * degreesCoefficient;
-	if(abs(zoomStorage) < EPS)
-		return;
 
-	static const qreal minZoom = 0.8;
-	static const qreal maxZoom = 8;
-	fractalData->zoomCoefficient += zoomStorage;
-	zoomStorage = 0;
-	fractalData->zoomCoefficient = std::max(minZoom, fractalData->zoomCoefficient);
-	fractalData->zoomCoefficient = std::min(maxZoom, fractalData->zoomCoefficient);
-	update();
+	static const qreal minZoom = -5.0;
+	static const qreal maxZoom = 9.0;
+	qreal delta = numDegrees.y() * degreesCoefficient;
+	qreal newValue = fractalData->zoomCoefficient + delta;
+	qreal newSpeed = fractalData->rotateSpeed;
+
+	if(newValue > fractalData->defaultZoom) {
+		newSpeed /= (1 + (newValue - fractalData->defaultZoom) * 0.1);
+	}
+
+	if(EPS < abs(delta) && minZoom <= newValue && newValue <= maxZoom) {
+		fractalData->zoomCoefficient = newValue;
+		fractalData->rotateSpeed = newSpeed;
+		update();
+	}
 }
 
 void FractalWidget::mousePressEvent(QMouseEvent *e) {
@@ -131,10 +137,8 @@ void FractalWidget::resizeGL(int w, int h) {
 	// Calculate aspect ratio
 	qreal aspect = qreal(w) / qreal(h ? h : 1);
 
-	// Set near plane to 3.0, far plane to 7.0, field of view 45 degrees
 	const qreal zNear = 3.0, zFar = 7.0, fov = 45.0;
 
-	// Reset projection
 	projection.setToIdentity();
 
 	// Set perspective projection
@@ -145,8 +149,8 @@ void FractalWidget::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	QMatrix4x4 matrix;
-	matrix.translate(0.0, 0.0, -4 / fractalData->zoomCoefficient);
-	matrix.lookAt(fractalData->zoomedCamera(), {0, 0, 0}, {0, 1, 0});
+	matrix.translate(0.0, 0.0, fractalData->zoomCoefficient);
+	matrix.lookAt(fractalData->camera, {0, 0, 0}, {0, 1, 0});
 
 	program.setUniformValue("mvp_matrix", projection * matrix);
 
@@ -159,7 +163,7 @@ void FractalWidget::paintGL() {
 	program.setUniformValue("TYPE", (GLint) fractalData->type);
 	program.setUniformValue("Ambience", transformColor(fractalData->ambienceColor));
 	program.setUniformValue("ColorFractal", transformColor(fractalData->fractalColor));
-	program.setUniformValue("CameraPosition", fractalData->zoomedCamera());
+	program.setUniformValue("CameraPosition", fractalData->camera);
 	program.setUniformValue("ZoomCoefficient", (GLfloat) fractalData->zoomCoefficient);
 
 	// Draw geometry
@@ -172,7 +176,7 @@ void FractalWidget::setFractalData(FractalData *data) {
 
 void FractalWidget::autoRotate() {
 	if(fractalData->isRotating) {
-		auto nextPos = (qreal) (elapsedTimer->elapsed());
+		auto nextPos = (qreal)(elapsedTimer->elapsed());
 		qreal dx = (nextPos - autoRotationPos) / 5;
 		autoRotationPos = nextPos;
 		QVector2D diff = QVector2D(dx, 0.0);
