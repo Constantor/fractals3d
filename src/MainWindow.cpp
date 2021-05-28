@@ -17,7 +17,7 @@ namespace {
 	void saveImageToFile(const QImage &image, const QString &fileName) {
 		image.save(fileName);
 	}
-} // namespace
+}// namespace
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
 	ui->setupUi(this);
@@ -30,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 	ui->fractalWidget->setFractalData(&data);
 	readAndDraw();
 	makeMenu();
+	hideBorders();
 }
 
 MainWindow::~MainWindow() {
@@ -41,7 +42,6 @@ MainWindow::~MainWindow() {
 
 void MainWindow::makeMenu() {
 	auto fileMenu = menuBar()->addMenu("File");
-
 	fileMenu->addAction("Load fractal", [&]() { loadFromFile(); });
 	fileMenu->addAction("Save fractal", [&]() { saveToFile(); });
 	fileMenu->addAction("Save as image", [&]() { saveToImage(); });
@@ -273,4 +273,9 @@ void MainWindow::hideAndShow() {
 		this->showMaximized();
 		isFullScreen = true;
 	}
+}
+
+void MainWindow::hideBorders() {
+	ui->statusbar->hide();
+	ui->centralwidget->setContentsMargins(0, 0, 0, 0);
 }

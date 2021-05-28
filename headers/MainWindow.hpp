@@ -86,6 +86,8 @@ private:
 
 	void hideAndShow();
 
+	void hideBorders();
+
 protected:
 	void keyPressEvent(QKeyEvent *event) override;
 };
