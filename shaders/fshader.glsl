@@ -277,9 +277,10 @@ void main() {
 		return;
 	}
 	const float brightness = 1.1;
+
 	vec3 result = brightness * vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
 	if(MAX_DIST * 0.75 < distance) {
 		result = Ambience;
 	}
-	FragColor = vec4(result, 1.0);
+	FragColor = vec4(result * pow(1 + distance, 0.5) / pow(3, 0.5), 1.0);
 }
