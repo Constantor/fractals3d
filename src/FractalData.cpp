@@ -1,10 +1,10 @@
 #include "FractalData.hpp"
+#include <QPair>
+#include <QVector>
 #include <functional>
 #include <map>
 #include <utility>
 #include <vector>
-#include <QVector>
-#include <QPair>
 
 const QVector3D FractalData::baseCamera = QVector3D(0, 0, 1.5);// is more centered, but worse in some way
 
@@ -46,8 +46,6 @@ namespace {
 
 [[maybe_unused]] FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type) : a(a), b(b), c(c), n(n), type(type) {}
 
-FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient) : a(a), b(b), c(c), n(n), type(type), fractalColor(fractalColor), ambienceColor(ambienceColor), camera(camera), zoomCoefficient(zoomCoefficient) {}
-
 QJsonObject FractalData::serialize() const {
 	QJsonObject serialized;
 	serialized.insert("a", a);
@@ -79,7 +77,7 @@ void FractalData::readFrom(QJsonDocument &in) {
 		camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
 	} else
 		camera = baseCamera;
-	for(auto &[name, reference] : QVector<QPair<QString, qreal&>>{{"a", a}, {"b", b}, {"c", c}})
+	for(auto &[name, reference] : QVector<QPair<QString, qreal &>>{{"a", a}, {"b", b}, {"c", c}})
 		if(fractalData.contains(name))
 			reference = fractalData.value(name).toDouble();
 	if(fractalData.contains("n"))
@@ -105,7 +103,8 @@ void FractalData::genRandom() {
 		ambienceColor = randomColor();
 	};
 	do {
-		genColors();;
+		genColors();
+		;
 	} while(isSimilar(fractalColor, ambienceColor, metrics["minkowski-normalized"]) || isBlack(fractalColor));
 	zoomCoefficient = defaultZoom;
 }
@@ -117,3 +116,4 @@ FractalData::FractalData() {
 QVector3D FractalData::zoomedCamera() const {
 	return camera / zoomCoefficient;
 }
+FractalData::FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient, bool isRotating) : a(a), b(b), c(c), n(n), type(type), fractalColor(fractalColor), ambienceColor(ambienceColor), camera(camera), zoomCoefficient(zoomCoefficient), isRotating(isRotating) {}

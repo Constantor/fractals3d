@@ -35,15 +35,17 @@ public:
 	QColor ambienceColor = QColor(255, 55, 55);
 	QVector3D camera = baseCamera; // I tried (-1.3, -0.6, 1.5), it was more centered, but not so beautiful
 	qreal zoomCoefficient = defaultZoom;
+    bool isRotating = false;
 
 	void genRandom();
 
 	FractalData();
 	[[maybe_unused]]FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type);
-	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient);
+	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient, bool isRotating);
+
 
 	[[nodiscard]] QJsonObject serialize() const;
 	void readFrom(QJsonDocument &in);
 
-	QVector3D zoomedCamera() const;
+	[[nodiscard]] QVector3D zoomedCamera() const;
 };
