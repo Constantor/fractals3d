@@ -1,4 +1,5 @@
 #include "MainWindow.hpp"
+#include <QMessageBox>
 
 typedef QString string;
 namespace {
@@ -50,9 +51,15 @@ void MainWindow::makeMenu() {
 
 	auto settingsMenu = menuBar()->addMenu("Settings");
 	settingsMenu->addAction(
-			"Fullscreen view ", [&]() { hideAndShow(); }, QKeySequence(tr("F11")));
+			"Fullscreen view", [&]() { hideAndShow(); }, QKeySequence(tr("F11")));
 	auto aboutMenu = menuBar()->addMenu("Help");
-	aboutMenu->addAction("About", [&]() { QMessageBox::information(this, tr("About"), "Fractals 3D is a program intended for 3D fractals exploration. Done by the three students of the HSE University campus in Saint-Petersburg: Sergey Zhuravlev, Stepan Konstantinov, Daria Ledneva. Mentor: Anton Sosnin."); });
+	aboutMenu->addAction("About", [&]() {
+		QMessageBox aboutBox;
+		aboutBox.setIcon(QMessageBox::Information);
+		aboutBox.setTextFormat(Qt::RichText);
+		aboutBox.setText("<strong>Fractals 3D</strong> is a program designed for exploring three-dimensional fractals. Made by the three students of the HSE University Saint Petersburg campus.<br><br><strong>Authors:</strong> Sergey Zhuravlev, Stepan Konstantinov, Daria Ledneva<br><strong>Mentor:</strong> Anton Sosnin<br><br><strong>Version:</strong> " + dynamic_cast<QApplication *>(QCoreApplication::instance())->applicationVersion() + "<br><strong>Source:</strong> <a href='https://github.com/Constantor/fractals3d'>github.com/Constantor/fractals3d</a><br><strong>License:</strong> GNU GPL v3.0");
+		aboutBox.exec();
+	});
 }
 
 void MainWindow::updateButtons() {
