@@ -150,9 +150,9 @@ void FractalWidget::paintGL() {
 
 	QMatrix4x4 matrix;
 	matrix.translate(0.0, 0.0, fractalData->zoomCoefficient);
-	matrix.lookAt(fractalData->camera, {0, 0, 0}, {0, 1, 0});
+    matrix.lookAt(fractalData->camera, -fractalData->camera, pointAxisY - fractalData->camera);
 
-	program.setUniformValue("mvp_matrix", projection * matrix);
+    program.setUniformValue("mvp_matrix", projection * matrix);
 
 	program.setUniformValue("POWER", (GLint) fractalData->n);
 	QApplication *app = dynamic_cast<QApplication *>(QCoreApplication::instance());
