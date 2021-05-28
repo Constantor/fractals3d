@@ -102,6 +102,7 @@ void MainWindow::connectBoxBar() {
 	connect(ui->fractalColorButton, &QPushButton::clicked, [&]() { askColor(FRACTAL); });
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
 	connect(ui->randomizeButton, &QPushButton::clicked, [&]() { generateRandom(); });
+	connect(ui->rotationBox, &QCheckBox::clicked, [&]() { readAndDraw(); });
 }
 
 void MainWindow::readAndDraw() {
