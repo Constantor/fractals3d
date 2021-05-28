@@ -173,6 +173,10 @@ void FractalWidget::setFractalData(FractalData *data) {
 
 void FractalWidget::autoRotate() {
 	if (fractalData->isRotating){
+        auto nextPos = (qreal) (elapsedTimer->elapsed());
+        qreal dx = (nextPos - autoRotationPos)/5;
+        autoRotationPos = nextPos;
 
+        update();
 	}
 }
