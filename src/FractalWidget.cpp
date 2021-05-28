@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 #include <cmath>
 #include <QApplication>
+#include <utility>
 
 namespace {
 	QVector3D transformColor(const QColor &color) {
@@ -18,18 +19,21 @@ FractalWidget::~FractalWidget() {
 }
 
 void FractalWidget::wheelEvent(QWheelEvent *e) {
-	QPoint numDegrees = e->angleDelta();
-	static const qreal degreesCoefficient = 0.1 / 360;
+	static const qreal degreesCoefficient = 0.09 / 360;
 	static const qreal EPS = 0.0065;
-	static const qreal minZoom = 0;
-	static const qreal maxZoom = INT_MAX;
-	qreal delta = numDegrees.y() * degreesCoefficient;
-	qreal newValue = fractalData->zoomCoefficient + delta;
-	if(EPS < abs(delta) && minZoom <= newValue && newValue <= maxZoom) {
-		fractalData->zoomCoefficient = newValue;
-		// qDebug() << fractalData->zoomCoefficient;
+	QPoint numDegrees = e->angleDelta();
+	zoomStorage += numDegrees.y() * degreesCoefficient;
+	if(abs(zoomStorage) < EPS)
+		return;
+
+	static const qreal minZoom = 0.2;
+	static const qreal maxZoom = 50;
+	qreal old = fractalData->zoomCoefficient;
+	fractalData->zoomCoefficient += zoomStorage;
+	zoomStorage = 0;
+	fractalData->zoomCoefficient = std::min(maxZoom, std::max(minZoom, fractalData->zoomCoefficient));
+	if(EPS < abs(fractalData->zoomCoefficient - old))
 		update();
-	}
 }
 
 void FractalWidget::mousePressEvent(QMouseEvent *e) {

@@ -42,13 +42,14 @@ MainWindow::~MainWindow() {
 void MainWindow::makeMenu() {
 	auto fileMenu = menuBar()->addMenu("File");
 
-	fileMenu->addAction("Load", [&]() { loadFromFile(); });
-	fileMenu->addAction("Save", [&]() { saveToFile(); });
-	fileMenu->addAction("Save as Image", [&]() { saveToImage(); });
-	fileMenu->addAction("Save as Video", [&]() { recordVideo(); });
+	fileMenu->addAction("Load fractal", [&]() { loadFromFile(); });
+	fileMenu->addAction("Save fractal", [&]() { saveToFile(); });
+	fileMenu->addAction("Save as image", [&]() { saveToImage(); });
+	fileMenu->addAction("Save as video", [&]() { recordVideo(); });
 	fileMenu->addAction("Exit", [&]() { QApplication::quit(); });
 
-	menuBar()->addMenu("About");
+	auto aboutMenu = menuBar()->addMenu("Help");
+	aboutMenu->addAction("About", [&]() { QMessageBox::information(this, tr("About"), "Fractals 3D is a program intended for 3D fractals exploration. Done by the three students of the HSE University campus in Saint-Petersburg: Sergey Zhuravlev, Stepan Konstantinov, Daria Ledneva. Mentor: Anton Sosnin."); });
 }
 
 void MainWindow::updateButtons() {
@@ -87,16 +88,16 @@ void MainWindow::connectBoxBar() {
 	connect(ui->secondCoordBar, &QSlider::valueChanged, ui->secondCoordBox, [&]() { ui->secondCoordBox->setValue(getValFromBar(ui->secondCoordBox, ui->secondCoordBar)); });
 	connect(ui->thirdCoordBox, &QDoubleSpinBox::valueChanged, ui->thirdCoordBar, [&]() { ui->thirdCoordBar->setValue(getValFromBox(ui->thirdCoordBox, ui->thirdCoordBar)); });
 	connect(ui->thirdCoordBar, &QSlider::valueChanged, ui->thirdCoordBox, [&]() { ui->thirdCoordBox->setValue(getValFromBar(ui->thirdCoordBox, ui->thirdCoordBar)); });
-	connect(ui->powerBox, &QSpinBox::valueChanged, ui->powerBar, [&]() { ui->powerBar->setValue(ui->powerBox->value() / 2); });
-	connect(ui->powerBar, &QSlider::valueChanged, ui->powerBox, [&]() { ui->powerBox->setValue(2 * ui->powerBar->value()); });
+	connect(ui->powerSpinBox, &QSpinBox::valueChanged, ui->powerBarSlider, [&]() { ui->powerBarSlider->setValue(ui->powerSpinBox->value() / 2); });
+	connect(ui->powerBarSlider, &QSlider::valueChanged, ui->powerSpinBox, [&]() { ui->powerSpinBox->setValue(2 * ui->powerBarSlider->value()); });
 	connect(ui->firstCoordBox, &QDoubleSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->firstCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->secondCoordBox, &QDoubleSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->secondCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->thirdCoordBox, &QDoubleSpinBox::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->thirdCoordBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
-	connect(ui->powerBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
-	connect(ui->powerBar, &QSlider::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->powerSpinBox, &QSpinBox::valueChanged, [&]() { readAndDraw(); });
+	connect(ui->powerBarSlider, &QSlider::valueChanged, [&]() { readAndDraw(); });
 	connect(ui->typeBox, &QComboBox::currentIndexChanged, [&]() { readAndDraw(); });
 	connect(ui->fractalColorButton, &QPushButton::clicked, [&]() { askColor(FRACTAL); });
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
@@ -105,14 +106,14 @@ void MainWindow::connectBoxBar() {
 
 void MainWindow::readAndDraw() {
 	if(!isSetting) {
-		data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerBox->value(),
+		data = FractalData(ui->firstCoordBox->value(), ui->secondCoordBox->value(), ui->thirdCoordBox->value(), ui->powerSpinBox->value(),
 						   static_cast<FractalType>(ui->typeBox->currentIndex()), data.fractalColor, data.ambienceColor, data.camera, data.zoomCoefficient);
 		ui->fractalWidget->repaint();
 	}
 }
 
 void MainWindow::loadFromFile() {
-	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Fractal "), "", tr("3D Fractal Data (*.f3d);;All Files (*)"));
+	QString fileName = QFileDialog::getOpenFileName(this, tr("Open Fractal"), "", tr("3D Fractal Data (*.f3d);;All Files (*)"));
 	if(fileName.isEmpty())
 		return;
 	else {
@@ -134,7 +135,7 @@ void MainWindow::loadFromFile() {
 }
 
 void MainWindow::saveToFile() {
-	QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Input"), "", tr("3D Fractal Data (*.f3d);;All Files (*)"));
+	QString fileName = QFileDialog::getSaveFileName(this, tr("Save fractal configuration"), "", tr("3D Fractal Data (*.f3d);;All files (*.*)"));
 	if(!fileName.isEmpty()) {
 		QFile file(fileName);
 
@@ -153,12 +154,12 @@ void MainWindow::saveToFile() {
 }
 
 void MainWindow::saveToImage() {
-	QString fileName = QFileDialog::getSaveFileName(this, tr("Save Fractal Image"), "", tr("Image Files(*.png *.jpg *.jpeg *.bmp);;All Files (*)"));
+	QString fileName = QFileDialog::getSaveFileName(this, tr("Save fractal image"), "", tr("Image files (*.png *.jpg *.jpeg *.bmp)"));
 	if(!fileName.isEmpty()) {
 		QFileInfo fileInfo(fileName);
 		if(fileInfo.exists() && !fileInfo.isWritable()) {
-			QMessageBox::information(this, tr("Unable to open file"),
-									 "Can't save to " + fileInfo.fileName());
+			QMessageBox::information(this, tr("Unable to write to the file"),
+									 "Failed to save fractal data to " + fileInfo.fileName());
 			return;
 		}
 		saveImageToFile(ui->fractalWidget->grabFramebuffer(), fileName);
@@ -170,7 +171,7 @@ void MainWindow::setValues() {
 	ui->firstCoordBox->setValue(data.a);
 	ui->secondCoordBox->setValue(data.b);
 	ui->thirdCoordBox->setValue(data.c);
-	ui->powerBox->setValue(data.n);
+	ui->powerSpinBox->setValue(data.n);
 	ui->typeBox->setCurrentIndex(data.type);
 	updateButtons();
 	isSetting = false;
@@ -225,7 +226,6 @@ void MainWindow::saveVideo() {
 		}
 		//int framerate = frames * 1000 / time;
 		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -r 60 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2\" %2").arg(temporaryDir->path(), fileName);
-		qDebug() << command;
 		std::system(command.toStdString().data());
 	}
 }

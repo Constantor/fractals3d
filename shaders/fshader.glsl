@@ -19,11 +19,11 @@ uniform vec3 Ambience = vec3(0.6, 0.8, 0.8);
 uniform vec3 ColorFractal = vec3(0.6, 0.5, 0.8);
 uniform float ZoomCoefficient = 1.0;
 
-const int MAX_STEPS = 255;
-const float MAX_DIST = 2000.0;
-const float MIN_DIST = 0.0001;
-const int OTHER_ITER = 200;
-const int MANDEL_ITER = 50;
+int MAX_STEPS = 255;
+float MAX_DIST = 2000.0;
+float MIN_DIST = 0.0001;
+int OTHER_ITER = 200;
+int MANDEL_ITER = 50;
 
 float sphere(vec3 point, vec3 center, float radius) {
     return length(point - center) - radius;
@@ -63,10 +63,8 @@ QDual qdMul(QDual qd1, QDual qd2) {
 
 QDual qdPow(QDual qd, int n) {
     QDual p = QDual(vec4(1.0, vec3(0.0)), vec4(0.0, vec3(0.0)));
-    for (int i = 0; i < n; ++i)
-    {
+    for (int i = 0; i < n; i++)
         p = qdMul(p, qd);
-    }
     return p;
 }
 
@@ -262,6 +260,12 @@ void main() {
         return;
     }
 
+    /*MAX_STEPS = int(float(MAX_STEPS) * ZoomCoefficient);
+    MAX_DIST /= ZoomCoefficient;
+    MIN_DIST /= ZoomCoefficient;
+    OTHER_ITER = int(float(OTHER_ITER) * ZoomCoefficient);
+    MANDEL_ITER = int(float(MANDEL_ITER) * ZoomCoefficient);*/
+
     // horizontal
     vec2 bounds = vec2(Resolution.y / Resolution.x, 1);
     vec2 shift = vec2((resolutionMax - resolutionMin) * 0.5, 0);
@@ -281,8 +285,8 @@ void main() {
         FragColor = vec4(Ambience, 1);
         return;
     }
-    const float zoomCorrector = 1.28;
-    FragColor = vec4(zoomCorrector * ZoomCoefficient * pow(1 + distance, 0.5) / pow(3, 0.5) * ColorFractal, 1.0);
+    const float zoomCorrector = 1.3;
+    FragColor = vec4(zoomCorrector * ZoomCoefficient * pow(1 + distance, 1.2) / pow(3, 1.2) * normalize(ColorFractal), 1.0);
 
     /*const int method = 0;
     if(method == 0) {

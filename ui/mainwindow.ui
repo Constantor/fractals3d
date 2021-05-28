@@ -233,12 +233,12 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QSpinBox" name="powerBox">
+								<widget class="QSpinBox" name="powerSpinBox">
 									<property name="minimum">
 										<number>2</number>
 									</property>
 									<property name="maximum">
-										<number>100</number>
+										<number>36</number>
 									</property>
 									<property name="singleStep">
 										<number>1</number>
@@ -246,12 +246,12 @@
 								</widget>
 							</item>
 							<item>
-								<widget class="QSlider" name="powerBar">
+								<widget class="QSlider" name="powerBarSlider">
 									<property name="minimum">
-										<number>1</number>
+										<number>2</number>
 									</property>
 									<property name="maximum">
-										<number>50</number>
+										<number>36</number>
 									</property>
 									<property name="orientation">
 										<enum>Qt::Horizontal</enum>
