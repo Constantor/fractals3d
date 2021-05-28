@@ -172,11 +172,24 @@ void FractalWidget::setFractalData(FractalData *data) {
 }
 
 void FractalWidget::autoRotate() {
-	if (fractalData->isRotating){
-        auto nextPos = (qreal) (elapsedTimer->elapsed());
-        qreal dx = (nextPos - autoRotationPos)/5;
-        autoRotationPos = nextPos;
+	if(fractalData->isRotating) {
+		auto nextPos = (qreal) (elapsedTimer->elapsed());
+		qreal dx = (nextPos - autoRotationPos) / 5;
+		autoRotationPos = nextPos;
+		QVector2D diff = QVector2D(dx, 0.0);
+		QVector2D alpha = diff * (M_PI / 720.);
 
-        update();
+		QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
+
+		pointAxisX = rotate(pointAxisX, alpha.x(), vecAxisY);
+		pointAxisY = rotate(pointAxisY, alpha.x(), vecAxisY);
+		fractalData->camera = rotate(fractalData->camera, alpha.x(), vecAxisY);
+
+		QVector3D vecAxisX = (pointAxisX - fractalData->camera).normalized();
+
+		fractalData->camera = rotate(fractalData->camera, alpha.y(), vecAxisX);
+		pointAxisX = rotate(pointAxisX, alpha.y(), vecAxisX);
+		pointAxisY = rotate(pointAxisY, alpha.y(), vecAxisX);
+		update();
 	}
 }
