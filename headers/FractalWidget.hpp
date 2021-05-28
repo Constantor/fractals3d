@@ -1,19 +1,20 @@
 #pragma once
 
-#include "GeometryEngine.hpp"
 #include "FractalData.hpp"
+#include "GeometryEngine.hpp"
 
-#include <QBasicTimer>
+#include <QElapsedTimer>
 #include <QMatrix4x4>
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QOpenGLWidget>
 #include <QQuaternion>
+#include <QTimer>
 #include <QVector2D>
 
 class FractalWidget : public QOpenGLWidget, protected QOpenGLFunctions {
-Q_OBJECT
+	Q_OBJECT
 
 public:
 	using QOpenGLWidget::QOpenGLWidget;
@@ -39,15 +40,20 @@ protected:
 
 	void initShaders();
 
+	void autoRotate();
+
+
 private:
 	bool mousePressed = false;
 	QOpenGLShaderProgram program;
 	FractalData *fractalData;
 	GeometryEngine *geometries = nullptr;
+	QElapsedTimer *elapsedTimer = nullptr;
+	QTimer *timer = nullptr;
 
 	QMatrix4x4 projection;
 	QVector2D mousePressPosition;
-    QVector3D pointAxisX = QVector3D(1.0, 0.0, 1.5);
-    QVector3D pointAxisY = QVector3D(0.0, 1.0, 1.5);
-    qreal zoomStorage = 0;
+	QVector3D pointAxisX = QVector3D(1.0, 0.0, 1.5);
+	QVector3D pointAxisY = QVector3D(0.0, 1.0, 1.5);
+	qreal zoomStorage = 0;
 };

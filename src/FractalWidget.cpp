@@ -102,8 +102,12 @@ void FractalWidget::initializeGL() {
 
 	geometries = new GeometryEngine;
 
-	// Use QBasicTimer because its faster than QTimer
-	// timer.start(12, this);
+    // Prepare for auto-rotation
+    timer = new QTimer;
+    elapsedTimer = new QElapsedTimer();
+    connect(timer, &QTimer::timeout, [&]() { autoRotate(); });
+    elapsedTimer->start();
+    timer->start();
 }
 
 void FractalWidget::initShaders() {
@@ -165,4 +169,7 @@ void FractalWidget::paintGL() {
 
 void FractalWidget::setFractalData(FractalData *data) {
 	fractalData = data;
+}
+
+void FractalWidget::autoRotate() {
 }
