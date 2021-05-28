@@ -106,6 +106,10 @@ void MainWindow::connectBoxBar() {
 	connect(ui->ambienceColorButton, &QPushButton::clicked, [&]() { askColor(AMBIENCE); });
 	connect(ui->randomizeButton, &QPushButton::clicked, [&]() { generateRandom(); });
 	connect(ui->rotationBox, &QCheckBox::clicked, [&]() { readAndDraw(); });
+	connect(ui->zoomButton, &QPushButton::clicked, [&]() {
+		data.setZoomCoefficient();
+		ui->fractalWidget->repaint();
+	});
 }
 
 void MainWindow::readAndDraw() {

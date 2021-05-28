@@ -39,7 +39,6 @@ public:
 	qreal rotateSpeed = defaultSpeed;
 	bool isRotating = false;
 
-	void genRandom();
 
 	FractalData();
 
@@ -47,8 +46,11 @@ public:
 
 	FractalData(qreal a, qreal b, qreal c, quint8 n, FractalType type, const QColor &fractalColor, const QColor &ambienceColor, const QVector3D &camera, qreal zoomCoefficient, bool isRotating);
 
-	void setZoomCoefficient(qreal zoomCoefficient);
+	void setZoomCoefficient(qreal zoomCoefficient = defaultZoom);
 
 	[[nodiscard]] QJsonObject serialize() const;
+
 	void readFrom(QJsonDocument &in);
+
+	void genRandom();
 };
