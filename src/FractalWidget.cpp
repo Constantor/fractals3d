@@ -50,6 +50,7 @@ void FractalWidget::mouseReleaseEvent(QMouseEvent *) {
 	mousePressed = false;
 }
 
+namespace {
 QVector3D rotate(QVector3D point, qreal alpha, QVector3D axis) {
 	qreal t11 = cos(alpha) + (1 - cos(alpha)) * axis.x() * axis.x();
 	qreal t12 = (1 - cos(alpha)) * axis.x() * axis.y() - sin(alpha) * axis.z();
@@ -64,12 +65,9 @@ QVector3D rotate(QVector3D point, qreal alpha, QVector3D axis) {
 					 point.x() * t12 + point.y() * t22 + point.z() * t32,
 					 point.x() * t13 + point.y() * t23 + point.z() * t33);
 }
+};
 
-void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
-	if(!mousePressed)
-		return;
-
-	QVector2D diff = QVector2D(e->position()) - mousePressPosition;
+void FractalWidget::rotateFractal(QVector2D const &diff) {
 	if(diff.x() == 0 && diff.y() == 0)
 		return;
 	QVector2D alpha = diff * (M_PI / 720.);
@@ -87,6 +85,12 @@ void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
 	pointAxisY = rotate(pointAxisY, alpha.y(), vecAxisX);
 
 	update();
+}
+
+void FractalWidget::mouseMoveEvent(QMouseEvent *e) {
+	if(!mousePressed)
+		return;
+	rotateFractal(QVector2D(e->position()) - mousePressPosition);
 	mousePressPosition = QVector2D(e->position());
 }
 
@@ -176,23 +180,9 @@ void FractalWidget::setFractalData(FractalData *data) {
 
 void FractalWidget::autoRotate() {
 	if(fractalData->isRotating) {
-		auto nextPos = (qreal)(elapsedTimer->elapsed());
+		qreal nextPos = static_cast<qreal>(elapsedTimer->elapsed());
 		qreal dx = (nextPos - autoRotationPos) / 5;
 		autoRotationPos = nextPos;
-		QVector2D diff = QVector2D(dx, 0.0);
-		QVector2D alpha = diff * (M_PI / 720.);
-
-		QVector3D vecAxisY = (pointAxisY - fractalData->camera).normalized();
-
-		pointAxisX = rotate(pointAxisX, alpha.x(), vecAxisY);
-		pointAxisY = rotate(pointAxisY, alpha.x(), vecAxisY);
-		fractalData->camera = rotate(fractalData->camera, alpha.x(), vecAxisY);
-
-		QVector3D vecAxisX = (pointAxisX - fractalData->camera).normalized();
-
-		fractalData->camera = rotate(fractalData->camera, alpha.y(), vecAxisX);
-		pointAxisX = rotate(pointAxisX, alpha.y(), vecAxisX);
-		pointAxisY = rotate(pointAxisY, alpha.y(), vecAxisX);
-		update();
+		rotateFractal({dx, 0.0});
 	}
 }

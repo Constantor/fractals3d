@@ -288,7 +288,7 @@
        <item>
         <widget class="QPushButton" name="zoomButton">
          <property name="text">
-          <string>Normalize Zoom</string>
+          <string>Normalize zoom</string>
          </property>
         </widget>
        </item>
