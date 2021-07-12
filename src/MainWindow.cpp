@@ -233,6 +233,7 @@ void MainWindow::stopRecord() {
 	timer->stop();
 	isOnRecord = false;
 	saveVideo();
+	ui->recordButton->setText("Start");
 	ui->recordWidget->close();
 }
 
