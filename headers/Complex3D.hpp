@@ -19,7 +19,5 @@ public:
 
     [[nodiscard]] qreal abs() const;
 
-    friend void operator^(Complex3D &z, int const &n);
-
     friend Complex3D operator+(Complex3D a, Complex3D b);
 };
