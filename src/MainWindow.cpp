@@ -220,7 +220,7 @@ void MainWindow::startRecord() {
 
 void MainWindow::shot() {
 	time = elapsedTimer->elapsed();
-	string fileName = QStringLiteral("%1.png").arg(time, 10, 10, QLatin1Char('0'));
+	string fileName = QStringLiteral("%1.png").arg(time, 8, 10, QLatin1Char('0'));
 	recorder->push_back({ui->fractalWidget->grabFramebuffer(), temporaryDir->filePath(fileName)});
 	frames++;
 	ui->recordLabel->setText("Recording: " + timeFormat(time));
@@ -247,7 +247,7 @@ void MainWindow::saveVideo() {
 			return;
 		}
 		//int framerate = frames * 1000 / time;
-		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2,fps=60\" %2 > /dev/null 2> /dev/null").arg(temporaryDir->path(), fileName);
+		QString command = QString("ffmpeg -y -pattern_type glob -i '%1/*.png' -c:v libx264 -pix_fmt yuv420p -vf \"crop=trunc(iw/2)*2:trunc(ih/2)*2,fps=30\" %2 > /dev/null 2> /dev/null").arg(temporaryDir->path(), fileName);
 		std::system(command.toStdString().data());
 	}
 }
