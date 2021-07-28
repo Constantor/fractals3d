@@ -30,7 +30,7 @@ QT_FORWARD_DECLARE_CLASS(QOpenGLWidget)
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
-	static const qint64 LIMIT = 10000;
+	static const qint64 LIMIT = 180000;
 
 public:
 	explicit MainWindow(QWidget *parent = nullptr);

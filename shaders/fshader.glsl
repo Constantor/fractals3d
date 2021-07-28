@@ -19,10 +19,10 @@ uniform vec3 Ambience = vec3(0.6, 0.8, 0.8);
 uniform vec3 ColorFractal = vec3(0.6, 0.5, 0.8);
 uniform float ZoomCoefficient = 1.0;
 
-int MAX_STEPS = 255;
-float MAX_DIST = 2000.0;
+int MAX_STEPS = 355;
+float MAX_DIST = 20.0;
 float MIN_DIST = 0.0001;
-int OTHER_ITER = 200;
+int OTHER_ITER = 300;
 int MANDEL_ITER = 50;
 
 float sphere(vec3 point, vec3 center, float radius) {
@@ -276,11 +276,9 @@ void main() {
 		FragColor = vec4(Ambience, 1);
 		return;
 	}
-	const float brightness = 1.1;
 
-	vec3 result = brightness * vec3(distance * ColorFractal.x, distance * distance * ColorFractal.y, distance * ColorFractal.z);
-	if(MAX_DIST * 0.75 < distance) {
-		result = Ambience;
-	}
-	FragColor = vec4(result * pow(1 + distance, 0.5) / pow(3, 0.5), 1.0);
+	if(MAX_DIST * 0.75 < distance)
+		FragColor = vec4(Ambience, 1.0);
+	else
+		FragColor = vec4(ColorFractal * distance * pow(1 + distance, 0.5) / pow(3, 0.5), 1.0);
 }

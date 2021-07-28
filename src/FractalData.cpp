@@ -73,8 +73,8 @@ void FractalData::readFrom(QJsonDocument &in) {
 		return;
 	}
 	if(fractalData.contains("camera")) {
-		QJsonArray cameraPosition = fractalData.value("camera").toArray();
-		camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
+		// QJsonArray cameraPosition = fractalData.value("camera").toArray();
+		// camera = QVector3D(cameraPosition[0].toDouble(), cameraPosition[1].toDouble(), cameraPosition[2].toDouble());
 	} else
 		camera = baseCamera;
 	for(auto &[name, reference] : QVector<QPair<QString, qreal &>>{{"a", a}, {"b", b}, {"c", c}})
