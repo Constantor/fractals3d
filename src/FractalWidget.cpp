@@ -1,17 +1,40 @@
 #include "FractalWidget.hpp"
 
+#include <QMessageBox>
+#include <QOpenGLContext>
+#include <QSurfaceFormat>
+
 
 namespace {
 	QVector3D transformColor(const QColor &color) {
 		return QVector3D(color.red() / 255.0, color.green() / 255.0, color.blue() / 255.0);
+	}
+
+	void showCritical(QWidget *widget, const QString &title, const QString &message) {
+		QMessageBox box(widget ? widget->window() : nullptr);
+		box.setIcon(QMessageBox::Critical);
+		box.setWindowTitle(title);
+		box.setText(message);
+		box.exec();
+	}
+
+	QString describeContext(QOpenGLContext *ctx) {
+		if(ctx == nullptr)
+			return QStringLiteral("unknown OpenGL context");
+		const auto fmt = ctx->format();
+		const QString api = ctx->isOpenGLES() ? QStringLiteral("OpenGL ES") : QStringLiteral("OpenGL");
+		return QStringLiteral("%1 %2.%3").arg(api).arg(fmt.majorVersion()).arg(fmt.minorVersion());
 	}
 }// namespace
 
 FractalWidget::~FractalWidget() {
 	// Make sure the context is current when deleting the buffers.
 	makeCurrent();
+	vao.destroy();
 	delete geometries;
 	doneCurrent();
+	delete timer;
+	delete elapsedTimer;
 }
 
 void FractalWidget::wheelEvent(QWheelEvent *e) {
@@ -95,42 +118,71 @@ void FractalWidget::initializeGL() {
 
 	initializeOpenGLFunctions();
 
+	QOpenGLContext *ctx = context();
+	if(ctx == nullptr) {
+		showCritical(this, tr("OpenGL initialization failed"), tr("Qt could not acquire an OpenGL context. Update GPU drivers or run the application under X11."));
+		return;
+	}
+
+	const auto fmt = ctx->format();
+	const bool isDesktopOpenGL = !ctx->isOpenGLES() && fmt.renderableType() == QSurfaceFormat::OpenGL;
+	const bool versionOk = fmt.majorVersion() > 3 || (fmt.majorVersion() == 3 && fmt.minorVersion() >= 1);
+	if(!isDesktopOpenGL || !versionOk) {
+		const QString details = tr("Fractals 3D needs a desktop OpenGL 3.1+ context, but Qt created %1.\n\nOn Wayland try launching with `QT_QPA_PLATFORM=xcb` or install drivers exposing desktop OpenGL.").arg(describeContext(ctx));
+		showCritical(this, tr("Desktop OpenGL required"), details);
+		return;
+	}
+
+	if(!vao.create()) {
+		showCritical(this, tr("OpenGL error"), tr("Failed to create a vertex array object. Ensure that your system supports OpenGL 3.1 or newer."));
+		return;
+	}
+	vao.bind();
 	glClearColor(0, 0, 0, 1);
 
-	initShaders();
+	if(!initShaders())
+		return;
 
-	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 
-	// Enable back face culling
-	glEnable(GL_CULL_FACE);
+	if(!geometries)
+		geometries = new GeometryEngine;
 
-	geometries = new GeometryEngine;
-
-	// Prepare for auto-rotation
-	timer = new QTimer;
-	elapsedTimer = new QElapsedTimer();
-	connect(timer, &QTimer::timeout, [&]() { autoRotate(); });
+	if(!timer) {
+		timer = new QTimer;
+		connect(timer, &QTimer::timeout, [&]() { autoRotate(); });
+	}
+	if(!elapsedTimer)
+		elapsedTimer = new QElapsedTimer();
 	elapsedTimer->start();
-	timer->start();
+	timer->start(0);
+	shaderErrorShown = false;
+	renderingReady = true;
 }
 
-void FractalWidget::initShaders() {
-	// Compile vertex shader
+bool FractalWidget::initShaders() {
+	auto fail = [&](const QString &stage) {
+		QString details = stage;
+		const QString log = program.log();
+		if(!log.isEmpty()) {
+			details += "\n\n" + tr("Driver log:") + "\n" + log;
+		}
+		details += tr("\n\nIf you are on Wayland, try starting the application with `QT_QPA_PLATFORM=xcb` to get a desktop OpenGL context.");
+		showCritical(this, tr("Shader compilation failed"), details);
+		return false;
+	};
+
+	program.removeAllShaders();
 	if(!program.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/vshader.glsl"))
-		close();
-
-	// Compile fragment shader
+		return fail(tr("Could not compile vshader.glsl"));
 	if(!program.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/fshader.glsl"))
-		close();
-
-	// Link shader pipeline
+		return fail(tr("Could not compile fshader.glsl"));
 	if(!program.link())
-		close();
-
-	// Bind shader pipeline for use
+		return fail(tr("Could not link the OpenGL shader program"));
 	if(!program.bind())
-		close();
+		return fail(tr("Could not bind the OpenGL shader program"));
+	return true;
 }
 
 void FractalWidget::resizeGL(int w, int h) {
@@ -147,6 +199,22 @@ void FractalWidget::resizeGL(int w, int h) {
 
 void FractalWidget::paintGL() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	if(!renderingReady || geometries == nullptr)
+		return;
+	QOpenGLVertexArrayObject::Binder vaoBinder(&vao);
+	if(!program.bind()) {
+		if(!shaderErrorShown) {
+			shaderErrorShown = true;
+			QString details = tr("Unable to bind the shader program for rendering.");
+			const QString log = program.log();
+			if(!log.isEmpty())
+				details += "\n\n" + tr("Driver log:") + "\n" + log;
+			details += tr("\n\nTry forcing an X11 session with `QT_QPA_PLATFORM=xcb` if you are running under Wayland.");
+			showCritical(this, tr("OpenGL error"), details);
+		}
+		renderingReady = false;
+		return;
+	}
 
 	QMatrix4x4 matrix;
 	matrix.translate(0.0, 0.0, fractalData->zoomCoefficient);
@@ -167,6 +235,7 @@ void FractalWidget::paintGL() {
 
 	// Draw geometry
 	geometries->drawGeometry(&program);
+	program.release();
 }
 
 void FractalWidget::setFractalData(FractalData *data) {

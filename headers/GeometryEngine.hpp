@@ -2,7 +2,6 @@
 
 #include <QOpenGLFunctions>
 #include <QOpenGLShaderProgram>
-#include <QOpenGLBuffer>
 
 class GeometryEngine : protected QOpenGLFunctions {
 public:
@@ -11,10 +10,4 @@ public:
 	virtual ~GeometryEngine();
 
 	void drawGeometry(QOpenGLShaderProgram *program);
-
-private:
-	void initGeometry();
-
-	QOpenGLBuffer arrayBuf;
-	QOpenGLBuffer indexBuf;
 };

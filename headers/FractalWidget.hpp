@@ -11,6 +11,7 @@
 #include <QOpenGLShaderProgram>
 #include <QOpenGLTexture>
 #include <QOpenGLWidget>
+#include <QOpenGLVertexArrayObject>
 #include <QQuaternion>
 #include <QTimer>
 #include <QVector2D>
@@ -42,7 +43,7 @@ protected:
 
 	void paintGL() override;
 
-	void initShaders();
+	bool initShaders();
 
 	void rotateFractal(QVector2D const &diff);
 
@@ -55,6 +56,9 @@ private:
 	GeometryEngine *geometries = nullptr;
 	QElapsedTimer *elapsedTimer = nullptr;
 	QTimer *timer = nullptr;
+	QOpenGLVertexArrayObject vao;
+	bool renderingReady = false;
+	bool shaderErrorShown = false;
 
 	QMatrix4x4 projection;
 	QVector2D mousePressPosition;
